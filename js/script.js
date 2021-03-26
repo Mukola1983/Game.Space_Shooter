@@ -6,6 +6,8 @@
 
 
 
+
+
 let canvas = document.getElementById('game');
 let context = canvas.getContext('2d');
 
@@ -39,8 +41,6 @@ function render() {
 
 
 
-
-/*
 var requestAnimationFrame = (function(){
 	return window.requestAnimationFrame  ||
 		window.webkitRequstAnimationFrame ||
@@ -52,16 +52,15 @@ var requestAnimationFrame = (function(){
 		};
 })();
 
-*/
 
 
 
-var fonImg = new Image();
-fonImg.src = '..//img/backgrounds/m101.jpg';
+
+var fonImg = document.getElementById('bg_01');
 
 
-var rocketimg = new Image();
-rocketimg.src = '..//img/rocket.png';
+var rocketimg = document.getElementById('rocket');
+
 
 
 x = 0;
@@ -80,42 +79,53 @@ function moveRocket(){
 		spY *= -1;
 	}
 }
-var rocketimg = new Image();
-rocketimg.src = '..//img/rocket.png';
 
 
-
-
+// Random Numbers===========================================
 function randomNum(min, max) {
 	return Math.random() * (max - min) + min;
 }
 
+// Random Numbers===========================================
+
+
+
+
+
+// Array with enemy=================================
 const enemyArr = [];
+// Array with enemy=================================
 
-for(let i=0;i<1; i++){
-	let enemy = new Enemy(rocketimg, randomNum(30, 100),randomNum(30, 100), randomNum(0, 4), randomNum(0, 4), 10, 20)
-	enemyArr.push(enemy);
-}
 
+
+
+
+
+
+// Adding enemy==========================================
 function addEnemy(){
 	let enemy = new Enemy(rocketimg, randomNum(30, 100),randomNum(30, 100), randomNum(0, 4), randomNum(0, 4), 10, 20)
 	enemyArr.push(enemy);
 }
-if( enemyArr.length < 10){
-//	setInterval(addEnemy, 1000);
-	console.log('push');
-}
 
+
+	//timer to create enemy===========================
 setInterval(function run() {
 	if( enemyArr.length < 10){
 		addEnemy();
 	}
 }, 1000);
+	//timer to create enemy===========================
 
+
+// Adding enemy==========================================
+
+
+
+// CTX draw enemyis//////////////////////////////
 function drawEnemy(){
 	for(let i=0;i<enemyArr.length; i++){
 
-//	let moveRock =  new MoveRocket(enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height, enemyArr[i].speedX, enemyArr[i].speedY)
 
 	enemyArr[i].x += enemyArr[i].speedX;
 	enemyArr[i].y += enemyArr[i].speedY;
@@ -131,26 +141,10 @@ function drawEnemy(){
 	}
 }
 
-function MoveRocket(x, y, width, height, spX, spY){
-	this.x = x;
-	this.y = y;
-	this.width = width;
-	this.height = height;
-	this.spX = spX;
-	this.spY = spY;
+// CTX draw enemyis//////////////////////////////
 
-	this.x += this.spX;
-	this.y += this.spY;
-	if(this.x + this.width >=500 || this.x <=0){
-		this.spX *= -1;
-	}
-	if(this.y + this.height >= 300 || this.y <=0){
-		this.spY *= -1;
-	}
-}
 
-console.log(enemyArr);
-
+////////////Object enemy====================================
 function Enemy(img, x, y, speedX, speedY, width, height){
 	this.img = img;
 	this.x = x;
@@ -163,3 +157,5 @@ function Enemy(img, x, y, speedX, speedY, width, height){
 	this.speedY = speedY;
 
 }
+
+////////////Object enemy====================================
