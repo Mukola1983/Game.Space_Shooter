@@ -74,11 +74,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*            */
-body {
-  width: 100%;
+#wrapper {
+  width: 100vw;
   height: 100vh;
+  border: 1px solid #f00;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+#wrapper span {
+  position: absolute;
+  display: block;
+  box-shadow: 0 0 15px #f00;
 }
 
 #game {
@@ -86,6 +93,85 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   border: 1px solid #000;
+  position: relative;
+  widows: 100%;
+  height: 100%;
+}
+
+.cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(32, 107, 175, 0.9);
+  transform: translate(0%, 0);
+  transition: 0.5s;
+}
+
+._hiden {
+  transform: translate(-100%, 0);
+}
+
+.start {
+  position: absolute;
+  background: rgba(242, 124, 26, 0.6);
+  padding: 5px 10px;
+  letter-spacing: 4px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  transition: 0.4s;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.start:hover {
+  background: rgba(26, 242, 81, 0.5);
+}
+
+._started {
+  transition: 1s;
+  top: 40px;
+  left: 40px;
+}
+
+.left {
+  width: 30px;
+  height: 30px;
+  border-right: 30px solid #f00;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  left: 20px;
+  bottom: 60px;
+}
+
+.right {
+  width: 30px;
+  height: 30px;
+  border-left: 30px solid #f00;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  bottom: 20px;
+  right: 20px;
+}
+
+.top {
+  width: 30px;
+  height: 30px;
+  border-bottom: 30px solid #f00;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  right: 55px;
+  bottom: 60px;
+}
+
+.down {
+  width: 30px;
+  height: 30px;
+  border-top: 30px solid #f00;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  left: 55px;
+  bottom: 20px;
 }
 
 .galery img {

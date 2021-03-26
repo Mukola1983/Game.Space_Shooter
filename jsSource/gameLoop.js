@@ -9,7 +9,26 @@ let context = canvas.getContext('2d');
 
 
 
+let startButton = document.querySelector('.start');
+let cover = document.querySelector('.cover');
 
+
+
+startButton.onclick = function(){
+	startButton.classList.toggle('_started');
+	cover.classList.toggle('_hiden');
+	if(startGame === false){
+		startGame = true;
+		game();
+		startButton.innerHTML = "pause";
+	}else{
+		startGame = false;
+		startButton.innerHTML = "start";
+	}
+}
+
+
+let startGame = false;
 
 window.onload = function(){
 	game()
@@ -18,7 +37,10 @@ window.onload = function(){
 function game(){
 	update();
 	render();
-	requestAnimationFrame(game);
+	if(startGame){
+		requestAnimationFrame(game);
+	}
+
 }
 
 function update(){
@@ -27,14 +49,12 @@ function update(){
 
 
 function render() {
-	moveRocket();
-
+	context.clearRect(0, 0, 500, 300);
 	drawFons()
-
-	context.drawImage(rocketimg, x, y, width, height);
 	drawEnemy();
+	drawHero();
+	moveHero()
 }
-
 
 
 
@@ -52,10 +72,12 @@ var requestAnimationFrame = (function(){
 
 
 
-
+/*
 function launchFullScreen(element){
 			if(element.requestFullscreen){
 				element.requestFullscreen();
+				coverScreen.classList.remove('unactive');
+				start = false;
 			}
 		}
 
@@ -63,3 +85,8 @@ function launchFullScreen(element){
 			launchFullScreen(canvas);
 		//	main_music.play();
 		}
+*/
+
+
+
+
