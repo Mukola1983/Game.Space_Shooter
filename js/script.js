@@ -12,7 +12,7 @@ let canvas = document.getElementById('game');
 let context = canvas.getContext('2d');
 
 
-//canvas.style.backgroundImage = "url('..//img/backgrounds/m101.jpg')";
+
 
 
 window.onload = function(){
@@ -32,7 +32,9 @@ function update(){
 
 function render() {
 	moveRocket();
-	context.drawImage(fonImg, 0, 0, 600, 600);
+
+	drawFons()
+
 	context.drawImage(rocketimg, x, y, width, height);
 	drawEnemy();
 }
@@ -55,8 +57,25 @@ var requestAnimationFrame = (function(){
 
 
 
+function launchFullScreen(element){
+			if(element.requestFullscreen){
+				element.requestFullscreen();
+			}
+		}
+
+		canvas.onclick = function(){
+			launchFullScreen(canvas);
+		//	main_music.play();
+		}
+
+
 
 var fonImg = document.getElementById('bg_01');
+
+
+function drawFons(){
+	context.drawImage(fonImg, 0, 0, 600, 600);
+}
 
 
 var rocketimg = document.getElementById('rocket');
