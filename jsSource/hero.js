@@ -1,7 +1,7 @@
 
 
-var rocketimg = new Image();
-rocketimg.src = '..//img/rocket.png';
+var rocketimg = document.getElementById('rocket');
+
 
 
 x = 0;

@@ -37,8 +37,6 @@ function render() {
 
 
 
-
-/*
 var requestAnimationFrame = (function(){
 	return window.requestAnimationFrame  ||
 		window.webkitRequstAnimationFrame ||
@@ -50,4 +48,4 @@ var requestAnimationFrame = (function(){
 		};
 })();
 
-*/
+

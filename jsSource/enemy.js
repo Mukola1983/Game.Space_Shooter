@@ -1,6 +1,3 @@
-var rocketimg = new Image();
-rocketimg.src = '..//img/rocket.png';
-
 
 
 
@@ -19,10 +16,7 @@ function addEnemy(){
 	let enemy = new Enemy(rocketimg, randomNum(30, 100),randomNum(30, 100), randomNum(0, 4), randomNum(0, 4), 10, 20)
 	enemyArr.push(enemy);
 }
-if( enemyArr.length < 10){
-//	setInterval(addEnemy, 1000);
-	console.log('push');
-}
+
 
 setInterval(function run() {
 	if( enemyArr.length < 10){
@@ -67,7 +61,7 @@ function MoveRocket(x, y, width, height, spX, spY){
 	}
 }
 
-console.log(enemyArr);
+
 
 function Enemy(img, x, y, speedX, speedY, width, height){
 	this.img = img;

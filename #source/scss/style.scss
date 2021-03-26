@@ -25,3 +25,10 @@ body{
 	background-size: cover;
 	border: 1px solid #000;
 }
+
+
+.galery {
+	& img{
+		display: none;
+	}
+}
