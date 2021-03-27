@@ -27,7 +27,19 @@ let heroSpeedY = 2;
 let N_x = 0;
 let N_y = 0;
 
+let fire = true;
+
+function fireTrue(){
+	fire = true;
+}
+
 let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50)
+
+
+function addLazer(x, y){
+	let bullet = new Weapon(lazer, x, y, 0, 3, 10, 15, 'lazer')
+	weaponsArr.push(bullet);
+}
 
 function drawHero(){
 	context.drawImage(hero.img, 70*Math.floor(N_x), 95*N_y, 70, 95, hero.x, hero.y, hero.width, hero.height)
@@ -43,6 +55,17 @@ function drawHero(){
 		
 		
 	}
+
+	if(fire){
+		addLazer(hero.x, hero.y);
+		fire = false;
+
+		setTimeout(fireTrue, 500);
+
+
+	}
+
+
 }
 
 

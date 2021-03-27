@@ -57,7 +57,9 @@ function render() {
 	drawFons()
 	drawEnemy();
 	drawHero();
-	moveHero()
+	moveHero();
+
+	drawWeapon();
 
 }
 
