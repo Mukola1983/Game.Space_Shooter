@@ -12,6 +12,9 @@ let canvas = document.getElementById('game');
 let context = canvas.getContext('2d');
 
 
+let wrapper = document.getElementById('wrapper');
+
+
 
 let startButton = document.querySelector('.start');
 let cover = document.querySelector('.cover');
@@ -22,6 +25,7 @@ startButton.onclick = function(){
 	startButton.classList.toggle('_started');
 	cover.classList.toggle('_hiden');
 	if(startGame === false){
+		launchFullScreen(wrapper);
 		startGame = true;
 		game();
 		startButton.innerHTML = "pause";
@@ -57,7 +61,8 @@ function render() {
 	drawFons()
 	drawEnemy();
 	drawHero();
-	moveHero()
+//	moveHero()
+	moveHero_01();
 }
 
 
@@ -76,20 +81,15 @@ var requestAnimationFrame = (function(){
 
 
 
-/*
+
+
 function launchFullScreen(element){
 			if(element.requestFullscreen){
 				element.requestFullscreen();
-				coverScreen.classList.remove('unactive');
-				start = false;
 			}
 		}
 
-		canvas.onclick = function(){
-			launchFullScreen(canvas);
-		//	main_music.play();
-		}
-*/
+
 
 
 
@@ -107,8 +107,8 @@ function drawFons(){
 
 var rocketimg = document.getElementById('rocket');
 
-let heroSpeedX = 0;
-let heroSpeedY = 0;
+let heroSpeedX = 3;
+let heroSpeedY = 3;
 
 let heroStop = 700;
 
@@ -126,6 +126,81 @@ let leftHero = document.querySelector('.left');
 let topHero = document.querySelector('.top');
 let downHero = document.querySelector('.down');
 
+let right = false;
+let left = false;
+let up = false;
+let down = false;
+
+
+// Right move====================
+rightHero.onmouseover = function(){
+	right = true;
+}
+
+rightHero.onmouseout = function(){
+	right = false;
+}
+// Right move====================
+
+// Left move====================
+leftHero.onmouseover = function(){
+	left = true;
+}
+
+leftHero.onmouseout = function(){
+	left = false;
+}
+// Left move====================
+
+
+//Top move=======================
+topHero.onmouseover = function(){
+	up = true;
+}
+
+topHero.onmouseout = function(){
+	up = false;
+}
+//Top move=======================
+
+//Down move=======================
+downHero.onmouseover = function(){
+	down = true;
+}
+
+downHero.onmouseout = function(){
+	down = false;
+}
+//Down move=======================
+
+function moveHero_01(){
+	if(right){
+		Hero.x += heroSpeedX;
+	}
+	if(left){
+		Hero.x += -heroSpeedX;
+	}
+	if(up){
+		Hero.y += -heroSpeedY;
+	}
+	if(down){
+		Hero.y += heroSpeedY;
+	}
+
+	if(Hero.x + Hero.width >=500){
+		Hero.x = 500 - Hero.width;
+	}
+	if(Hero.x <= 0){
+		Hero.x = 0;
+	}
+	if(Hero.y + Hero.height >=300 ){
+		Hero.y = 300 - Hero.height;
+	}
+	if(Hero.y <= 0 ){
+		Hero.y = 0;
+	}
+}
+/*
 rightHero.onclick = function(){
 	heroSpeedX = 2;
 	setTimeout(function run() {
@@ -151,6 +226,9 @@ downHero.onclick = function(){
 		heroSpeedY = 0;
 	}, heroStop);
 }
+
+*/
+
 function moveHero(){
 	Hero.speedX = heroSpeedX;
 	Hero.speedY = heroSpeedY;
@@ -183,19 +261,19 @@ const enemyArr = [];
 
 
 
-
+//function Enemy(img, x, y, speedX, speedY, width, height)
 
 
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(rocketimg, randomNum(30, 100),randomNum(30, 100), randomNum(0, 4), randomNum(0, 4), 10, 20)
+	let enemy = new Enemy(rocketimg, randomNum(20, 480),0, randomNum(-1, 1), randomNum(1, 2), 10, 20)
 	enemyArr.push(enemy);
 }
 
 
 	//timer to create enemy===========================
 setInterval(function run() {
-	if( enemyArr.length < 5){
+	if( enemyArr.length < 10){
 		addEnemy();
 	}
 }, 1000);
@@ -217,7 +295,7 @@ function drawEnemy(){
 		enemyArr[i].speedX *= -1;
 	}
 	if(enemyArr[i].y + enemyArr[i].height >=300 || enemyArr[i].y <=0){
-		enemyArr[i].speedY *= -1;
+		enemyArr.splice(i, 1);
 	}
 	context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
 

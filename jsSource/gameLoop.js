@@ -8,6 +8,9 @@ let canvas = document.getElementById('game');
 let context = canvas.getContext('2d');
 
 
+let wrapper = document.getElementById('wrapper');
+
+
 
 let startButton = document.querySelector('.start');
 let cover = document.querySelector('.cover');
@@ -18,6 +21,7 @@ startButton.onclick = function(){
 	startButton.classList.toggle('_started');
 	cover.classList.toggle('_hiden');
 	if(startGame === false){
+		launchFullScreen(wrapper);
 		startGame = true;
 		game();
 		startButton.innerHTML = "pause";
@@ -53,7 +57,8 @@ function render() {
 	drawFons()
 	drawEnemy();
 	drawHero();
-	moveHero()
+//	moveHero()
+	moveHero_01();
 }
 
 
@@ -72,20 +77,15 @@ var requestAnimationFrame = (function(){
 
 
 
-/*
+
+
 function launchFullScreen(element){
 			if(element.requestFullscreen){
 				element.requestFullscreen();
-				coverScreen.classList.remove('unactive');
-				start = false;
 			}
 		}
 
-		canvas.onclick = function(){
-			launchFullScreen(canvas);
-		//	main_music.play();
-		}
-*/
+
 
 
 

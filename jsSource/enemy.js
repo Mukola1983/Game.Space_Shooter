@@ -18,19 +18,19 @@ const enemyArr = [];
 
 
 
-
+//function Enemy(img, x, y, speedX, speedY, width, height)
 
 
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(rocketimg, randomNum(30, 100),randomNum(30, 100), randomNum(0, 4), randomNum(0, 4), 10, 20)
+	let enemy = new Enemy(rocketimg, randomNum(20, 480),0, randomNum(-1, 1), randomNum(1, 2), 10, 20)
 	enemyArr.push(enemy);
 }
 
 
 	//timer to create enemy===========================
 setInterval(function run() {
-	if( enemyArr.length < 5){
+	if( enemyArr.length < 10){
 		addEnemy();
 	}
 }, 1000);
@@ -52,7 +52,7 @@ function drawEnemy(){
 		enemyArr[i].speedX *= -1;
 	}
 	if(enemyArr[i].y + enemyArr[i].height >=300 || enemyArr[i].y <=0){
-		enemyArr[i].speedY *= -1;
+		enemyArr.splice(i, 1);
 	}
 	context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
 

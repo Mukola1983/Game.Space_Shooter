@@ -2,8 +2,8 @@
 
 var rocketimg = document.getElementById('rocket');
 
-let heroSpeedX = 0;
-let heroSpeedY = 0;
+let heroSpeedX = 3;
+let heroSpeedY = 3;
 
 let heroStop = 700;
 
@@ -21,6 +21,81 @@ let leftHero = document.querySelector('.left');
 let topHero = document.querySelector('.top');
 let downHero = document.querySelector('.down');
 
+let right = false;
+let left = false;
+let up = false;
+let down = false;
+
+
+// Right move====================
+rightHero.onmouseover = function(){
+	right = true;
+}
+
+rightHero.onmouseout = function(){
+	right = false;
+}
+// Right move====================
+
+// Left move====================
+leftHero.onmouseover = function(){
+	left = true;
+}
+
+leftHero.onmouseout = function(){
+	left = false;
+}
+// Left move====================
+
+
+//Top move=======================
+topHero.onmouseover = function(){
+	up = true;
+}
+
+topHero.onmouseout = function(){
+	up = false;
+}
+//Top move=======================
+
+//Down move=======================
+downHero.onmouseover = function(){
+	down = true;
+}
+
+downHero.onmouseout = function(){
+	down = false;
+}
+//Down move=======================
+
+function moveHero_01(){
+	if(right){
+		Hero.x += heroSpeedX;
+	}
+	if(left){
+		Hero.x += -heroSpeedX;
+	}
+	if(up){
+		Hero.y += -heroSpeedY;
+	}
+	if(down){
+		Hero.y += heroSpeedY;
+	}
+
+	if(Hero.x + Hero.width >=500){
+		Hero.x = 500 - Hero.width;
+	}
+	if(Hero.x <= 0){
+		Hero.x = 0;
+	}
+	if(Hero.y + Hero.height >=300 ){
+		Hero.y = 300 - Hero.height;
+	}
+	if(Hero.y <= 0 ){
+		Hero.y = 0;
+	}
+}
+/*
 rightHero.onclick = function(){
 	heroSpeedX = 2;
 	setTimeout(function run() {
@@ -46,6 +121,9 @@ downHero.onclick = function(){
 		heroSpeedY = 0;
 	}, heroStop);
 }
+
+*/
+
 function moveHero(){
 	Hero.speedX = heroSpeedX;
 	Hero.speedY = heroSpeedY;
