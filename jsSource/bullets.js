@@ -28,7 +28,7 @@ function Weapon(img, x, y, speedX, speedY, width, height, name){
 function addLazer(x, y){
 	let bullet = new Weapon(lazer, x, y, 0, -3, 10, 15, 'lazer')
 	weaponsArr.push(bullet);
-	console.log(weaponsArr);
+
 }
 
 

@@ -21,6 +21,15 @@ var heroShipImg = document.getElementById('heroShip');
 
 //Hero creations =========================================
 
+
+//Hero Datas=====================================
+var score = document.getElementById('score');
+let scoreVar = 0;
+
+score.innerHTML = `Score: ${scoreVar}`;
+
+
+
 let heroSpeedX = 2;
 let heroSpeedY = 2;
 
@@ -57,7 +66,7 @@ function drawHero(){
 	}
 
 	if(fire){
-		addLazer(hero.x, hero.y);
+		addLazer(hero.x+(hero.width/2), hero.y);
 		fire = false;
 
 		setTimeout(fireTrue, 500);

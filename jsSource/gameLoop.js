@@ -55,11 +55,15 @@ function update(){
 function render() {
 	context.clearRect(0, 0, 500, 300);
 	drawFons()
+
+	drawWeapon();
+
 	drawEnemy();
 	drawHero();
 	moveHero();
 
-	drawWeapon();
+	collisionBulletsEnemy();
+	drawExplosion();
 
 }
 

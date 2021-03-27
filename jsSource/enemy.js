@@ -27,12 +27,12 @@ const enemyArr = [];
 ///////////////////////////////////////////////////////////////////////////
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship')
+	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 2)
 	enemyArr.push(enemy);
 }
 
 function addEnemy_02(){
-	let enemy = new Enemy(rocketimg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'rocket')
+	let enemy = new Enemy(rocketimg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'rocket', 1)
 	enemyArr.push(enemy);
 }
 
@@ -125,7 +125,7 @@ function drawEnemy(){
 
 
 ////////////Object enemy====================================
-function Enemy(img, x, y, speedX, speedY, width, height, name){
+function Enemy(img, x, y, speedX, speedY, width, height, name, life){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -139,6 +139,7 @@ function Enemy(img, x, y, speedX, speedY, width, height, name){
 	this.N_x = 0;
 	this.N_y = 0;
 
+	this.life = life;
 	this.name = name;
 
 }

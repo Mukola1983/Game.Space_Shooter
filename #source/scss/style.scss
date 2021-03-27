@@ -20,12 +20,28 @@ body{
 	justify-content: center;
 	align-items: center;
 //	position: relative;
-	& span{
+	& > span{
 		position: absolute;
 		display: block;
 		box-shadow: 0 0 15px #f00;
 	}
 }
+
+
+
+.count {
+	display: flex;
+	position: absolute;
+	right: 70px;
+	top: 30px;
+	& span{
+		box-shadow: none;
+		text-transform: uppercase;
+		color: #fff;
+	}
+}
+
+
 
 #game{
 	background-position: center;
