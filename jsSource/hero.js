@@ -1,21 +1,68 @@
 
+///Object Hero /////////////////////=============================
+function Hero(img, x, y, speedX, speedY, width, height){
+	this.img = img;
+	this.x = x;
+	this.y = y;
 
-var rocketimg = document.getElementById('rocket');
+	this.width = width;
+	this.height = height;
 
-let heroSpeedX = 3;
-let heroSpeedY = 3;
+	this.speedX = speedX;
+	this.speedY = speedY;
 
-let heroStop = 700;
-
-let Hero = new Enemy(rocketimg, 250, 200, heroSpeedX, heroSpeedY, 30, 50)
-
-console.log(Hero.speedX);
-
-function drawHero(){
-	context.drawImage(Hero.img, Hero.x, Hero.y, Hero.width, Hero.height);
 }
 
 
+var heroShipImg = document.getElementById('heroShip');
+
+///Object Hero /////////////////////=============================
+
+
+//Hero creations =========================================
+
+let heroSpeedX = 2;
+let heroSpeedY = 2;
+
+let N_x = 0;
+let N_y = 0;
+
+let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50)
+
+function drawHero(){
+	context.drawImage(hero.img, 70*Math.floor(N_x), 95*N_y, 70, 95, hero.x, hero.y, hero.width, hero.height)
+
+	N_x += 0.1;
+	if(N_x > 2.9 ){
+		
+		N_x = 0;
+		N_y += 1;
+		if(N_y > 3){
+			N_y = 0;
+		}
+		
+		
+	}
+}
+
+
+//Hero creations =========================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Variables for moves ========================================
 let rightHero = document.querySelector('.right');
 let leftHero = document.querySelector('.left');
 let topHero = document.querySelector('.top');
@@ -25,7 +72,7 @@ let right = false;
 let left = false;
 let up = false;
 let down = false;
-
+//Variables for moves ========================================
 
 // Right move====================
 rightHero.onmouseover = function(){
@@ -68,71 +115,31 @@ downHero.onmouseout = function(){
 }
 //Down move=======================
 
-function moveHero_01(){
+function moveHero(){
 	if(right){
-		Hero.x += heroSpeedX;
+		hero.x += heroSpeedX;
 	}
 	if(left){
-		Hero.x += -heroSpeedX;
+		hero.x += -heroSpeedX;
 	}
 	if(up){
-		Hero.y += -heroSpeedY;
+		hero.y += -heroSpeedY;
 	}
 	if(down){
-		Hero.y += heroSpeedY;
+		hero.y += heroSpeedY;
 	}
 
-	if(Hero.x + Hero.width >=500){
-		Hero.x = 500 - Hero.width;
-	}
-	if(Hero.x <= 0){
-		Hero.x = 0;
-	}
-	if(Hero.y + Hero.height >=300 ){
-		Hero.y = 300 - Hero.height;
-	}
-	if(Hero.y <= 0 ){
-		Hero.y = 0;
-	}
-}
-/*
-rightHero.onclick = function(){
-	heroSpeedX = 2;
-	setTimeout(function run() {
-		heroSpeedX = 0;
-	},heroStop );
-}
-leftHero.onclick = function(){
-	heroSpeedX = -2;
-	setTimeout(function run() {
-		heroSpeedX = 0;
-	}, heroStop);
-}
-
-topHero.onclick = function(){
-	heroSpeedY = -2;
-	setTimeout(function run() {
-		heroSpeedY = 0;
-	}, heroStop);
-}
-downHero.onclick = function(){
-	heroSpeedY = 2;
-	setTimeout(function run() {
-		heroSpeedY = 0;
-	}, heroStop);
-}
-
-*/
-
-function moveHero(){
-	Hero.speedX = heroSpeedX;
-	Hero.speedY = heroSpeedY;
-	Hero.x += Hero.speedX;
-	Hero.y += Hero.speedY;
-		if(Hero.x + Hero.width >=500 || Hero.x <=0){
-			heroSpeedX *= -1;
+		if(hero.x + hero.width >=500){
+			hero.x = 500 - hero.width;
 		}
-		if(Hero.y + Hero.height >=300 || Hero.y <=0){
-			heroSpeedY *= -1;
+		if(hero.x <= 0){
+			hero.x = 0;
+		}
+		if(hero.y + hero.height >=300 ){
+			hero.y = 300 - hero.height;
+		}
+		if(hero.y <= 0 ){
+			hero.y = 0;
 		}
 }
+

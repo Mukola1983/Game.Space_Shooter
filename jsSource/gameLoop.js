@@ -57,8 +57,8 @@ function render() {
 	drawFons()
 	drawEnemy();
 	drawHero();
-//	moveHero()
-	moveHero_01();
+	moveHero()
+
 }
 
 
