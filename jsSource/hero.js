@@ -1,6 +1,6 @@
 
 ///Object Hero /////////////////////=============================
-function Hero(img, x, y, speedX, speedY, width, height, life){
+function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -11,6 +11,7 @@ function Hero(img, x, y, speedX, speedY, width, height, life){
 	this.speedX = speedX;
 	this.speedY = speedY;
 	this.life = life;
+	this.weaponPower = weaponPower;
 }
 
 
@@ -34,6 +35,15 @@ score.innerHTML = `Score: ${scoreVar}`;
 hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
 
 
+
+//WeaponPower===========================
+let weaponPower = document.getElementById('weaponPower');
+
+let weaponPowerVar = 1;
+
+weaponPower.innerHTML = `Weap Pow: ${weaponPowerVar}`;
+
+//WeaponPower===========================
 ////////Life data======================
 let playerLife = document.getElementById('playerLife');
 let playerLifeVar = 9;
@@ -69,7 +79,7 @@ function fireTrue(){
 
 
 //Declare Hero===================================
-let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar);
+let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar, weaponPowerVar);
 
 //Declare Hero===================================
 
@@ -94,12 +104,23 @@ function drawHero(){
 	}
 
 	if(fire && fireToLive ){
-		addLazer(hero.x, hero.y);
-		addLazer(hero.x+hero.width, hero.y);
-		fire = false;
+		if(hero.weaponPower === 1){
+			addLazer(hero.x+hero.width/2, hero.y);
+			fire = false;
+		}
+		if(hero.weaponPower === 2){
+			addLazer(hero.x, hero.y);
+			addLazer(hero.x+hero.width, hero.y);
+			fire = false;
+		}
+		if(hero.weaponPower >= 3){
+			addLazer(hero.x, hero.y);
+			addLazer(hero.x+hero.width/2, hero.y);
+			addLazer(hero.x+hero.width, hero.y);
+			fire = false;
+		}
 
 		setTimeout(fireTrue, 500);
-
 
 	}
 

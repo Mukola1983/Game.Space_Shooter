@@ -92,7 +92,10 @@ function update(){
 
 function render() {
 	context.clearRect(0, 0, 500, 300);
-	drawFons()
+	drawFons();
+
+	drawBonuses();
+	collisionHeroWithBonuses();
 
 	drawWeapon();
 

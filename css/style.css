@@ -97,12 +97,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .count span {
   box-shadow: none;
-  text-transform: uppercase;
   color: #fff;
 }
 .count p {
   color: #fff;
-  text-transform: uppercase;
 }
 
 #game {

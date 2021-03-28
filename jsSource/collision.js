@@ -82,6 +82,26 @@ function collisionBulletsEnemy(){
 }
 
 
+///COlision  with bonuses===================================
+function collisionHeroWithBonuses(){
+	if(bonusesArr.length>0 && hero){
+		for(j in bonusesArr){
+			if(collision_02(bonusesArr[j],hero)){
+				if(bonusesArr[j].name === 'powerUp'){
+					if(hero.weaponPower< 4){
+						hero.weaponPower++;
+					}
+					weaponPower.innerHTML = `Weap Pow: ${hero.weaponPower}`;
+				}
+
+				bonusesArr.splice(j, 1);
+
+				return;
+			}
+		}
+	}
+}
+///COlision  with bonuses===================================
 
 
 

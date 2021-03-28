@@ -96,7 +96,10 @@ function update(){
 
 function render() {
 	context.clearRect(0, 0, 500, 300);
-	drawFons()
+	drawFons();
+
+	drawBonuses();
+	collisionHeroWithBonuses();
 
 	drawWeapon();
 
@@ -150,7 +153,7 @@ function drawFons(){
 }
 
 ///Object Hero /////////////////////=============================
-function Hero(img, x, y, speedX, speedY, width, height, life){
+function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -161,6 +164,7 @@ function Hero(img, x, y, speedX, speedY, width, height, life){
 	this.speedX = speedX;
 	this.speedY = speedY;
 	this.life = life;
+	this.weaponPower = weaponPower;
 }
 
 
@@ -184,6 +188,15 @@ score.innerHTML = `Score: ${scoreVar}`;
 hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
 
 
+
+//WeaponPower===========================
+let weaponPower = document.getElementById('weaponPower');
+
+let weaponPowerVar = 1;
+
+weaponPower.innerHTML = `Weap Pow: ${weaponPowerVar}`;
+
+//WeaponPower===========================
 ////////Life data======================
 let playerLife = document.getElementById('playerLife');
 let playerLifeVar = 9;
@@ -219,7 +232,7 @@ function fireTrue(){
 
 
 //Declare Hero===================================
-let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar);
+let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar, weaponPowerVar);
 
 //Declare Hero===================================
 
@@ -244,12 +257,23 @@ function drawHero(){
 	}
 
 	if(fire && fireToLive ){
-		addLazer(hero.x, hero.y);
-		addLazer(hero.x+hero.width, hero.y);
-		fire = false;
+		if(hero.weaponPower === 1){
+			addLazer(hero.x+hero.width/2, hero.y);
+			fire = false;
+		}
+		if(hero.weaponPower === 2){
+			addLazer(hero.x, hero.y);
+			addLazer(hero.x+hero.width, hero.y);
+			fire = false;
+		}
+		if(hero.weaponPower >= 3){
+			addLazer(hero.x, hero.y);
+			addLazer(hero.x+hero.width/2, hero.y);
+			addLazer(hero.x+hero.width, hero.y);
+			fire = false;
+		}
 
 		setTimeout(fireTrue, 500);
-
 
 	}
 
@@ -642,6 +666,26 @@ function collisionBulletsEnemy(){
 }
 
 
+///COlision  with bonuses===================================
+function collisionHeroWithBonuses(){
+	if(bonusesArr.length>0 && hero){
+		for(j in bonusesArr){
+			if(collision_02(bonusesArr[j],hero)){
+				if(bonusesArr[j].name === 'powerUp'){
+					if(hero.weaponPower< 4){
+						hero.weaponPower++;
+					}
+					weaponPower.innerHTML = `Weap Pow: ${hero.weaponPower}`;
+				}
+
+				bonusesArr.splice(j, 1);
+
+				return;
+			}
+		}
+	}
+}
+///COlision  with bonuses===================================
 
 
 
@@ -750,4 +794,76 @@ function drawExplosion(){
 			//delete explosion from array===================
 		}
 	}
+}
+
+
+let powerUpImg = document.getElementById('powerUp');
+
+let bonusesArr = [];
+
+
+
+function Bonus(img, x, y, speedX, speedY, width, height, name, life){
+	this.img = img;
+	this.x = x;
+	this.y = y;
+
+	this.width = width;
+	this.height = height;
+
+	this.speedX = speedX;
+	this.speedY = speedY;
+
+	this.N_x = 0;
+	this.N_y = 0;
+
+	this.life = life;
+	this.name = name;
+
+}
+
+setInterval(function run() {
+	if( bonusesArr.length < 10 && fireToLive){
+		addPowerUpBonus();
+	}
+}, 5000);
+
+function drawBonuses(){
+	if(bonusesArr.length > 0){
+		for(let i=0;i<bonusesArr.length; i++){
+
+
+			bonusesArr[i].x += bonusesArr[i].speedX;
+			bonusesArr[i].y += bonusesArr[i].speedY;
+			if(bonusesArr[i].x + bonusesArr[i].width >=500 || bonusesArr[i].x <=0){
+				bonusesArr[i].speedX *= -1;
+			}
+
+				if(bonusesArr[i].name === 'powerUp'){
+					context.drawImage(bonusesArr[i].img, 55*Math.floor(bonusesArr[i].N_x), 55*bonusesArr[i].N_y, 55, 55, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
+
+						bonusesArr[i].N_x += 0.2;
+						if(bonusesArr[i].N_x > 5.9 ){
+								
+								bonusesArr[i].N_x = 0;
+								bonusesArr[i].N_y += 1;
+								if(bonusesArr[i].N_y > 2){
+									bonusesArr[i].N_y = 0;
+								}
+						}
+				}
+
+			//delete enemy from array===================
+			if(bonusesArr[i].y >=300 ){
+				bonusesArr.splice(i, 1);
+			}
+			//delete enemy from array===================
+		}
+	}
+}
+
+
+function addPowerUpBonus(){
+	let powerUp = new Bonus(powerUpImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2)
+	bonusesArr.push(powerUp);
 }
