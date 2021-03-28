@@ -123,25 +123,73 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(-100%, 0);
 }
 
-.start {
+.infoBox {
+  visibility: hidden;
+  position: absolute;
+  width: 300px;
+  height: 0px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #bed3eb;
+  overflow: auto;
+  padding: 20px;
+  z-index: 100;
+  transition: 0.4s;
+  opacity: 0;
+  box-shadow: 0 0 15px #7520af, 0 0 25px #7520af, 0 0 45px #7520af, inset 0 0 15px #7520af;
+}
+.infoBox .closeInfo {
+  background: rgba(243, 54, 35, 0.7);
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 0 4px;
+  border-radius: 5px;
+  color: #1f1f23;
+  box-shadow: 0 0 15px #7520af, 0 0 25px #7520af;
+}
+._activeInfoBox {
+  visibility: visible;
+  opacity: 1;
+  height: 150px;
+}
+
+._button {
   position: absolute;
   background: rgba(242, 124, 26, 0.6);
   padding: 5px 10px;
   letter-spacing: 4px;
   border-radius: 10px;
   text-transform: uppercase;
-  transition: 0.4s;
+  transition: 0.5s;
   color: #fff;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.start:hover {
+._button:hover {
   background: rgba(26, 242, 81, 0.5);
 }
 
+.start {
+  top: 50%;
+  left: 50%;
+}
+
+.info {
+  top: 60%;
+  left: 50%;
+  visibility: visible;
+}
+
+._hidenButton {
+  visibility: hidden;
+  top: 80px;
+  left: 40px;
+}
+
 ._started {
-  transition: 1s;
   top: 40px;
   left: 40px;
 }

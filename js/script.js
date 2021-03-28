@@ -17,12 +17,18 @@ let wrapper = document.getElementById('wrapper');
 
 
 let startButton = document.querySelector('.start');
-let cover = document.querySelector('.cover');
 
+let infoButton = document.querySelector('.info');
+let closeInfo = document.querySelector('.closeInfo');
+
+
+let cover = document.querySelector('.cover');
+let infoBox = document.querySelector('.infoBox');
 
 
 startButton.onclick = function(){
 	startButton.classList.toggle('_started');
+	infoButton.classList.toggle('_hidenButton');
 	cover.classList.toggle('_hiden');
 	if(startGame === false){
 		launchFullScreen(wrapper);
@@ -35,6 +41,14 @@ startButton.onclick = function(){
 	}
 }
 
+
+infoButton.onclick = function(){
+	infoBox.classList.add('_activeInfoBox');
+}
+
+closeInfo.onclick = function(){
+	infoBox.classList.remove('_activeInfoBox');
+}
 
 let startGame = false;
 
@@ -372,11 +386,6 @@ function drawEnemy(){
 		if(enemyArr[i].x + enemyArr[i].width >=500 || enemyArr[i].x <=0){
 			enemyArr[i].speedX *= -1;
 		}
-		//delete enemy from array===================
-		if(enemyArr[i].y >=300 ){
-			enemyArr.splice(i, 1);
-		}
-		//delete enemy from array===================
 
 		//Drawing ship enemy============================
 			if(enemyArr[i].name === 'ship'){
@@ -399,6 +408,12 @@ function drawEnemy(){
 				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
 			}
 		//Drawing rocket enemy============================
+
+		//delete enemy from array===================
+		if(enemyArr[i].y >=300 ){
+			enemyArr.splice(i, 1);
+		}
+		//delete enemy from array===================
 	}
 }
 
@@ -535,12 +550,16 @@ function collisionBulletsEnemy(){
 
 var explosion_01Img = document.getElementById('explosion_01');
 
+var explosion_02Img = document.getElementById('explosion_02');
+
 const explosionArr = [];
 
-function Explosion(img, x, y, width, height, name){
+function Explosion(img, x, y,speedY, width, height, name){
 	this.img = img;
 	this.x = x;
 	this.y = y;
+
+	this.speedY = speedY;
 
 	this.width = width;
 	this.height = height;
@@ -555,13 +574,13 @@ function Explosion(img, x, y, width, height, name){
 
 
 function addExplosion_01(x, y){
-	let exp = new Explosion(explosion_01Img, x, y, 60, 60, 'explosion_01')
+	let exp = new Explosion(explosion_01Img, x, y,0.5, 60, 60, 'explosion_01')
 	explosionArr.push(exp);
 
 }
 
 function addSmallExplosion_01(x, y){
-	let exp = new Explosion(explosion_01Img, x, y, 20, 20, 'explosion_01')
+	let exp = new Explosion(explosion_02Img, x, y,0.2, 20, 20, 'explosion_02')
 	explosionArr.push(exp);
 
 }
@@ -571,18 +590,34 @@ function drawExplosion(){
 	if(explosionArr.length > 0){
 		for(let i=0;i<explosionArr.length; i++){
 
+//////////Exp;osion move /======================================
+//			explosionArr[i].x += explosionArr[i].speedX;
+			explosionArr[i].y += explosionArr[i].speedY;
+//////////Exp;osion move /======================================
+
+
 
 			if(explosionArr[i].name === 'explosion_01'){
 				context.drawImage(explosionArr[i].img, 512*Math.floor(explosionArr[i].N_x), 512*explosionArr[i].N_y, 512, 512,
 				 explosionArr[i].x, explosionArr[i].y, explosionArr[i].width, explosionArr[i].height)
 
-					explosionArr[i].N_x += 0.9;
+					explosionArr[i].N_x += 1;
 					if(explosionArr[i].N_x > 7.9 ){
 							explosionArr[i].N_x = 0;
 							explosionArr[i].N_y += 1;
-							if(explosionArr[i].N_y > 7){
+							if(explosionArr[i].N_y > 5){
 								explosionArr[i].del = true;
 							}
+					}
+			}
+
+			if(explosionArr[i].name === 'explosion_02'){
+				context.drawImage(explosionArr[i].img, 110*Math.floor(explosionArr[i].N_x), 109*explosionArr[i].N_y, 110, 109,
+				 explosionArr[i].x, explosionArr[i].y, explosionArr[i].width, explosionArr[i].height)
+
+					explosionArr[i].N_x += 0.5;
+					if(explosionArr[i].N_x > 8.9 ){
+						explosionArr[i].del = true;
 					}
 			}
 

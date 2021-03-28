@@ -13,12 +13,18 @@ let wrapper = document.getElementById('wrapper');
 
 
 let startButton = document.querySelector('.start');
-let cover = document.querySelector('.cover');
 
+let infoButton = document.querySelector('.info');
+let closeInfo = document.querySelector('.closeInfo');
+
+
+let cover = document.querySelector('.cover');
+let infoBox = document.querySelector('.infoBox');
 
 
 startButton.onclick = function(){
 	startButton.classList.toggle('_started');
+	infoButton.classList.toggle('_hidenButton');
 	cover.classList.toggle('_hiden');
 	if(startGame === false){
 		launchFullScreen(wrapper);
@@ -31,6 +37,14 @@ startButton.onclick = function(){
 	}
 }
 
+
+infoButton.onclick = function(){
+	infoBox.classList.add('_activeInfoBox');
+}
+
+closeInfo.onclick = function(){
+	infoBox.classList.remove('_activeInfoBox');
+}
 
 let startGame = false;
 

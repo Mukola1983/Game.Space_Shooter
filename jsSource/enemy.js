@@ -83,11 +83,6 @@ function drawEnemy(){
 		if(enemyArr[i].x + enemyArr[i].width >=500 || enemyArr[i].x <=0){
 			enemyArr[i].speedX *= -1;
 		}
-		//delete enemy from array===================
-		if(enemyArr[i].y >=300 ){
-			enemyArr.splice(i, 1);
-		}
-		//delete enemy from array===================
 
 		//Drawing ship enemy============================
 			if(enemyArr[i].name === 'ship'){
@@ -110,6 +105,12 @@ function drawEnemy(){
 				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
 			}
 		//Drawing rocket enemy============================
+
+		//delete enemy from array===================
+		if(enemyArr[i].y >=300 ){
+			enemyArr.splice(i, 1);
+		}
+		//delete enemy from array===================
 	}
 }
 

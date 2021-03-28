@@ -64,14 +64,59 @@ body{
 ._hiden{
 	transform: translate(-100%, 0);
 }
-.start{
+
+///Info box==========================
+.infoBox{
+	visibility: hidden;
+	position: absolute;
+	width: 300px;
+	height: 0px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: rgba(190, 211, 235,1);
+	overflow: auto;
+	padding: 20px;
+	z-index: 100;
+	transition: 0.4s;
+	opacity: 0;
+	box-shadow: 0 0 15px rgba(117, 32, 175, 1),
+				0 0 25px rgba(117, 32, 175, 1),
+				0 0 45px rgba(117, 32, 175, 1),
+				inset 0 0 15px rgba(117, 32, 175, 1);
+	& .closeInfo{
+		background:rgba(243, 54, 35,0.7);
+		position: fixed;
+		top: 10px;
+		right: 10px;
+		padding: 0 4px;
+		border-radius: 5px;
+		color: rgba(31, 31, 35, 1);
+		box-shadow: 0 0 15px rgba(117, 32, 175, 1),
+				0 0 25px rgba(117, 32, 175, 1);
+	}
+	& p{
+
+	}
+}
+
+._activeInfoBox{
+	visibility: visible;
+	opacity: 1;
+	height: 150px;
+}
+
+///Info box==========================
+
+///Buttons styles===============================
+._button{
 	position: absolute;
 	background: rgba(242, 124, 26 , 0.6);
 	padding: 5px 10px;
 	letter-spacing: 4px;
 	border-radius: 10px;
 	text-transform: uppercase;
-	transition: 0.4s;
+	transition: 0.5s;
 	color: #fff;
 	top: 50%;
 	left: 50%;
@@ -80,13 +125,37 @@ body{
 		background: rgba(26, 242, 81 , 0.5);
 	}
 }
+///Buttons styles===============================
 
+
+.start{
+	top: 50%;
+	left: 50%;
+}
+
+.info{
+	top:60%;
+	left: 50%;
+	visibility: visible;
+
+}
+._hidenButton{
+	visibility: hidden;
+	top: 80px;
+	left: 40px;
+}
 ._started{
-	transition: 1s;
+//	transition: 1s;
 	top: 40px;
 	left: 40px;
 }
 
+
+
+
+
+
+///Arrows==========================================
 .left {
 	width: 30px;
 	height: 30px;
