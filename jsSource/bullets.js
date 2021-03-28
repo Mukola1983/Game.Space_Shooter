@@ -46,14 +46,10 @@ function drawWeapon(){
 			//Drawing rocket enemy============================
 
 
-			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0){
+			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
+				weaponsArr[i].y + weaponsArr[i].height < 0 ){
 				weaponsArr.splice(i, 1);
 			}
-			//delete enemy from array===================
-			if(weaponsArr[i].y + weaponsArr[i].height < 0 ){
-				weaponsArr.splice(i, 1);
-			}
-			//delete enemy from array===================
 		}
 	}
 }

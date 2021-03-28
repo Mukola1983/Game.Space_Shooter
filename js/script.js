@@ -25,19 +25,43 @@ let closeInfo = document.querySelector('.closeInfo');
 let cover = document.querySelector('.cover');
 let infoBox = document.querySelector('.infoBox');
 
+let optionBox = document.querySelector('.optionBox');
+
+function restart(){
+	if(heroAlive === false){
+		startButton.innerHTML = "restart";
+	}
+}
+
 
 startButton.onclick = function(){
-	startButton.classList.toggle('_started');
-	infoButton.classList.toggle('_hidenButton');
-	cover.classList.toggle('_hiden');
-	if(startGame === false){
-		launchFullScreen(wrapper);
-		startGame = true;
-		game();
-		startButton.innerHTML = "pause";
+	if(heroAlive){
+		startButton.classList.toggle('_started');
+		optionBox.classList.toggle('_hidenButton');
+		cover.classList.toggle('_hiden');
+		if(startGame === false){
+			launchFullScreen(wrapper);
+			startGame = true;
+			game();
+			startButton.innerHTML = "pause";
+		}else{
+			startGame = false;
+			startButton.innerHTML = "start";
+		}
 	}else{
-		startGame = false;
-		startButton.innerHTML = "start";
+		heroAlive = true;
+		startButton.innerHTML = "pause";
+		hero.life = playerLifeVar;
+		playerLife.innerHTML = `Life: ${hero.life}`;
+		game();
+		scoreVar = 0;
+		score.innerHTML = `Score: ${scoreVar}`;
+		heroSpeedX = 2;
+		heroSpeedY = 2;
+		hero.x = 240;
+		hero.y = 200;
+		fireToLive = true;
+
 	}
 }
 
@@ -59,7 +83,7 @@ window.onload = function(){
 function game(){
 	update();
 	render();
-	if(startGame){
+	if(startGame && heroAlive){
 		requestAnimationFrame(game);
 	}
 
@@ -81,6 +105,7 @@ function render() {
 	moveHero();
 
 	collisionBulletsEnemy();
+	collisionEnemyWithHero();
 	drawExplosion();
 
 }
@@ -125,7 +150,7 @@ function drawFons(){
 }
 
 ///Object Hero /////////////////////=============================
-function Hero(img, x, y, speedX, speedY, width, height){
+function Hero(img, x, y, speedX, speedY, width, height, life){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -135,7 +160,7 @@ function Hero(img, x, y, speedX, speedY, width, height){
 
 	this.speedX = speedX;
 	this.speedY = speedY;
-
+	this.life = life;
 }
 
 
@@ -146,14 +171,38 @@ var heroShipImg = document.getElementById('heroShip');
 
 //Hero creations =========================================
 
-
-//Hero Datas=====================================
-var score = document.getElementById('score');
+///////////////////////////////////////////////////////////
+//Hero Datas=====================================/////////////////////////////
+let score = document.getElementById('score');
 let scoreVar = 0;
+
+let hiScore = document.getElementById('hiScore');
+let hiScoreVar = 0;
 
 score.innerHTML = `Score: ${scoreVar}`;
 
+hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
 
+
+////////Life data======================
+let playerLife = document.getElementById('playerLife');
+let playerLifeVar = 9;
+
+playerLife.innerHTML = `Life: ${playerLifeVar}`;
+////////Life data======================
+
+let collisionAllow = true;
+
+function collisionAgain(){
+	collisionAllow = true;
+}
+
+///////Is alive================
+
+let heroAlive = true;
+
+//Hero Datas=====================================
+//////////////////////////////////////////////////////////
 
 let heroSpeedX = 2;
 let heroSpeedY = 2;
@@ -162,13 +211,17 @@ let N_x = 0;
 let N_y = 0;
 
 let fire = true;
+let fireToLive = true;
 
 function fireTrue(){
 	fire = true;
 }
 
-let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50)
 
+//Declare Hero===================================
+let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar);
+
+//Declare Hero===================================
 
 function addLazer(x, y){
 	let bullet = new Weapon(lazer, x, y, 0, 3, 10, 15, 'lazer')
@@ -190,8 +243,9 @@ function drawHero(){
 		
 	}
 
-	if(fire){
-		addLazer(hero.x+(hero.width/2), hero.y);
+	if(fire && fireToLive ){
+		addLazer(hero.x, hero.y);
+		addLazer(hero.x+hero.width, hero.y);
 		fire = false;
 
 		setTimeout(fireTrue, 500);
@@ -341,9 +395,8 @@ function addEnemy_02(){
 
 	//timer to create enemy===========================
 setInterval(function run() {
-	if( enemyArr.length < 10){
+	if( enemyArr.length < 10 && fireToLive){
 		addEnemy();
-		addEnemy_02();
 	}
 }, 1000);
 	//timer to create enemy===========================
@@ -497,14 +550,10 @@ function drawWeapon(){
 			//Drawing rocket enemy============================
 
 
-			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0){
+			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
+				weaponsArr[i].y + weaponsArr[i].height < 0 ){
 				weaponsArr.splice(i, 1);
 			}
-			//delete enemy from array===================
-			if(weaponsArr[i].y + weaponsArr[i].height < 0 ){
-				weaponsArr.splice(i, 1);
-			}
-			//delete enemy from array===================
 		}
 	}
 }
@@ -512,10 +561,11 @@ function drawWeapon(){
 
 
 
-function collision(arr_1, arr_2){
 
-			if(	arr_1[i].x+arr_1[i].width > arr_2[j].x+5 && arr_1[i].y+arr_1[i].height > arr_2[j].y+5 &&
-				arr_1[i].x+5 < arr_2[j].x+arr_2[j].width && arr_1[i].y+5 < arr_2[j].y+arr_2[j].height ){
+function collision_02(obj_01, obj_02){
+
+			if(	obj_01.x+obj_01.width > obj_02.x+5 && obj_01.y+obj_01.height > obj_02.y+5 &&
+				obj_01.x+5 < obj_02.x+obj_02.width && obj_01.y+5 < obj_02.y+obj_02.height ){
 
 				return true;
 			}
@@ -523,16 +573,64 @@ function collision(arr_1, arr_2){
 }
 
 
-function collisionBulletsEnemy(){
-	for(i in weaponsArr){
+
+function collisionEnemyWithHero(){
+	if(enemyArr.length>0 && hero){
 		for(j in enemyArr){
-			if(collision(weaponsArr, enemyArr)){
+			if(collision_02(enemyArr[j],hero) && collisionAllow){
 				enemyArr[j].life--;
 				if(enemyArr[j].life <= 0){
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					score.innerHTML = `Score: ${scoreVar}`;
+					if(scoreVar > hiScoreVar){
+						hiScoreVar = scoreVar;
+						hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
+					}
+				}
+
+				if(hero.life > 0){
+					hero.life--;
+				}
+				collisionAllow = false;
+				playerLife.innerHTML = `Life: ${hero.life}`;
+				setTimeout(collisionAgain, 5000);
+				if(hero.life <= 0){
+				//	heroAlive = false;
+					fireToLive = false;
+					addExplosionHero(hero.x-100, hero.y-80);
+					heroSpeedX = 0;
+					heroSpeedY = 0;
+				//	restart();
+					setTimeout(heroDead, 3000);
+				}
+
+				return;
+			}
+		}
+	}
+}
+
+function heroDead(){
+	heroAlive = false;
+	restart();
+}
+
+function collisionBulletsEnemy(){
+	for(i in weaponsArr){
+		for(j in enemyArr){
+			if(collision_02(weaponsArr[i], enemyArr[j])){
+				enemyArr[j].life--;
+				if(enemyArr[j].life <= 0){
+					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+					enemyArr.splice(j, 1);
+					scoreVar++;
+					score.innerHTML = `Score: ${scoreVar}`;
+					if(scoreVar > hiScoreVar){
+						hiScoreVar = scoreVar;
+						hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
+					}
 				}
 				addSmallExplosion_01(weaponsArr[i].x, weaponsArr[i].y);
 				weaponsArr.splice(i, 1);
@@ -542,6 +640,8 @@ function collisionBulletsEnemy(){
 		}
 	}
 }
+
+
 
 
 
@@ -586,6 +686,13 @@ function addSmallExplosion_01(x, y){
 }
 
 
+function addExplosionHero(x, y){
+	let exp = new Explosion(explosion_01Img, x, y,0, 200, 200, 'explosion_03')
+	explosionArr.push(exp);
+
+}
+
+
 function drawExplosion(){
 	if(explosionArr.length > 0){
 		for(let i=0;i<explosionArr.length; i++){
@@ -618,6 +725,21 @@ function drawExplosion(){
 					explosionArr[i].N_x += 0.5;
 					if(explosionArr[i].N_x > 8.9 ){
 						explosionArr[i].del = true;
+					}
+			}
+
+
+			if(explosionArr[i].name === 'explosion_03'){
+				context.drawImage(explosionArr[i].img, 512*Math.floor(explosionArr[i].N_x), 512*explosionArr[i].N_y, 512, 512,
+				 explosionArr[i].x, explosionArr[i].y, explosionArr[i].width, explosionArr[i].height)
+
+					explosionArr[i].N_x += 0.4;
+					if(explosionArr[i].N_x > 7.9 ){
+							explosionArr[i].N_x = 0;
+							explosionArr[i].N_y += 1;
+							if(explosionArr[i].N_y > 7){
+								explosionArr[i].del = true;
+							}
 					}
 			}
 

@@ -38,9 +38,8 @@ function addEnemy_02(){
 
 	//timer to create enemy===========================
 setInterval(function run() {
-	if( enemyArr.length < 10){
+	if( enemyArr.length < 10 && fireToLive){
 		addEnemy();
-		addEnemy_02();
 	}
 }, 1000);
 	//timer to create enemy===========================

@@ -32,12 +32,17 @@ body{
 .count {
 	display: flex;
 	position: absolute;
+	flex-direction: column;
 	right: 70px;
-	top: 30px;
+	top: 10px;
 	& span{
 		box-shadow: none;
 		text-transform: uppercase;
 		color: #fff;
+	}
+	& p{
+		color: #fff;
+		text-transform: uppercase;
 	}
 }
 
@@ -121,17 +126,57 @@ body{
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	box-shadow: 0 0 15px rgba(117, 32, 175, 1),
+				0 0 25px rgba(117, 32, 175, 1);
 	&:hover{
 		background: rgba(26, 242, 81 , 0.5);
 	}
 }
 ///Buttons styles===============================
 
-
+//Start button=================
 .start{
 	top: 50%;
 	left: 50%;
 }
+
+._started{
+//	transition: 1s;
+	top: 40px;
+	left: 50px;
+}
+
+//Start button=================
+
+.optionBox{
+	position: absolute;
+	top:65%;
+	left: 50%;
+	visibility: visible;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	transition: 0.5s;
+}
+
+
+.optionBytton {
+	background: rgba(242, 124, 26 , 0.6);
+	padding: 4px;
+	letter-spacing: 4px;
+	border-radius: 10px;
+	text-transform: uppercase;
+	transition: 0.5s;
+	color: #fff;
+	box-shadow: 0 0 15px rgba(117, 32, 175, 1),
+				0 0 25px rgba(117, 32, 175, 1);
+	margin: 10px 0 0 0;
+	&:hover{
+		background: rgba(26, 242, 81 , 0.5);
+	}
+}
+
 
 .info{
 	top:60%;
@@ -143,12 +188,11 @@ body{
 	visibility: hidden;
 	top: 80px;
 	left: 40px;
+	& button{
+		visibility: hidden;
+	}
 }
-._started{
-//	transition: 1s;
-	top: 40px;
-	left: 40px;
-}
+
 
 
 
@@ -163,7 +207,7 @@ body{
 	border-top: 20px solid transparent;
 	border-bottom: 20px solid transparent;
 	left: 20px;
-	bottom: 60px;
+	bottom: 75px;
 
 }
 .right {
@@ -182,7 +226,7 @@ body{
 	border-left: 20px solid transparent;
 	border-right: 20px solid transparent;
 	right: 55px;
-	bottom: 60px;
+	bottom: 75px;
 }
 .down {
 	width: 30px;

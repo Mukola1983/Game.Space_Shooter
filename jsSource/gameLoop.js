@@ -21,19 +21,43 @@ let closeInfo = document.querySelector('.closeInfo');
 let cover = document.querySelector('.cover');
 let infoBox = document.querySelector('.infoBox');
 
+let optionBox = document.querySelector('.optionBox');
+
+function restart(){
+	if(heroAlive === false){
+		startButton.innerHTML = "restart";
+	}
+}
+
 
 startButton.onclick = function(){
-	startButton.classList.toggle('_started');
-	infoButton.classList.toggle('_hidenButton');
-	cover.classList.toggle('_hiden');
-	if(startGame === false){
-		launchFullScreen(wrapper);
-		startGame = true;
-		game();
-		startButton.innerHTML = "pause";
+	if(heroAlive){
+		startButton.classList.toggle('_started');
+		optionBox.classList.toggle('_hidenButton');
+		cover.classList.toggle('_hiden');
+		if(startGame === false){
+			launchFullScreen(wrapper);
+			startGame = true;
+			game();
+			startButton.innerHTML = "pause";
+		}else{
+			startGame = false;
+			startButton.innerHTML = "start";
+		}
 	}else{
-		startGame = false;
-		startButton.innerHTML = "start";
+		heroAlive = true;
+		startButton.innerHTML = "pause";
+		hero.life = playerLifeVar;
+		playerLife.innerHTML = `Life: ${hero.life}`;
+		game();
+		scoreVar = 0;
+		score.innerHTML = `Score: ${scoreVar}`;
+		heroSpeedX = 2;
+		heroSpeedY = 2;
+		hero.x = 240;
+		hero.y = 200;
+		fireToLive = true;
+
 	}
 }
 
@@ -55,7 +79,7 @@ window.onload = function(){
 function game(){
 	update();
 	render();
-	if(startGame){
+	if(startGame && heroAlive){
 		requestAnimationFrame(game);
 	}
 
@@ -77,6 +101,7 @@ function render() {
 	moveHero();
 
 	collisionBulletsEnemy();
+	collisionEnemyWithHero();
 	drawExplosion();
 
 }

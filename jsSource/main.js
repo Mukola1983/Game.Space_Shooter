@@ -5,5 +5,6 @@
 //@prepros-append enemy.js
 //@prepros-append bullets.js
 //@prepros-append collision.js
+//@prepros-append bonuses.js
 
 
