@@ -9,7 +9,6 @@ function randomNum(min, max) {
 
 
 
-var rocketimg = document.getElementById('rocket');
 
 var enemyShipImg = document.getElementById('enemyShip');
 
@@ -38,7 +37,7 @@ function addEnemy_02(){
 
 	//timer to create enemy===========================
 setInterval(function run() {
-	if( enemyArr.length < 10 && fireToLive){
+	if( enemyArr.length < 10 && fireToLive && startGame){
 		addEnemy();
 	}
 }, 1000);

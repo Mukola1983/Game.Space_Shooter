@@ -1,6 +1,8 @@
 
 
-var lazer = document.getElementById('lazer');
+let lazer = document.getElementById('lazer');
+
+let rocketimg = document.getElementById('rocket');
 
 
 const weaponsArr = [];
@@ -25,8 +27,14 @@ function Weapon(img, x, y, speedX, speedY, width, height, name){
 }
 
 
-function addLazer(x, y){
-	let bullet = new Weapon(lazer, x, y, 0, -3, 10, 15, 'lazer')
+function addLazer(x, y, spedX, speedY){
+	let bullet = new Weapon(lazer, x, y, spedX, speedY, 10, 15, 'lazer')
+	weaponsArr.push(bullet);
+
+}
+
+function addRocket(x, y, spedX, speedY){
+	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket')
 	weaponsArr.push(bullet);
 
 }
@@ -40,7 +48,7 @@ function drawWeapon(){
 			weaponsArr[i].x += weaponsArr[i].speedX;
 			weaponsArr[i].y += weaponsArr[i].speedY;
 			//Drawing rocket enemy============================
-			if(weaponsArr[i].name === 'lazer'){
+			if(weaponsArr[i].name === 'lazer' || weaponsArr[i].name === 'rocket'){
 				context.drawImage(weaponsArr[i].img, weaponsArr[i].x, weaponsArr[i].y, weaponsArr[i].width, weaponsArr[i].height);
 			}
 			//Drawing rocket enemy============================

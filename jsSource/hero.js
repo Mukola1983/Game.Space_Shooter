@@ -1,6 +1,6 @@
 
 ///Object Hero /////////////////////=============================
-function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower){
+function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weaponKind){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -12,6 +12,8 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower){
 	this.speedY = speedY;
 	this.life = life;
 	this.weaponPower = weaponPower;
+
+	this.weaponKind = weaponKind;
 }
 
 
@@ -42,6 +44,14 @@ let weaponPower = document.getElementById('weaponPower');
 let weaponPowerVar = 1;
 
 weaponPower.innerHTML = `Weap Pow: ${weaponPowerVar}`;
+
+
+let playerWeapon = document.getElementById('playerWeapon');
+
+let weaponKind = 'L';
+
+playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
+
 
 //WeaponPower===========================
 ////////Life data======================
@@ -79,7 +89,7 @@ function fireTrue(){
 
 
 //Declare Hero===================================
-let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar, weaponPowerVar);
+let hero = new Hero(heroShipImg, 250, 200, heroSpeedX, heroSpeedY, 30, 50, playerLifeVar, weaponPowerVar, weaponKind);
 
 //Declare Hero===================================
 
@@ -104,24 +114,63 @@ function drawHero(){
 	}
 
 	if(fire && fireToLive ){
-		if(hero.weaponPower === 1){
-			addLazer(hero.x+hero.width/2, hero.y);
+		if(hero.weaponKind === 'L'){
+			if(hero.weaponPower === 1){
+				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
+			
+			}
+			if(hero.weaponPower === 2){
+				addLazer(hero.x, hero.y, 0, -2);
+				addLazer(hero.x+hero.width, hero.y, 0, -2);
+				
+			}
+			if(hero.weaponPower === 3){
+				addLazer(hero.x, hero.y, -0.5, -2);
+				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
+				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
+			
+			}
+			if(hero.weaponPower === 4){
+				addLazer(hero.x, hero.y, -0.5, -2);
+				addLazer(hero.x, hero.y, 0, -2);
+				addLazer(hero.x+hero.width, hero.y, 0, -2);
+				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
+			
+			}
+			if(hero.weaponPower === 5){
+				addLazer(hero.x, hero.y, -1, -2);
+				addLazer(hero.x, hero.y, -0.5, -2);
+				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
+				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
+				addLazer(hero.x+hero.width, hero.y, 1, -2);
+				
+			}
 			fire = false;
+			setTimeout(fireTrue, 500);
 		}
-		if(hero.weaponPower === 2){
-			addLazer(hero.x, hero.y);
-			addLazer(hero.x+hero.width, hero.y);
+		if(hero.weaponKind === 'R'){
+			if(hero.weaponPower === 1){
+				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
+			}
+			if(hero.weaponPower === 2){
+				addRocket(hero.x, hero.y, 0, -2);
+				addRocket(hero.x+hero.width, hero.y, 0, -2);
+			}
+			if(hero.weaponPower === 3){
+				addRocket(hero.x, hero.y, -0.5, -2);
+				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
+			}
+			if(hero.weaponPower === 4){
+				addRocket(hero.x, hero.y, -0.5, -2);
+				addRocket(hero.x, hero.y, 0, -2);
+				addRocket(hero.x+hero.width, hero.y, 0, -2);
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
+			
+			}
 			fire = false;
+			setTimeout(fireTrue, 500);
 		}
-		if(hero.weaponPower >= 3){
-			addLazer(hero.x, hero.y);
-			addLazer(hero.x+hero.width/2, hero.y);
-			addLazer(hero.x+hero.width, hero.y);
-			fire = false;
-		}
-
-		setTimeout(fireTrue, 500);
-
 	}
 
 

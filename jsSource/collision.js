@@ -32,6 +32,9 @@ function collisionEnemyWithHero(){
 
 				if(hero.life > 0){
 					hero.life--;
+					if(hero.weaponPower > 1){
+						hero.weaponPower --;
+					}
 				}
 				collisionAllow = false;
 				playerLife.innerHTML = `Life: ${hero.life}`;
@@ -88,10 +91,22 @@ function collisionHeroWithBonuses(){
 		for(j in bonusesArr){
 			if(collision_02(bonusesArr[j],hero)){
 				if(bonusesArr[j].name === 'powerUp'){
-					if(hero.weaponPower< 4){
+					if(hero.weaponPower< 5){
 						hero.weaponPower++;
 					}
 					weaponPower.innerHTML = `Weap Pow: ${hero.weaponPower}`;
+				}
+
+				if(bonusesArr[j].name === 'rocketBon'){
+					hero.weaponKind = bonusesArr[j].kind;
+					
+					playerWeapon.innerHTML = `Weapon: ${hero.weaponKind}`;
+				}
+
+				if(bonusesArr[j].name === 'lazerBon'){
+					hero.weaponKind = bonusesArr[j].kind;
+					
+					playerWeapon.innerHTML = `Weapon: ${hero.weaponKind}`;
 				}
 
 				bonusesArr.splice(j, 1);
