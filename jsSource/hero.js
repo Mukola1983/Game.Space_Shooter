@@ -53,6 +53,9 @@ let weaponKind = 'L';
 
 let weaponIcon = document.getElementById('weaponIcon');
 
+let weaponIconLazer = document.getElementById('weaponIconLazer');
+let weaponIconRocket = document.getElementById('weaponIconRocket');
+
 
 //playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
 
