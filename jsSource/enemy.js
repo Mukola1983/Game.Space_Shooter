@@ -2,7 +2,7 @@
 
 // Random Numbers===========================================
 function randomNum(min, max) {
-	return Math.random() * (max - min) + min;
+	return Math.round(Math.random() * (max - min) + min);
 }
 
 // Random Numbers===========================================
@@ -26,7 +26,7 @@ const enemyArr = [];
 ///////////////////////////////////////////////////////////////////////////
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 2)
+	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 1)
 	enemyArr.push(enemy);
 }
 

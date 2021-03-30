@@ -48,7 +48,8 @@ startButton.onclick = function(){
 		heroAlive = true;
 		startButton.innerHTML = "pause";
 		hero.life = playerLifeVar;
-		playerLife.innerHTML = `Life: ${hero.life}`;
+		lifeRow.style.width = `${100}%`;
+		lifeRow.style.backgroundColor  = `#47B932`;
 		game();
 		scoreVar = 0;
 		score.innerHTML = `Score: ${scoreVar}`;

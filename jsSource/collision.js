@@ -19,8 +19,12 @@ function collisionEnemyWithHero(){
 		for(j in enemyArr){
 			if(collision_02(enemyArr[j],hero) && collisionAllow){
 				enemyArr[j].life--;
+				addSmallExplosion_02(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y+enemyArr[j].height );
 				if(enemyArr[j].life <= 0){
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+
+					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					score.innerHTML = `Score: ${scoreVar}`;
@@ -32,12 +36,22 @@ function collisionEnemyWithHero(){
 
 				if(hero.life > 0){
 					hero.life--;
+					let lifeBar = percentage(playerLifeVar, hero.life);
+					if(lifeBar < 60){
+						lifeRow.style.backgroundColor  = `#D8B61F`;
+					};
+					if(lifeBar < 30){
+						lifeRow.style.backgroundColor  = `#F00`;
+					};
+					lifeRow.style.width = `${lifeBar}%`;
+					console.log(hero.life);
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
+						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 					}
 				}
 				collisionAllow = false;
-				playerLife.innerHTML = `Life: ${hero.life}`;
+			//	playerLife.innerHTML = `Life: ${hero.life}`;
 				setTimeout(collisionAgain, 5000);
 				if(hero.life <= 0){
 				//	heroAlive = false;
@@ -64,8 +78,11 @@ function collisionBulletsEnemy(){
 	for(i in weaponsArr){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
-				enemyArr[j].life--;
+				enemyArr[j].life -= weaponsArr[i].power;
 				if(enemyArr[j].life <= 0){
+					
+					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
 					enemyArr.splice(j, 1);
 					scoreVar++;
@@ -94,19 +111,17 @@ function collisionHeroWithBonuses(){
 					if(hero.weaponPower< 5){
 						hero.weaponPower++;
 					}
-					weaponPower.innerHTML = `Weap Pow: ${hero.weaponPower}`;
+					weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 				}
 
 				if(bonusesArr[j].name === 'rocketBon'){
 					hero.weaponKind = bonusesArr[j].kind;
-					
-					playerWeapon.innerHTML = `Weapon: ${hero.weaponKind}`;
+					weaponIcon.src = '..//img/weponIcons/rocket.png'
 				}
 
 				if(bonusesArr[j].name === 'lazerBon'){
 					hero.weaponKind = bonusesArr[j].kind;
-					
-					playerWeapon.innerHTML = `Weapon: ${hero.weaponKind}`;
+					weaponIcon.src = '..//img/weponIcons/lazer.PNG'
 				}
 
 				bonusesArr.splice(j, 1);
@@ -156,6 +171,12 @@ function addExplosion_01(x, y){
 
 function addSmallExplosion_01(x, y){
 	let exp = new Explosion(explosion_02Img, x, y,0.2, 20, 20, 'explosion_02')
+	explosionArr.push(exp);
+
+}
+
+function addSmallExplosion_02(x, y){
+	let exp = new Explosion(explosion_02Img, x, y,0.2, 30, 30, 'explosion_02')
 	explosionArr.push(exp);
 
 }

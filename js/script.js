@@ -52,7 +52,8 @@ startButton.onclick = function(){
 		heroAlive = true;
 		startButton.innerHTML = "pause";
 		hero.life = playerLifeVar;
-		playerLife.innerHTML = `Life: ${hero.life}`;
+		lifeRow.style.width = `${100}%`;
+		lifeRow.style.backgroundColor  = `#47B932`;
 		game();
 		scoreVar = 0;
 		score.innerHTML = `Score: ${scoreVar}`;
@@ -170,7 +171,8 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weapo
 }
 
 
-var heroShipImg = document.getElementById('heroShip');
+let heroShipImg = document.getElementById('heroShip');
+let heroShipWoundedImg = document.getElementById('heroShipWounded');
 
 ///Object Hero /////////////////////=============================
 
@@ -196,22 +198,35 @@ let weaponPower = document.getElementById('weaponPower');
 
 let weaponPowerVar = 1;
 
-weaponPower.innerHTML = `Weap Pow: ${weaponPowerVar}`;
+weaponPower.innerHTML = `Power: ${weaponPowerVar}`;
 
 
 let playerWeapon = document.getElementById('playerWeapon');
 
 let weaponKind = 'L';
 
-playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
+let weaponIcon = document.getElementById('weaponIcon');
+
+
+//playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
 
 
 //WeaponPower===========================
 ////////Life data======================
 let playerLife = document.getElementById('playerLife');
-let playerLifeVar = 9;
+let lifeRow = document.getElementById('lifeRow');
+let playerLifeVar = 6;
 
-playerLife.innerHTML = `Life: ${playerLifeVar}`;
+
+lifeRow.style.width = `${100}%`;
+
+function percentage(num, curNum)
+{
+	//return (num/100)*per;
+	return (curNum * 100)/ num;
+}
+
+//playerLife.innerHTML = `Life: ${playerLifeVar}`;
 ////////Life data======================
 
 let collisionAllow = true;
@@ -252,6 +267,11 @@ function addLazer(x, y){
 }
 
 function drawHero(){
+	if(collisionAllow){
+		hero.img = heroShipImg;
+	}else{
+		hero.img = heroShipWoundedImg;
+	}
 	context.drawImage(hero.img, 70*Math.floor(N_x), 95*N_y, 70, 95, hero.x, hero.y, hero.width, hero.height)
 
 	N_x += 0.1;
@@ -432,7 +452,7 @@ function moveHero(){
 
 // Random Numbers===========================================
 function randomNum(min, max) {
-	return Math.random() * (max - min) + min;
+	return Math.round(Math.random() * (max - min) + min);
 }
 
 // Random Numbers===========================================
@@ -456,7 +476,7 @@ const enemyArr = [];
 ///////////////////////////////////////////////////////////////////////////
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 2)
+	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 1)
 	enemyArr.push(enemy);
 }
 
@@ -584,7 +604,7 @@ let rocketimg = document.getElementById('rocket');
 const weaponsArr = [];
 
 
-function Weapon(img, x, y, speedX, speedY, width, height, name){
+function Weapon(img, x, y, speedX, speedY, width, height, name, power){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -599,18 +619,19 @@ function Weapon(img, x, y, speedX, speedY, width, height, name){
 	this.N_y = 0;
 
 	this.name = name;
+	this.power = power;
 
 }
 
 
 function addLazer(x, y, spedX, speedY){
-	let bullet = new Weapon(lazer, x, y, spedX, speedY, 10, 15, 'lazer')
+	let bullet = new Weapon(lazer, x, y, spedX, speedY, 10, 15, 'lazer', 1)
 	weaponsArr.push(bullet);
 
 }
 
 function addRocket(x, y, spedX, speedY){
-	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket')
+	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', 2)
 	weaponsArr.push(bullet);
 
 }
@@ -659,8 +680,12 @@ function collisionEnemyWithHero(){
 		for(j in enemyArr){
 			if(collision_02(enemyArr[j],hero) && collisionAllow){
 				enemyArr[j].life--;
+				addSmallExplosion_02(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y+enemyArr[j].height );
 				if(enemyArr[j].life <= 0){
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+
+					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					score.innerHTML = `Score: ${scoreVar}`;
@@ -672,12 +697,22 @@ function collisionEnemyWithHero(){
 
 				if(hero.life > 0){
 					hero.life--;
+					let lifeBar = percentage(playerLifeVar, hero.life);
+					if(lifeBar < 60){
+						lifeRow.style.backgroundColor  = `#D8B61F`;
+					};
+					if(lifeBar < 30){
+						lifeRow.style.backgroundColor  = `#F00`;
+					};
+					lifeRow.style.width = `${lifeBar}%`;
+					console.log(hero.life);
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
+						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 					}
 				}
 				collisionAllow = false;
-				playerLife.innerHTML = `Life: ${hero.life}`;
+			//	playerLife.innerHTML = `Life: ${hero.life}`;
 				setTimeout(collisionAgain, 5000);
 				if(hero.life <= 0){
 				//	heroAlive = false;
@@ -704,8 +739,11 @@ function collisionBulletsEnemy(){
 	for(i in weaponsArr){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
-				enemyArr[j].life--;
+				enemyArr[j].life -= weaponsArr[i].power;
 				if(enemyArr[j].life <= 0){
+					
+					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
 					enemyArr.splice(j, 1);
 					scoreVar++;
@@ -734,19 +772,17 @@ function collisionHeroWithBonuses(){
 					if(hero.weaponPower< 5){
 						hero.weaponPower++;
 					}
-					weaponPower.innerHTML = `Weap Pow: ${hero.weaponPower}`;
+					weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 				}
 
 				if(bonusesArr[j].name === 'rocketBon'){
 					hero.weaponKind = bonusesArr[j].kind;
-					
-					playerWeapon.innerHTML = `Weapon: ${hero.weaponKind}`;
+					weaponIcon.src = '..//img/weponIcons/rocket.png'
 				}
 
 				if(bonusesArr[j].name === 'lazerBon'){
 					hero.weaponKind = bonusesArr[j].kind;
-					
-					playerWeapon.innerHTML = `Weapon: ${hero.weaponKind}`;
+					weaponIcon.src = '..//img/weponIcons/lazer.PNG'
 				}
 
 				bonusesArr.splice(j, 1);
@@ -796,6 +832,12 @@ function addExplosion_01(x, y){
 
 function addSmallExplosion_01(x, y){
 	let exp = new Explosion(explosion_02Img, x, y,0.2, 20, 20, 'explosion_02')
+	explosionArr.push(exp);
+
+}
+
+function addSmallExplosion_02(x, y){
+	let exp = new Explosion(explosion_02Img, x, y,0.2, 30, 30, 'explosion_02')
 	explosionArr.push(exp);
 
 }
@@ -897,14 +939,36 @@ function Bonus(img, x, y, speedX, speedY, width, height, name, life, kind){
 	this.kind = kind;
 
 }
-
+/*
 setInterval(function run() {
 	if( bonusesArr.length < 10 && fireToLive && startGame){
 		addPowerUpBonus();
 		addLazerBonus();
 		addRocketBonus();
+		addLazerBonusEn(100, 100);
 	}
 }, 5000);
+
+*/
+
+function addBonusFromEnemy(x, y){
+	let allowB = randomNum(0, 2);
+
+	console.log('kk', allowB);
+	if (allowB === 2){
+		let kindB = randomNum(0, 4); 
+
+		if(kindB === 1){
+			addPowerUpBonusEn(x, y);
+		}else if(kindB === 2){
+			addRocketBonusEn(x, y);
+		}
+		else if(kindB === 3){
+			addLazerBonusEn(x, y);
+		}
+	}
+	return;
+}
 
 function drawBonuses(){
 	if(bonusesArr.length > 0){
@@ -917,7 +981,7 @@ function drawBonuses(){
 				bonusesArr[i].speedX *= -1;
 			}
 
-				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon'){
+				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon' || bonusesArr[i].name === 'lazerBon'){
 					context.drawImage(bonusesArr[i].img, 55*Math.floor(bonusesArr[i].N_x), 55*bonusesArr[i].N_y, 55, 55, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
 
 						bonusesArr[i].N_x += 0.2;
@@ -970,6 +1034,22 @@ function addRocketBonus(){
 }
 
 function addLazerBonus(){
-	let bon = new Bonus(lazerBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'L');
+	let bon = new Bonus(lazerBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
+	bonusesArr.push(bon);
+}
+
+function addPowerUpBonusEn(x, y){
+	let bon = new Bonus(powerUpImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2, 'none');
+	bonusesArr.push(bon);
+}
+
+
+function addRocketBonusEn(x, y){
+	let bon = new Bonus(rocketBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'R');
+	bonusesArr.push(bon);
+}
+
+function addLazerBonusEn(x, y){
+	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }

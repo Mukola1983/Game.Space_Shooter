@@ -17,7 +17,8 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weapo
 }
 
 
-var heroShipImg = document.getElementById('heroShip');
+let heroShipImg = document.getElementById('heroShip');
+let heroShipWoundedImg = document.getElementById('heroShipWounded');
 
 ///Object Hero /////////////////////=============================
 
@@ -43,22 +44,35 @@ let weaponPower = document.getElementById('weaponPower');
 
 let weaponPowerVar = 1;
 
-weaponPower.innerHTML = `Weap Pow: ${weaponPowerVar}`;
+weaponPower.innerHTML = `Power: ${weaponPowerVar}`;
 
 
 let playerWeapon = document.getElementById('playerWeapon');
 
 let weaponKind = 'L';
 
-playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
+let weaponIcon = document.getElementById('weaponIcon');
+
+
+//playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
 
 
 //WeaponPower===========================
 ////////Life data======================
 let playerLife = document.getElementById('playerLife');
-let playerLifeVar = 9;
+let lifeRow = document.getElementById('lifeRow');
+let playerLifeVar = 6;
 
-playerLife.innerHTML = `Life: ${playerLifeVar}`;
+
+lifeRow.style.width = `${100}%`;
+
+function percentage(num, curNum)
+{
+	//return (num/100)*per;
+	return (curNum * 100)/ num;
+}
+
+//playerLife.innerHTML = `Life: ${playerLifeVar}`;
 ////////Life data======================
 
 let collisionAllow = true;
@@ -99,6 +113,11 @@ function addLazer(x, y){
 }
 
 function drawHero(){
+	if(collisionAllow){
+		hero.img = heroShipImg;
+	}else{
+		hero.img = heroShipWoundedImg;
+	}
 	context.drawImage(hero.img, 70*Math.floor(N_x), 95*N_y, 70, 95, hero.x, hero.y, hero.width, hero.height)
 
 	N_x += 0.1;

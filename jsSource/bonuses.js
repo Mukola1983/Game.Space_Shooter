@@ -29,14 +29,36 @@ function Bonus(img, x, y, speedX, speedY, width, height, name, life, kind){
 	this.kind = kind;
 
 }
-
+/*
 setInterval(function run() {
 	if( bonusesArr.length < 10 && fireToLive && startGame){
 		addPowerUpBonus();
 		addLazerBonus();
 		addRocketBonus();
+		addLazerBonusEn(100, 100);
 	}
 }, 5000);
+
+*/
+
+function addBonusFromEnemy(x, y){
+	let allowB = randomNum(0, 2);
+
+	console.log('kk', allowB);
+	if (allowB === 2){
+		let kindB = randomNum(0, 4); 
+
+		if(kindB === 1){
+			addPowerUpBonusEn(x, y);
+		}else if(kindB === 2){
+			addRocketBonusEn(x, y);
+		}
+		else if(kindB === 3){
+			addLazerBonusEn(x, y);
+		}
+	}
+	return;
+}
 
 function drawBonuses(){
 	if(bonusesArr.length > 0){
@@ -49,7 +71,7 @@ function drawBonuses(){
 				bonusesArr[i].speedX *= -1;
 			}
 
-				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon'){
+				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon' || bonusesArr[i].name === 'lazerBon'){
 					context.drawImage(bonusesArr[i].img, 55*Math.floor(bonusesArr[i].N_x), 55*bonusesArr[i].N_y, 55, 55, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
 
 						bonusesArr[i].N_x += 0.2;
@@ -102,6 +124,22 @@ function addRocketBonus(){
 }
 
 function addLazerBonus(){
-	let bon = new Bonus(lazerBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'L');
+	let bon = new Bonus(lazerBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
+	bonusesArr.push(bon);
+}
+
+function addPowerUpBonusEn(x, y){
+	let bon = new Bonus(powerUpImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2, 'none');
+	bonusesArr.push(bon);
+}
+
+
+function addRocketBonusEn(x, y){
+	let bon = new Bonus(rocketBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'R');
+	bonusesArr.push(bon);
+}
+
+function addLazerBonusEn(x, y){
+	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }

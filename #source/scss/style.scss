@@ -33,14 +33,47 @@ body{
 	display: flex;
 	position: absolute;
 	flex-direction: column;
-	right: 70px;
+	right: 0px;
 	top: 10px;
 	& span{
 		box-shadow: none;;
 		color: #fff;
+		margin: 3px 0;
 	}
 	& p{
 		color: #fff;
+		margin: 3px 0;
+	}
+}
+
+#playerLife{
+	position: relative;
+	display: inline-block;
+	height: 10px;
+	width: 80px;
+	border: 1px solid #f00;
+	background: rgba(206, 135, 222, 0.4);
+	overflow: hidden;
+	& #lifeRow{
+		position: absolute;
+		display: inline-block;
+		width: 40%;
+		height: 100%;
+		background: #47B932;
+		margin: 0 0;
+		top: 0px;
+		left: 0px;
+	}
+}
+
+#playerWeapon{
+	height: 20px;
+	width: 50px;
+	& img{
+		display: inline-block;
+	//	transform: rotate(90deg);
+		width: 100%;
+		height: 100%;
 	}
 }
 
