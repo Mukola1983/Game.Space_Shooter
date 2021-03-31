@@ -58,6 +58,8 @@ startButton.onclick = function(){
 		hero.x = 240;
 		hero.y = 200;
 		fireToLive = true;
+		hero.weaponPower = weaponPowerVar;
+		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 
 	}
 }
@@ -93,7 +95,7 @@ function update(){
 
 function render() {
 	context.clearRect(0, 0, 500, 300);
-	drawFons();
+	drawFon();
 
 	drawBonuses();
 	collisionHeroWithBonuses();

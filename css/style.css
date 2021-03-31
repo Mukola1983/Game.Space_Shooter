@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 #wrapper > span {
   position: absolute;
-  display: block;
+  display: none;
   box-shadow: 0 0 15px #f00;
 }
 
@@ -164,14 +164,14 @@ h1, h2, h3, h4, h5, h6 {
 .infoBox {
   visibility: hidden;
   position: absolute;
-  width: 300px;
+  width: 350px;
   height: 0px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #bed3eb;
   overflow: auto;
-  padding: 20px;
+  padding: 10px;
   z-index: 100;
   transition: 0.4s;
   opacity: 0;
@@ -187,10 +187,43 @@ h1, h2, h3, h4, h5, h6 {
   color: #1f1f23;
   box-shadow: 0 0 15px #7520af, 0 0 25px #7520af;
 }
+.infoBox-block {
+  margin: 0 0 10px 0;
+  background: #d9b4e1;
+  padding: 10px;
+}
+
+.title {
+  text-transform: uppercase;
+  color: #ed390d;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin: 0 0 5px 0;
+  text-align: center;
+}
+
+.infoBox-text {
+  letter-spacing: 1px;
+}
+.infoBox-text p {
+  display: inline-block;
+  margin: 0 0 10px 0;
+}
+.infoBox-text p span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.infoBox-text p span img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 ._activeInfoBox {
   visibility: visible;
   opacity: 1;
-  height: 150px;
+  height: 220px;
 }
 
 ._button {

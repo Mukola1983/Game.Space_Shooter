@@ -44,7 +44,6 @@ setInterval(function run() {
 function addBonusFromEnemy(x, y){
 	let allowB = randomNum(0, 2);
 
-	console.log('kk', allowB);
 	if (allowB === 2){
 		let kindB = randomNum(0, 4); 
 

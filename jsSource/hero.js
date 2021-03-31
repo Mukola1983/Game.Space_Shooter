@@ -91,8 +91,8 @@ let heroAlive = true;
 //Hero Datas=====================================
 //////////////////////////////////////////////////////////
 
-let heroSpeedX = 2;
-let heroSpeedY = 2;
+let heroSpeedX = 5;
+let heroSpeedY = 5;
 
 let N_x = 0;
 let N_y = 0;
@@ -296,3 +296,41 @@ function moveHero(){
 		}
 }
 
+document.addEventListener('keydown', function(event) {
+	if (event.code == 'ArrowLeft') {
+		hero.x += -heroSpeedX;
+	}
+	if (event.code == 'ArrowRight') {
+		hero.x += heroSpeedX;
+	}
+	if (event.code == 'ArrowUp') {
+		hero.y += -heroSpeedY;
+	}
+	if (event.code == 'ArrowDown') {
+		hero.y += heroSpeedY;
+	}
+});
+
+
+
+let isMobile = {
+	Android: function() {return navigator.userAgent.match(/Android/i);},
+	BlackBerry: function() {return navigator.userAgent.match(/BlackBerry/i);},
+	iOS: function() {return navigator.userAgent.match(/iPhone|iPad|iPod/i);},
+	Opera: function() {return navigator.userAgent.match(/Opera Mini/i);},
+	Windows: function() {return navigator.userAgent.match(/IEMobile/i);},
+	any: function() {return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());}
+};
+
+
+if(isMobile.any()){
+	rightHero.style.display  = 'block';
+	leftHero.style.display  = 'block';
+	topHero.style.display  = 'block';
+	downHero.style.display  = 'block';
+
+	heroSpeedX = 2;
+	heroSpeedY = 2;
+
+
+}

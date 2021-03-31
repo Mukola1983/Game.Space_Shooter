@@ -10,7 +10,10 @@ function randomNum(min, max) {
 
 
 
-var enemyShipImg = document.getElementById('enemyShip');
+let enemyShipImg = document.getElementById('enemyShip');
+
+let enemyAsterRedImg = document.getElementById('enemyAsterRed');
+
 
 
 
@@ -26,12 +29,16 @@ const enemyArr = [];
 ///////////////////////////////////////////////////////////////////////////
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 1)
+	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', rockrtEnemyLife)
 	enemyArr.push(enemy);
 }
 
-function addEnemy_02(){
-	let enemy = new Enemy(rocketimg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'rocket', 1)
+let rockrtEnemyLife = 1;
+
+let asterEnemyLife = 4;
+
+function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyAsterRedImg, x, y, speedX, speedY, width, height, name, life);
 	enemyArr.push(enemy);
 }
 
@@ -41,6 +48,12 @@ setInterval(function run() {
 		addEnemy();
 	}
 }, 1000);
+
+setInterval(function run() {
+	if( enemyArr.length < 10 && fireToLive && startGame){
+		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
+	}
+}, 2000);
 	//timer to create enemy===========================
 
 
@@ -98,6 +111,24 @@ function drawEnemy(){
 			}
 		//Drawing ship enemy============================
 
+		//Drawing AsteroidRed enemy============================
+			if(enemyArr[i].name === 'asterRed' || enemyArr[i].name === 'asterSmall'){
+				context.drawImage(enemyArr[i].img, 170*Math.floor(enemyArr[i].N_x), 160*enemyArr[i].N_y, 170, 160, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
+
+					enemyArr[i].N_x += 0.2;
+					if(enemyArr[i].N_x > 3.9 ){
+							
+							enemyArr[i].N_x = 0;
+							enemyArr[i].N_y += 1;
+							if(enemyArr[i].N_y > 3){
+								enemyArr[i].N_y = 0;
+							}
+					}
+			}
+
+		//Drawing AsteroidRed enemy============================
+
+
 		//Drawing rocket enemy============================
 			if(enemyArr[i].name === 'rocket'){
 				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
@@ -105,7 +136,7 @@ function drawEnemy(){
 		//Drawing rocket enemy============================
 
 		//delete enemy from array===================
-		if(enemyArr[i].y >=300 ){
+		if(enemyArr[i].y >=300 || enemyArr[i].y < -50){
 			enemyArr.splice(i, 1);
 		}
 		//delete enemy from array===================

@@ -44,7 +44,6 @@ function collisionEnemyWithHero(){
 						lifeRow.style.backgroundColor  = `#F00`;
 					};
 					lifeRow.style.width = `${lifeBar}%`;
-					console.log(hero.life);
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
 						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
@@ -81,11 +80,23 @@ function collisionBulletsEnemy(){
 				enemyArr[j].life -= weaponsArr[i].power;
 				if(enemyArr[j].life <= 0){
 
+					if(enemyArr[j].name ==='asterRed'){
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20,'asterSmall', 2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20,'asterSmall', 2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20, 'asterSmall',2);
+
+					}
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
 					enemyArr.splice(j, 1);
 					scoreVar++;
+					if(scoreVar > 30 && scoreVar < 100){
+						rockrtEnemyLife = 2;
+					}
+					if(scoreVar >= 100 && scoreVar < 100){
+						rockrtEnemyLife = 3;
+					}
 					score.innerHTML = `Score: ${scoreVar}`;
 					if(scoreVar > hiScoreVar){
 						hiScoreVar = scoreVar;

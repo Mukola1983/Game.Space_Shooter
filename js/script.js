@@ -62,6 +62,8 @@ startButton.onclick = function(){
 		hero.x = 240;
 		hero.y = 200;
 		fireToLive = true;
+		hero.weaponPower = weaponPowerVar;
+		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 
 	}
 }
@@ -97,7 +99,7 @@ function update(){
 
 function render() {
 	context.clearRect(0, 0, 500, 300);
-	drawFons();
+	drawFon();
 
 	drawBonuses();
 	collisionHeroWithBonuses();
@@ -152,6 +154,38 @@ var fonImg = document.getElementById('bg_01');
 function drawFons(){
 	context.drawImage(fonImg, 0, 0, 500, 300);
 }
+
+let a = 0;
+
+
+
+var drawRect = function(img, x, y, w, h, a){
+			var dx = x + w/2;
+			var dy = y + h/2;
+
+			if(a){
+				a = a * (Math.PI/180);
+				context.save();
+				context.translate(dx, dy);
+				context.rotate(a);
+				context.translate(-dx, -dy);
+			}
+
+			context.drawImage( img,x, y , w, h,);
+
+			if(a){
+				context.restore();
+			}
+		}
+
+
+
+function drawFon(fImg){
+		
+			a+=0.02;
+			drawRect(fonImg, -100, -200, 700, 700, a);
+		}
+
 
 ///Object Hero /////////////////////=============================
 function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weaponKind){
@@ -245,8 +279,8 @@ let heroAlive = true;
 //Hero Datas=====================================
 //////////////////////////////////////////////////////////
 
-let heroSpeedX = 2;
-let heroSpeedY = 2;
+let heroSpeedX = 5;
+let heroSpeedY = 5;
 
 let N_x = 0;
 let N_y = 0;
@@ -450,7 +484,44 @@ function moveHero(){
 		}
 }
 
+document.addEventListener('keydown', function(event) {
+	if (event.code == 'ArrowLeft') {
+		hero.x += -heroSpeedX;
+	}
+	if (event.code == 'ArrowRight') {
+		hero.x += heroSpeedX;
+	}
+	if (event.code == 'ArrowUp') {
+		hero.y += -heroSpeedY;
+	}
+	if (event.code == 'ArrowDown') {
+		hero.y += heroSpeedY;
+	}
+});
 
+
+
+let isMobile = {
+	Android: function() {return navigator.userAgent.match(/Android/i);},
+	BlackBerry: function() {return navigator.userAgent.match(/BlackBerry/i);},
+	iOS: function() {return navigator.userAgent.match(/iPhone|iPad|iPod/i);},
+	Opera: function() {return navigator.userAgent.match(/Opera Mini/i);},
+	Windows: function() {return navigator.userAgent.match(/IEMobile/i);},
+	any: function() {return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());}
+};
+
+
+if(isMobile.any()){
+	rightHero.style.display  = 'block';
+	leftHero.style.display  = 'block';
+	topHero.style.display  = 'block';
+	downHero.style.display  = 'block';
+
+	heroSpeedX = 2;
+	heroSpeedY = 2;
+
+
+}
 
 
 // Random Numbers===========================================
@@ -463,7 +534,10 @@ function randomNum(min, max) {
 
 
 
-var enemyShipImg = document.getElementById('enemyShip');
+let enemyShipImg = document.getElementById('enemyShip');
+
+let enemyAsterRedImg = document.getElementById('enemyAsterRed');
+
 
 
 
@@ -479,12 +553,16 @@ const enemyArr = [];
 ///////////////////////////////////////////////////////////////////////////
 // Adding enemy==========================================
 function addEnemy(){
-	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', 1)
+	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', rockrtEnemyLife)
 	enemyArr.push(enemy);
 }
 
-function addEnemy_02(){
-	let enemy = new Enemy(rocketimg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'rocket', 1)
+let rockrtEnemyLife = 1;
+
+let asterEnemyLife = 4;
+
+function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyAsterRedImg, x, y, speedX, speedY, width, height, name, life);
 	enemyArr.push(enemy);
 }
 
@@ -494,6 +572,12 @@ setInterval(function run() {
 		addEnemy();
 	}
 }, 1000);
+
+setInterval(function run() {
+	if( enemyArr.length < 10 && fireToLive && startGame){
+		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
+	}
+}, 2000);
 	//timer to create enemy===========================
 
 
@@ -551,6 +635,24 @@ function drawEnemy(){
 			}
 		//Drawing ship enemy============================
 
+		//Drawing AsteroidRed enemy============================
+			if(enemyArr[i].name === 'asterRed' || enemyArr[i].name === 'asterSmall'){
+				context.drawImage(enemyArr[i].img, 170*Math.floor(enemyArr[i].N_x), 160*enemyArr[i].N_y, 170, 160, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
+
+					enemyArr[i].N_x += 0.2;
+					if(enemyArr[i].N_x > 3.9 ){
+							
+							enemyArr[i].N_x = 0;
+							enemyArr[i].N_y += 1;
+							if(enemyArr[i].N_y > 3){
+								enemyArr[i].N_y = 0;
+							}
+					}
+			}
+
+		//Drawing AsteroidRed enemy============================
+
+
 		//Drawing rocket enemy============================
 			if(enemyArr[i].name === 'rocket'){
 				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
@@ -558,7 +660,7 @@ function drawEnemy(){
 		//Drawing rocket enemy============================
 
 		//delete enemy from array===================
-		if(enemyArr[i].y >=300 ){
+		if(enemyArr[i].y >=300 || enemyArr[i].y < -50){
 			enemyArr.splice(i, 1);
 		}
 		//delete enemy from array===================
@@ -708,7 +810,6 @@ function collisionEnemyWithHero(){
 						lifeRow.style.backgroundColor  = `#F00`;
 					};
 					lifeRow.style.width = `${lifeBar}%`;
-					console.log(hero.life);
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
 						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
@@ -745,11 +846,23 @@ function collisionBulletsEnemy(){
 				enemyArr[j].life -= weaponsArr[i].power;
 				if(enemyArr[j].life <= 0){
 
+					if(enemyArr[j].name ==='asterRed'){
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20,'asterSmall', 2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20,'asterSmall', 2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20, 'asterSmall',2);
+
+					}
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
 					enemyArr.splice(j, 1);
 					scoreVar++;
+					if(scoreVar > 30 && scoreVar < 100){
+						rockrtEnemyLife = 2;
+					}
+					if(scoreVar >= 100 && scoreVar < 100){
+						rockrtEnemyLife = 3;
+					}
 					score.innerHTML = `Score: ${scoreVar}`;
 					if(scoreVar > hiScoreVar){
 						hiScoreVar = scoreVar;
@@ -961,7 +1074,6 @@ setInterval(function run() {
 function addBonusFromEnemy(x, y){
 	let allowB = randomNum(0, 2);
 
-	console.log('kk', allowB);
 	if (allowB === 2){
 		let kindB = randomNum(0, 4); 
 

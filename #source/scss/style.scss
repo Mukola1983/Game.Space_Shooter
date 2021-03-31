@@ -22,7 +22,7 @@ body{
 //	position: relative;
 	& > span{
 		position: absolute;
-		display: block;
+		display: none;
 		box-shadow: 0 0 15px #f00;
 	}
 }
@@ -112,14 +112,14 @@ body{
 .infoBox{
 	visibility: hidden;
 	position: absolute;
-	width: 300px;
+	width: 350px;
 	height: 0px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: rgba(190, 211, 235,1);
 	overflow: auto;
-	padding: 20px;
+	padding: 10px;
 	z-index: 100;
 	transition: 0.4s;
 	opacity: 0;
@@ -141,12 +141,50 @@ body{
 	& p{
 
 	}
+	&__content {
+		
+
+	}
 }
+
+.infoBox-block {
+	margin: 0 0 10px 0;
+	background: rgba(217, 180, 225, 1);
+	padding: 10px;
+}
+.title {
+	text-transform: uppercase;
+	color: rgba(237, 57, 13, 1);
+	font-weight: bold;
+	letter-spacing: 3px;
+	margin: 0 0 5px 0;
+	text-align: center;
+}
+.infoBox-text {
+	letter-spacing: 1px;
+
+	& p{
+		display: inline-block;
+		margin: 0 0 10px 0;
+		& span{
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			& img{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+	}
+	
+}
+
 
 ._activeInfoBox{
 	visibility: visible;
 	opacity: 1;
-	height: 150px;
+	height: 220px;
 }
 
 ///Info box==========================
