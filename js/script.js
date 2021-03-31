@@ -64,6 +64,7 @@ startButton.onclick = function(){
 		fireToLive = true;
 		hero.weaponPower = weaponPowerVar;
 		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
+		rockrtEnemyLife = 1;
 
 	}
 }
