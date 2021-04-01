@@ -346,40 +346,41 @@ body{
 
 ///Arrows==========================================
 .left {
-	width: 30px;
-	height: 30px;
-	border-right: 30px solid #f00;
+	width: 45px;
+	height: 45px;
+	border-right: 45px solid #f00;
 	border-top: 20px solid transparent;
 	border-bottom: 20px solid transparent;
 	left: 20px;
-	bottom: 75px;
+	bottom: 85px;
 
 }
 .right {
-	width: 30px;
-	height: 30px;
-	border-left: 30px solid #f00;
+	width: 45px;
+	height: 45px;
+	border-left: 45px solid #f00;
 	border-top: 20px solid transparent;
 	border-bottom: 20px solid transparent;
-	bottom: 20px;
+
 	right: 20px;
+	bottom: 85px;
 }
 .top {
-	width: 30px;
-	height: 30px;
-	border-bottom: 30px solid #f00;
+	width: 45px;
+	height: 45px;
+	border-bottom: 45px solid #f00;
 	border-left: 20px solid transparent;
 	border-right: 20px solid transparent;
-	right: 55px;
-	bottom: 75px;
+	bottom: 20px;
+	right: 45px;
 }
 .down {
-	width: 30px;
-	height: 30px;
-	border-top: 30px solid #f00;
+	width: 45px;
+	height: 45px;
+	border-top: 45px solid #f00;
 	border-left: 20px solid transparent;
 	border-right: 20px solid transparent;
-	left: 55px;
+	left: 45px;
 	bottom: 20px;
 }
 

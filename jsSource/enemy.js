@@ -12,7 +12,13 @@ function randomNum(min, max) {
 
 let enemyShipImg = document.getElementById('enemyShip');
 
+let enemyShipRedImg = document.getElementById('enemyShipRed');
+
 let enemyAsterRedImg = document.getElementById('enemyAsterRed');
+
+	let enemyLazerImg = document.getElementById('enemyLazer');
+
+
 
 
 
@@ -42,12 +48,23 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 	enemyArr.push(enemy);
 }
 
+function addShipRed(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'redShip', rockrtEnemyLife)
+	enemyArr.push(enemy);
+}
+
+function addEnemyLazer(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(x, y, speedX, speedY,width, height,name, life)
+	enemyArr.push(enemy);
+}
+
 	//timer to create enemy===========================
 
 let sizeEnemyArr = 8;
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
 		addEnemy();
+		addShipRed();
 	}
 }, 1000);
 
@@ -58,6 +75,14 @@ setInterval(function run() {
 		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
 	}
 }, 2000);
+
+
+let allowRedShip = false;
+setInterval(function run() {
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedShip){
+		addShipRed();
+	}
+}, 3000);
 	//timer to create enemy===========================
 
 
@@ -134,8 +159,19 @@ function drawEnemy(){
 
 
 		//Drawing rocket enemy============================
-			if(enemyArr[i].name === 'rocket'){
+			if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer'){
 				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
+
+				if(enemyArr[i].name === 'redShip'){
+
+					enemyArr[i].fire++;
+
+					if(enemyArr[i].fire%60 === 0){
+						addEnemyLazer(enemyLazerImg,enemyArr[i].x+10, enemyArr[i].y+enemyArr[i].height , 0, 4, 10, 15, 'enemyLazer', 1)
+			
+					}
+
+				}
 			}
 		//Drawing rocket enemy============================
 
@@ -175,6 +211,7 @@ function Enemy(img, x, y, speedX, speedY, width, height, name, life){
 
 	this.life = life;
 	this.name = name;
+	this.fire = 0;
 
 }
 

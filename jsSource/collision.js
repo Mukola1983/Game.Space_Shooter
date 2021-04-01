@@ -109,10 +109,12 @@ function collisionBulletsEnemy(){
 					}
 					if(scoreVar > 30 && scoreVar < 100){
 						rockrtEnemyLife = 2;
-						allowAster
+						sizeEnemyArr = 10;
 					}
-					if(scoreVar >= 100 && scoreVar ){
+					if(scoreVar >= 100 ){
 						rockrtEnemyLife = 3;
+						sizeEnemyArr = 12;
+						allowRedShip = true;
 					}
 			//// Increase Emeny power and count==============================
 					score.innerHTML = `Score: ${scoreVar}`;
