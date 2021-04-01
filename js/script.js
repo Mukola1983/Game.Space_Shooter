@@ -376,7 +376,7 @@ function drawHero(){
 
 	if(fire && fireToLive ){
 		if(sound){
-			soundFunc(shot, 0.3);
+			soundFunc(shot, 0.2);
 		}
 		if(hero.weaponKind === 'L'){
 			if(hero.weaponPower === 1){
@@ -621,14 +621,18 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 	//timer to create enemy===========================
+
+let sizeEnemyArr = 8;
 setInterval(function run() {
-	if( enemyArr.length < 10 && fireToLive && startGame){
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
 		addEnemy();
 	}
 }, 1000);
 
+let allowAster = false;
+
 setInterval(function run() {
-	if( enemyArr.length < 10 && fireToLive && startGame){
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowAster){
 		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
 	}
 }, 2000);
@@ -866,7 +870,10 @@ function collisionEnemyWithHero(){
 					if(lifeBar < 30){
 						lifeRow.style.backgroundColor  = `#F00`;
 					};
+
+				//Rewrite pk=layers life===================
 					lifeRow.style.width = `${lifeBar}%`;
+				//Rewrite pk=layers life===================
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
 						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
@@ -920,12 +927,18 @@ function collisionBulletsEnemy(){
 					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
+			//// Increase Emeny power and count==============================
+					if(scoreVar > 40){
+						allowAster = true;
+					}
 					if(scoreVar > 30 && scoreVar < 100){
 						rockrtEnemyLife = 2;
+						allowAster
 					}
-					if(scoreVar >= 100 && scoreVar < 100){
+					if(scoreVar >= 100 && scoreVar ){
 						rockrtEnemyLife = 3;
 					}
+			//// Increase Emeny power and count==============================
 					score.innerHTML = `Score: ${scoreVar}`;
 					if(scoreVar > hiScoreVar){
 						hiScoreVar = scoreVar;
@@ -958,6 +971,16 @@ function collisionHeroWithBonuses(){
 						hero.weaponPower++;
 					}
 					weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
+				}
+
+				if(bonusesArr[j].name === 'lifeUp'){
+
+					if(hero.life < playerLifeVar){
+						hero.life++;
+						let lifeBar = percentage(playerLifeVar, hero.life);
+						lifeRow.style.width = `${lifeBar}%`;
+					}
+					
 				}
 
 				if(bonusesArr[j].name === 'rocketBon'){
@@ -1105,6 +1128,8 @@ let rocketBonusImg = document.getElementById('rocketBonus');
 
 let lazerBonusImg = document.getElementById('lazerBonus');
 
+let lifeUpBonusImg = document.getElementById('lifeUp');
+
 let bonusesArr = [];
 
 
@@ -1150,9 +1175,10 @@ function addBonusFromEnemy(x, y){
 			addPowerUpBonusEn(x, y);
 		}else if(kindB === 2){
 			addRocketBonusEn(x, y);
-		}
-		else if(kindB === 3){
+		}else if(kindB === 3){
 			addLazerBonusEn(x, y);
+		}else if(kindB === 4){
+			addLifeUpBonusEn(x, y);
 		}
 	}
 	return;
@@ -1178,6 +1204,20 @@ function drawBonuses(){
 								bonusesArr[i].N_x = 0;
 								bonusesArr[i].N_y += 1;
 								if(bonusesArr[i].N_y > 2){
+									bonusesArr[i].N_y = 0;
+								}
+						}
+				}
+
+				if(bonusesArr[i].name === 'lifeUp' ){
+					context.drawImage(bonusesArr[i].img, 140*Math.floor(bonusesArr[i].N_x), 80*bonusesArr[i].N_y, 140, 80, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
+
+						bonusesArr[i].N_x += 0.1;
+						if(bonusesArr[i].N_x > 3.9 ){
+								
+								bonusesArr[i].N_x = 0;
+								bonusesArr[i].N_y += 1;
+								if(bonusesArr[i].N_y > 1){
 									bonusesArr[i].N_y = 0;
 								}
 						}
@@ -1210,27 +1250,17 @@ function drawBonuses(){
 }
 
 
-function addPowerUpBonus(){
-	let bon = new Bonus(powerUpImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2, 'none');
-	bonusesArr.push(bon);
-}
 
-
-function addRocketBonus(){
-	let bon = new Bonus(rocketBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'R');
-	bonusesArr.push(bon);
-}
-
-function addLazerBonus(){
-	let bon = new Bonus(lazerBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
-	bonusesArr.push(bon);
-}
 
 function addPowerUpBonusEn(x, y){
 	let bon = new Bonus(powerUpImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2, 'none');
 	bonusesArr.push(bon);
 }
 
+function addLifeUpBonusEn(x, y){
+	let bon = new Bonus(lifeUpBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 40, 30, 'lifeUp', 2, 'none');
+	bonusesArr.push(bon);
+}
 
 function addRocketBonusEn(x, y){
 	let bon = new Bonus(rocketBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'R');
@@ -1241,6 +1271,8 @@ function addLazerBonusEn(x, y){
 	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }
+
+
 
 
 function soundFunc(audio, vol){

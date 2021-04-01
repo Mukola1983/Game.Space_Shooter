@@ -6,6 +6,8 @@ let rocketBonusImg = document.getElementById('rocketBonus');
 
 let lazerBonusImg = document.getElementById('lazerBonus');
 
+let lifeUpBonusImg = document.getElementById('lifeUp');
+
 let bonusesArr = [];
 
 
@@ -51,9 +53,10 @@ function addBonusFromEnemy(x, y){
 			addPowerUpBonusEn(x, y);
 		}else if(kindB === 2){
 			addRocketBonusEn(x, y);
-		}
-		else if(kindB === 3){
+		}else if(kindB === 3){
 			addLazerBonusEn(x, y);
+		}else if(kindB === 4){
+			addLifeUpBonusEn(x, y);
 		}
 	}
 	return;
@@ -79,6 +82,20 @@ function drawBonuses(){
 								bonusesArr[i].N_x = 0;
 								bonusesArr[i].N_y += 1;
 								if(bonusesArr[i].N_y > 2){
+									bonusesArr[i].N_y = 0;
+								}
+						}
+				}
+
+				if(bonusesArr[i].name === 'lifeUp' ){
+					context.drawImage(bonusesArr[i].img, 140*Math.floor(bonusesArr[i].N_x), 80*bonusesArr[i].N_y, 140, 80, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
+
+						bonusesArr[i].N_x += 0.1;
+						if(bonusesArr[i].N_x > 3.9 ){
+								
+								bonusesArr[i].N_x = 0;
+								bonusesArr[i].N_y += 1;
+								if(bonusesArr[i].N_y > 1){
 									bonusesArr[i].N_y = 0;
 								}
 						}
@@ -111,27 +128,17 @@ function drawBonuses(){
 }
 
 
-function addPowerUpBonus(){
-	let bon = new Bonus(powerUpImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2, 'none');
-	bonusesArr.push(bon);
-}
 
-
-function addRocketBonus(){
-	let bon = new Bonus(rocketBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'R');
-	bonusesArr.push(bon);
-}
-
-function addLazerBonus(){
-	let bon = new Bonus(lazerBonusImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
-	bonusesArr.push(bon);
-}
 
 function addPowerUpBonusEn(x, y){
 	let bon = new Bonus(powerUpImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'powerUp', 2, 'none');
 	bonusesArr.push(bon);
 }
 
+function addLifeUpBonusEn(x, y){
+	let bon = new Bonus(lifeUpBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 40, 30, 'lifeUp', 2, 'none');
+	bonusesArr.push(bon);
+}
 
 function addRocketBonusEn(x, y){
 	let bon = new Bonus(rocketBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'rocketBon', 2, 'R');
@@ -142,3 +149,4 @@ function addLazerBonusEn(x, y){
 	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }
+

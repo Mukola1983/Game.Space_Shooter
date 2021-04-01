@@ -43,14 +43,18 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 	//timer to create enemy===========================
+
+let sizeEnemyArr = 8;
 setInterval(function run() {
-	if( enemyArr.length < 10 && fireToLive && startGame){
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
 		addEnemy();
 	}
 }, 1000);
 
+let allowAster = false;
+
 setInterval(function run() {
-	if( enemyArr.length < 10 && fireToLive && startGame){
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowAster){
 		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
 	}
 }, 2000);

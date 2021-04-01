@@ -46,7 +46,10 @@ function collisionEnemyWithHero(){
 					if(lifeBar < 30){
 						lifeRow.style.backgroundColor  = `#F00`;
 					};
+
+				//Rewrite pk=layers life===================
 					lifeRow.style.width = `${lifeBar}%`;
+				//Rewrite pk=layers life===================
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
 						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
@@ -100,12 +103,18 @@ function collisionBulletsEnemy(){
 					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
+			//// Increase Emeny power and count==============================
+					if(scoreVar > 40){
+						allowAster = true;
+					}
 					if(scoreVar > 30 && scoreVar < 100){
 						rockrtEnemyLife = 2;
+						allowAster
 					}
-					if(scoreVar >= 100 && scoreVar < 100){
+					if(scoreVar >= 100 && scoreVar ){
 						rockrtEnemyLife = 3;
 					}
+			//// Increase Emeny power and count==============================
 					score.innerHTML = `Score: ${scoreVar}`;
 					if(scoreVar > hiScoreVar){
 						hiScoreVar = scoreVar;
@@ -138,6 +147,16 @@ function collisionHeroWithBonuses(){
 						hero.weaponPower++;
 					}
 					weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
+				}
+
+				if(bonusesArr[j].name === 'lifeUp'){
+
+					if(hero.life < playerLifeVar){
+						hero.life++;
+						let lifeBar = percentage(playerLifeVar, hero.life);
+						lifeRow.style.width = `${lifeBar}%`;
+					}
+					
 				}
 
 				if(bonusesArr[j].name === 'rocketBon'){

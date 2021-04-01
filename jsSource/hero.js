@@ -137,7 +137,7 @@ function drawHero(){
 
 	if(fire && fireToLive ){
 		if(sound){
-			soundFunc(shot, 0.3);
+			soundFunc(shot, 0.2);
 		}
 		if(hero.weaponKind === 'L'){
 			if(hero.weaponPower === 1){
