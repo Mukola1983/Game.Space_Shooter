@@ -642,7 +642,6 @@ let sizeEnemyArr = 8;
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
 		addEnemy();
-		addShipRed();
 	}
 }, 1000);
 
