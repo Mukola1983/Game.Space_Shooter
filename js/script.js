@@ -69,6 +69,48 @@ startButton.onclick = function(){
 	}
 }
 
+////Option screen manipukation
+let optionCover = document.querySelector('.optionCover');
+let closeOption = document.querySelector('.closeOption');
+let optionButton = document.querySelector('.option');
+
+
+optionButton.onclick = function(){
+	optionCover.classList.add('_activeInfoBox');
+}
+
+closeOption.onclick = function(){
+	optionCover.classList.remove('_activeInfoBox');
+}
+
+let musicOnOff = document.getElementById('musicOnOff');
+
+let music = false;
+musicOnOff.onclick = function(){
+	if(music){
+		musicOnOff.innerHTML = 'off';
+		music = false;
+	}else{
+		musicOnOff.innerHTML = 'on';
+		music = true;
+	}
+	
+}
+
+let soundOnOff = document.getElementById('soundOnOff');
+
+let sound = false;
+soundOnOff.onclick = function(){
+	if(sound){
+		soundOnOff.innerHTML = 'off';
+		sound = false;
+	}else{
+		soundOnOff.innerHTML = 'on';
+		sound = true;
+	}
+	
+}
+////Option screen manipulation
 
 infoButton.onclick = function(){
 	infoBox.classList.add('_activeInfoBox');
@@ -114,6 +156,14 @@ function render() {
 	collisionBulletsEnemy();
 	collisionEnemyWithHero();
 	drawExplosion();
+
+	if(music === true){
+		mainMusic.play();
+		mainMusic.volume = 0.7;
+	}
+	if(music === false){
+		mainMusic.pause();
+	}
 
 }
 
@@ -325,6 +375,9 @@ function drawHero(){
 	}
 
 	if(fire && fireToLive ){
+		if(sound){
+			soundFunc(shot, 0.3);
+		}
 		if(hero.weaponKind === 'L'){
 			if(hero.weaponPower === 1){
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
@@ -372,7 +425,7 @@ function drawHero(){
 				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
 				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
 			}
-			if(hero.weaponPower === 4){
+			if(hero.weaponPower >= 4){
 				addRocket(hero.x, hero.y, -0.5, -2);
 				addRocket(hero.x, hero.y, 0, -2);
 				addRocket(hero.x+hero.width, hero.y, 0, -2);
@@ -792,6 +845,9 @@ function collisionEnemyWithHero(){
 
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
+					if(sound){
+						soundFunc(shot, 0.7);
+					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					score.innerHTML = `Score: ${scoreVar}`;
@@ -821,6 +877,9 @@ function collisionEnemyWithHero(){
 				setTimeout(collisionAgain, 5000);
 				if(hero.life <= 0){
 				//	heroAlive = false;
+					if(sound){
+						soundFunc(shot, 1);
+					}
 					fireToLive = false;
 					addExplosionHero(hero.x-100, hero.y-80);
 					heroSpeedX = 0;
@@ -856,6 +915,9 @@ function collisionBulletsEnemy(){
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+					if(sound){
+						soundFunc(shot, 0.7);
+					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					if(scoreVar > 30 && scoreVar < 100){
@@ -871,6 +933,9 @@ function collisionBulletsEnemy(){
 					}
 				}
 				addSmallExplosion_01(weaponsArr[i].x, weaponsArr[i].y);
+				if(sound){
+					soundFunc(shot, 0.4);
+				}
 				weaponsArr.splice(i, 1);
 				
 				return;
@@ -885,6 +950,9 @@ function collisionHeroWithBonuses(){
 	if(bonusesArr.length>0 && hero){
 		for(j in bonusesArr){
 			if(collision_02(bonusesArr[j],hero)){
+				if(sound){
+					soundFunc(bonusGet, 0.5);
+				}
 				if(bonusesArr[j].name === 'powerUp'){
 					if(hero.weaponPower< 5){
 						hero.weaponPower++;
@@ -1173,3 +1241,19 @@ function addLazerBonusEn(x, y){
 	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }
+
+
+function soundFunc(audio, vol){
+	audio.pause();
+	audio.volume = vol;
+	audio.currentTime = 0;
+	audio.play();
+}
+
+let mainMusic = document.getElementById('mainMusic');
+
+let bonusGet = document.getElementById('bonusGet');
+
+let shot = document.getElementById('shot');
+
+

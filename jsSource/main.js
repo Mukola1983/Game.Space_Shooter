@@ -6,5 +6,6 @@
 //@prepros-append bullets.js
 //@prepros-append collision.js
 //@prepros-append bonuses.js
+//@prepros-append sounds.js
 
 

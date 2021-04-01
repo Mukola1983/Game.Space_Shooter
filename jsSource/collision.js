@@ -25,6 +25,9 @@ function collisionEnemyWithHero(){
 
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
+					if(sound){
+						soundFunc(shot, 0.7);
+					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					score.innerHTML = `Score: ${scoreVar}`;
@@ -54,6 +57,9 @@ function collisionEnemyWithHero(){
 				setTimeout(collisionAgain, 5000);
 				if(hero.life <= 0){
 				//	heroAlive = false;
+					if(sound){
+						soundFunc(shot, 1);
+					}
 					fireToLive = false;
 					addExplosionHero(hero.x-100, hero.y-80);
 					heroSpeedX = 0;
@@ -89,6 +95,9 @@ function collisionBulletsEnemy(){
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
 					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+					if(sound){
+						soundFunc(shot, 0.7);
+					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
 					if(scoreVar > 30 && scoreVar < 100){
@@ -104,6 +113,9 @@ function collisionBulletsEnemy(){
 					}
 				}
 				addSmallExplosion_01(weaponsArr[i].x, weaponsArr[i].y);
+				if(sound){
+					soundFunc(shot, 0.4);
+				}
 				weaponsArr.splice(i, 1);
 				
 				return;
@@ -118,6 +130,9 @@ function collisionHeroWithBonuses(){
 	if(bonusesArr.length>0 && hero){
 		for(j in bonusesArr){
 			if(collision_02(bonusesArr[j],hero)){
+				if(sound){
+					soundFunc(bonusGet, 0.5);
+				}
 				if(bonusesArr[j].name === 'powerUp'){
 					if(hero.weaponPower< 5){
 						hero.weaponPower++;

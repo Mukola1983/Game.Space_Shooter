@@ -65,6 +65,48 @@ startButton.onclick = function(){
 	}
 }
 
+////Option screen manipukation
+let optionCover = document.querySelector('.optionCover');
+let closeOption = document.querySelector('.closeOption');
+let optionButton = document.querySelector('.option');
+
+
+optionButton.onclick = function(){
+	optionCover.classList.add('_activeInfoBox');
+}
+
+closeOption.onclick = function(){
+	optionCover.classList.remove('_activeInfoBox');
+}
+
+let musicOnOff = document.getElementById('musicOnOff');
+
+let music = false;
+musicOnOff.onclick = function(){
+	if(music){
+		musicOnOff.innerHTML = 'off';
+		music = false;
+	}else{
+		musicOnOff.innerHTML = 'on';
+		music = true;
+	}
+	
+}
+
+let soundOnOff = document.getElementById('soundOnOff');
+
+let sound = false;
+soundOnOff.onclick = function(){
+	if(sound){
+		soundOnOff.innerHTML = 'off';
+		sound = false;
+	}else{
+		soundOnOff.innerHTML = 'on';
+		sound = true;
+	}
+	
+}
+////Option screen manipulation
 
 infoButton.onclick = function(){
 	infoBox.classList.add('_activeInfoBox');
@@ -110,6 +152,14 @@ function render() {
 	collisionBulletsEnemy();
 	collisionEnemyWithHero();
 	drawExplosion();
+
+	if(music === true){
+		mainMusic.play();
+		mainMusic.volume = 0.7;
+	}
+	if(music === false){
+		mainMusic.pause();
+	}
 
 }
 

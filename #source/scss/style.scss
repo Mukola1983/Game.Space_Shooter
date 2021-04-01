@@ -181,11 +181,6 @@ body{
 }
 
 
-._activeInfoBox{
-	visibility: visible;
-	opacity: 1;
-	height: 220px;
-}
 
 ///Info box==========================
 
@@ -270,8 +265,82 @@ body{
 }
 
 
+/////////Option Block=====================
+
+.optionCover {
+	visibility: hidden;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 350px;
+	height: 00px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background:rgba(178, 92, 238, 1);
+	overflow: auto;
+	padding: 10px;
+	z-index: 100;
+	transition: 0.4s;
+	opacity: 0;
+	box-shadow: 0 0 15px rgba(117, 32, 175, 1),
+				0 0 25px rgba(117, 32, 175, 1),
+				0 0 45px rgba(117, 32, 175, 1),
+				inset 0 0 15px rgba(117, 32, 175, 1);
+}
+.closeOption {
+	background:rgba(243, 54, 35,0.7);
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	padding: 0 4px;
+	border-radius: 5px;
+	color: rgba(31, 31, 35, 1);
+	box-shadow: 0 0 15px rgba(117, 32, 175, 1),
+			0 0 25px rgba(117, 32, 175, 1);
+}
 
 
+._activeInfoBox{
+	visibility: visible;
+	opacity: 1;
+	height: 220px;
+}
+
+._musicSound{
+	width: 140px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 0 20px 0;
+	& p{
+		display: inline-block;
+		font-size: 15px;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+		color: #E7D4F4;
+	}
+	& span{
+		display: inline-block;
+		cursor: pointer;
+		border: 2px solid #244A1F;
+		width: 40px;
+		height: 30px;
+		text-align: center;
+		font-size: 20px;
+		font-weight: bold;
+	}
+
+}
+
+.soundChanges {
+}
+.music {
+}
+
+
+/////////Option Block=====================
 
 
 

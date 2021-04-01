@@ -136,6 +136,9 @@ function drawHero(){
 	}
 
 	if(fire && fireToLive ){
+		if(sound){
+			soundFunc(shot, 0.3);
+		}
 		if(hero.weaponKind === 'L'){
 			if(hero.weaponPower === 1){
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
@@ -183,7 +186,7 @@ function drawHero(){
 				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
 				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
 			}
-			if(hero.weaponPower === 4){
+			if(hero.weaponPower >= 4){
 				addRocket(hero.x, hero.y, -0.5, -2);
 				addRocket(hero.x, hero.y, 0, -2);
 				addRocket(hero.x+hero.width, hero.y, 0, -2);
