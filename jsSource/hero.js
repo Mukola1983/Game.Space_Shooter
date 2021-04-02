@@ -90,7 +90,7 @@ function drawHero(){
 		if(hero.weaponKind === 'L'){
 			if(hero.weaponPower === 1){
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
-			
+
 			}
 			if(hero.weaponPower === 2){
 				addLazer(hero.x, hero.y, 0, -2);
@@ -114,18 +114,19 @@ function drawHero(){
 			if(hero.weaponPower === 5){
 				addLazer(hero.x, hero.y, -1, -2);
 				addLazer(hero.x, hero.y, -0.5, -2);
-				addLazer(hero.x+hero.width/2-7, hero.y, 0.1, -2);
+				addLazer(hero.x+hero.width/2-7, hero.y, -0.1, -2);
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
 				addLazer(hero.x+hero.width/2+7, hero.y, 0.1, -2);
 				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
 				addLazer(hero.x+hero.width, hero.y, 1, -2);
 				
 			}
-
 		}
+
 		if(hero.weaponKind === 'R'){
 			if(hero.weaponPower === 1){
 				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
+
 			}
 			if(hero.weaponPower === 2){
 				addRocket(hero.x, hero.y, 0, -2, 'left');
@@ -152,8 +153,46 @@ function drawHero(){
 			
 			}
 		}
+
+		if(hero.weaponKind === 'S'){
+			if(hero.weaponPower === 1){
+
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 2){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 3){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 4){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 5){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			
+		}
+		
 		fire = false;
 		setTimeout(fireTrue, fireOften);
+
 	}
 
 
@@ -265,6 +304,14 @@ document.addEventListener('keydown', function(event) {
 		hero.y += heroSpeedY;
 	}
 });
+
+
+canvas.addEventListener('mousemove', function(event){
+			
+				hero.x = event.offsetX - 100;
+				hero.y = event.offsetY-25;
+			
+		})
 
 
 

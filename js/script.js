@@ -44,10 +44,10 @@ let playerWeapon = document.getElementById('playerWeapon');
 
 
 ///Start weapon Kind========
-let weaponKind = 'L';
+let weaponKind = 'S';
 
 // Frequncy fire==========
-let fireOften;
+let fireOften = 500;
 
 let rocketBulSpeed = 900;
 let lazerBulSpeed = 500;
@@ -132,8 +132,8 @@ function heroRestart(){
 		weaponKind = 'L';
 
 		// Frequncy fire==========
-		rocketBulSpeed = 400;
-		lazerBulSpeed = 400;
+		rocketBulSpeed = 900;
+		lazerBulSpeed = 500;
 
 		if(weaponKind === 'R'){
 			fireOften = rocketBulSpeed;
@@ -155,7 +155,7 @@ function heroRestart(){
 		//allow apperence
 		allowAster = false;
 		allowRedShip = false;
-		sizeEnemyArr = 8;
+		sizeEnemyArr = 6;
 }
 
 
@@ -210,7 +210,20 @@ let redShipInterval = 3000;
 
 /// Alows diferent enemyis appearing===========
 
-
+function enemyApearence(scoreVar){
+	if(scoreVar > 40){
+		allowAster = true;
+	}
+	if(scoreVar > 30 && scoreVar < 100){
+		rockrtEnemyLife = 2;
+		sizeEnemyArr = 10;
+	}
+	if(scoreVar >= 100 ){
+		rockrtEnemyLife = 3;
+		sizeEnemyArr = 12;
+		allowRedShip = true;
+	}
+}
 
 //Enemy Variables=========================================
 
@@ -557,7 +570,7 @@ function drawHero(){
 		if(hero.weaponKind === 'L'){
 			if(hero.weaponPower === 1){
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
-			
+
 			}
 			if(hero.weaponPower === 2){
 				addLazer(hero.x, hero.y, 0, -2);
@@ -581,18 +594,19 @@ function drawHero(){
 			if(hero.weaponPower === 5){
 				addLazer(hero.x, hero.y, -1, -2);
 				addLazer(hero.x, hero.y, -0.5, -2);
-				addLazer(hero.x+hero.width/2-7, hero.y, 0.1, -2);
+				addLazer(hero.x+hero.width/2-7, hero.y, -0.1, -2);
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
 				addLazer(hero.x+hero.width/2+7, hero.y, 0.1, -2);
 				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
 				addLazer(hero.x+hero.width, hero.y, 1, -2);
 				
 			}
-
 		}
+
 		if(hero.weaponKind === 'R'){
 			if(hero.weaponPower === 1){
 				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
+
 			}
 			if(hero.weaponPower === 2){
 				addRocket(hero.x, hero.y, 0, -2, 'left');
@@ -619,8 +633,46 @@ function drawHero(){
 			
 			}
 		}
+
+		if(hero.weaponKind === 'S'){
+			if(hero.weaponPower === 1){
+
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 2){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 3){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 4){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			if(hero.weaponPower === 5){
+
+				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+			}
+			
+		}
+		
 		fire = false;
 		setTimeout(fireTrue, fireOften);
+
 	}
 
 
@@ -732,6 +784,14 @@ document.addEventListener('keydown', function(event) {
 		hero.y += heroSpeedY;
 	}
 });
+
+
+canvas.addEventListener('mousemove', function(event){
+			
+				hero.x = event.offsetX - 100;
+				hero.y = event.offsetY-25;
+			
+		})
 
 
 
@@ -918,7 +978,7 @@ function drawEnemy(){
 		//Drawing rocket enemy============================
 
 		//delete enemy from array===================
-		if(enemyArr[i].y >=300 || enemyArr[i].y < -50){
+		if(enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
 			enemyArr.splice(i, 1);
 		}
 		//delete enemy from array===================
@@ -964,6 +1024,8 @@ let lazer = document.getElementById('lazer');
 
 let rocketimg = document.getElementById('rocket');
 
+let starWeaponimg = document.getElementById('starWeapon');
+
 
 const weaponsArr = [];
 
@@ -1005,6 +1067,12 @@ function addRocket(x, y, spedX, speedY, moveDir){
 
 }
 
+function addStarWeapon(x, y, spedX, speedY){
+	let bullet = new Weapon(starWeaponimg, x, y, spedX, speedY, 15, 15, 'starWeapon', 1, true)
+	weaponsArr.push(bullet);
+
+}
+
 
 function drawWeapon(){
 	if(weaponsArr.length > 0){
@@ -1030,12 +1098,25 @@ function drawWeapon(){
 				weaponsArr[i].x += weaponsArr[i].speedX;
 				weaponsArr[i].y += weaponsArr[i].speedY;
 			}
-			//Drawing rocket enemy============================
+			
+			//Drawing bullets enemy============================
 			if(weaponsArr[i].name === 'lazer' || weaponsArr[i].name === 'rocket'){
 				context.drawImage(weaponsArr[i].img, weaponsArr[i].x, weaponsArr[i].y, weaponsArr[i].width, weaponsArr[i].height);
 			}
 			//Drawing rocket enemy============================
-
+			if(weaponsArr[i].name === 'starWeapon'){
+				weaponsArr[i].timer+=4;
+				drawRect(weaponsArr[i].img, weaponsArr[i].x, weaponsArr[i].y, weaponsArr[i].width, weaponsArr[i].height, weaponsArr[i].timer);
+				if(weaponsArr[i].x+weaponsArr[i].width > 500 || weaponsArr[i].x < 0){
+					weaponsArr[i].speedX *= -1;
+				}
+				if(weaponsArr[i].y+weaponsArr[i].height > 300 || weaponsArr[i].y < 0){
+					weaponsArr[i].speedY *= -1;
+				}
+				if(weaponsArr[i].timer%1200 === 0){
+					weaponsArr.splice(i, 1);
+				}
+			}
 
 			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
 				weaponsArr[i].y + weaponsArr[i].height < 0 ){
@@ -1172,18 +1253,9 @@ function collisionBulletsEnemy(){
 					enemyArr.splice(j, 1);
 					scoreVar++;
 			//// Increase Emeny power and count==============================
-					if(scoreVar > 40){
-						allowAster = true;
-					}
-					if(scoreVar > 30 && scoreVar < 100){
-						rockrtEnemyLife = 2;
-						sizeEnemyArr = 10;
-					}
-					if(scoreVar >= 100 ){
-						rockrtEnemyLife = 3;
-						sizeEnemyArr = 12;
-						allowRedShip = true;
-					}
+
+					enemyApearence(scoreVar)
+					
 			//// Increase Emeny power and count==============================
 					score.innerHTML = `Score: ${scoreVar}`;
 					if(scoreVar > hiScoreVar){

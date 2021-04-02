@@ -4,6 +4,8 @@ let lazer = document.getElementById('lazer');
 
 let rocketimg = document.getElementById('rocket');
 
+let starWeaponimg = document.getElementById('starWeapon');
+
 
 const weaponsArr = [];
 
@@ -45,6 +47,12 @@ function addRocket(x, y, spedX, speedY, moveDir){
 
 }
 
+function addStarWeapon(x, y, spedX, speedY){
+	let bullet = new Weapon(starWeaponimg, x, y, spedX, speedY, 15, 15, 'starWeapon', 1, true)
+	weaponsArr.push(bullet);
+
+}
+
 
 function drawWeapon(){
 	if(weaponsArr.length > 0){
@@ -70,12 +78,25 @@ function drawWeapon(){
 				weaponsArr[i].x += weaponsArr[i].speedX;
 				weaponsArr[i].y += weaponsArr[i].speedY;
 			}
-			//Drawing rocket enemy============================
+			
+			//Drawing bullets enemy============================
 			if(weaponsArr[i].name === 'lazer' || weaponsArr[i].name === 'rocket'){
 				context.drawImage(weaponsArr[i].img, weaponsArr[i].x, weaponsArr[i].y, weaponsArr[i].width, weaponsArr[i].height);
 			}
 			//Drawing rocket enemy============================
-
+			if(weaponsArr[i].name === 'starWeapon'){
+				weaponsArr[i].timer+=4;
+				drawRect(weaponsArr[i].img, weaponsArr[i].x, weaponsArr[i].y, weaponsArr[i].width, weaponsArr[i].height, weaponsArr[i].timer);
+				if(weaponsArr[i].x+weaponsArr[i].width > 500 || weaponsArr[i].x < 0){
+					weaponsArr[i].speedX *= -1;
+				}
+				if(weaponsArr[i].y+weaponsArr[i].height > 300 || weaponsArr[i].y < 0){
+					weaponsArr[i].speedY *= -1;
+				}
+				if(weaponsArr[i].timer%1200 === 0){
+					weaponsArr.splice(i, 1);
+				}
+			}
 
 			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
 				weaponsArr[i].y + weaponsArr[i].height < 0 ){

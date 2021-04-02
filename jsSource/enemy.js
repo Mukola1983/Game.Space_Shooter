@@ -160,7 +160,7 @@ function drawEnemy(){
 		//Drawing rocket enemy============================
 
 		//delete enemy from array===================
-		if(enemyArr[i].y >=300 || enemyArr[i].y < -50){
+		if(enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
 			enemyArr.splice(i, 1);
 		}
 		//delete enemy from array===================

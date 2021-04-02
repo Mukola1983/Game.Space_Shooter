@@ -38,10 +38,10 @@ let playerWeapon = document.getElementById('playerWeapon');
 
 
 ///Start weapon Kind========
-let weaponKind = 'L';
+let weaponKind = 'S';
 
 // Frequncy fire==========
-let fireOften;
+let fireOften = 500;
 
 let rocketBulSpeed = 900;
 let lazerBulSpeed = 500;
@@ -126,8 +126,8 @@ function heroRestart(){
 		weaponKind = 'L';
 
 		// Frequncy fire==========
-		rocketBulSpeed = 400;
-		lazerBulSpeed = 400;
+		rocketBulSpeed = 900;
+		lazerBulSpeed = 500;
 
 		if(weaponKind === 'R'){
 			fireOften = rocketBulSpeed;
@@ -149,7 +149,7 @@ function heroRestart(){
 		//allow apperence
 		allowAster = false;
 		allowRedShip = false;
-		sizeEnemyArr = 8;
+		sizeEnemyArr = 6;
 }
 
 
@@ -204,6 +204,19 @@ let redShipInterval = 3000;
 
 /// Alows diferent enemyis appearing===========
 
-
+function enemyApearence(scoreVar){
+	if(scoreVar > 40){
+		allowAster = true;
+	}
+	if(scoreVar > 30 && scoreVar < 100){
+		rockrtEnemyLife = 2;
+		sizeEnemyArr = 10;
+	}
+	if(scoreVar >= 100 ){
+		rockrtEnemyLife = 3;
+		sizeEnemyArr = 12;
+		allowRedShip = true;
+	}
+}
 
 //Enemy Variables=========================================
