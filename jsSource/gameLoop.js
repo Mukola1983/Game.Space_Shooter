@@ -11,24 +11,27 @@ let context = canvas.getContext('2d');
 let wrapper = document.getElementById('wrapper');
 
 
-
+/// Buton for game start=========
 let startButton = document.querySelector('.start');
 
+
+/// Button for opening Info Box=======
 let infoButton = document.querySelector('.info');
+
+/// Button for close Info Box=======
 let closeInfo = document.querySelector('.closeInfo');
 
 
+/// Cover for screen========
 let cover = document.querySelector('.cover');
+
+//Info box===============
 let infoBox = document.querySelector('.infoBox');
 
-let optionBox = document.querySelector('.optionBox');
 
-function restart(){
-	if(heroAlive === false){
-		startButton.innerHTML = "restart";
-	}
-}
 
+////////////////////////////////////////////////
+///START GAME
 
 startButton.onclick = function(){
 	if(heroAlive){
@@ -45,30 +48,29 @@ startButton.onclick = function(){
 			startButton.innerHTML = "start";
 		}
 	}else{
-		heroAlive = true;
-		startButton.innerHTML = "pause";
-		hero.life = playerLifeVar;
-		lifeRow.style.width = `${100}%`;
-		lifeRow.style.backgroundColor  = `#47B932`;
-		game();
-		scoreVar = 0;
-		score.innerHTML = `Score: ${scoreVar}`;
-		heroSpeedX = 2;
-		heroSpeedY = 2;
-		hero.x = 240;
-		hero.y = 200;
-		fireToLive = true;
-		hero.weaponPower = weaponPowerVar;
-		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
-		rockrtEnemyLife = 1;
+		heroRestart();
 
 	}
 }
+///START GAME
+////////////////////////////////////////////////
 
-////Option screen manipukation
+
+////Option screen manipulation===========///////////
+
+let optionBox = document.querySelector('.optionBox');
+
+
+//Option cover
 let optionCover = document.querySelector('.optionCover');
-let closeOption = document.querySelector('.closeOption');
+
+// Option cover open button
 let optionButton = document.querySelector('.option');
+
+// Option cover close button
+let closeOption = document.querySelector('.closeOption');
+
+
 
 
 optionButton.onclick = function(){
@@ -79,6 +81,14 @@ closeOption.onclick = function(){
 	optionCover.classList.remove('_activeInfoBox');
 }
 
+////Option screen manipulation===========///////////
+
+
+
+
+////Sound manipulation===========///////////
+
+//Music
 let musicOnOff = document.getElementById('musicOnOff');
 
 let music = false;
@@ -93,6 +103,7 @@ musicOnOff.onclick = function(){
 	
 }
 
+//Sound
 let soundOnOff = document.getElementById('soundOnOff');
 
 let sound = false;
@@ -106,8 +117,12 @@ soundOnOff.onclick = function(){
 	}
 	
 }
-////Option screen manipulation
 
+////Sound manipulation===========///////////
+
+
+
+////Info screen manipulation===========///////////
 infoButton.onclick = function(){
 	infoBox.classList.add('_activeInfoBox');
 }
@@ -121,6 +136,8 @@ let startGame = false;
 window.onload = function(){
 	game()
 }
+
+
 
 function game(){
 	update();

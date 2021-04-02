@@ -1,0 +1,209 @@
+
+//////////////////////////////////////////////////////////////////////////////////////////
+////Hero Variables=============================================
+
+
+//Hero Imeges ==================
+let heroShipImg = document.getElementById('heroShip');
+let heroShipWoundedImg = document.getElementById('heroShipWounded');
+//Hero Imeges ==================
+
+
+////Hero Score and HiScore =========================
+let score = document.getElementById('score');
+let scoreVar = 0;
+
+let hiScore = document.getElementById('hiScore');
+let hiScoreVar = 0;
+
+score.innerHTML = `Score: ${scoreVar}`;
+
+hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
+////Hero Score and HiScore =========================
+
+
+//WeaponPower===========================
+let weaponPower = document.getElementById('weaponPower');
+
+let weaponPowerVar = 1;
+
+weaponPower.innerHTML = `Power: ${weaponPowerVar}`;
+//WeaponPower===========================
+
+
+///Weapon Kind ====================================/////////////
+
+///Weapon Kind wrapper ============ 
+let playerWeapon = document.getElementById('playerWeapon');
+
+
+///Start weapon Kind========
+let weaponKind = 'L';
+
+// Frequncy fire==========
+let fireOften;
+
+let rocketBulSpeed = 900;
+let lazerBulSpeed = 500;
+
+if(weaponKind === 'R'){
+	fireOften = rocketBulSpeed;
+}
+if(weaponKind === 'L'){
+	fireOften = lazerBulSpeed;
+}
+
+///Rocket power==========
+let rocketPower = 2;
+
+
+///Weapon Kind Icon ============ 
+//let weaponIcon = document.getElementById('weaponIcon');
+
+
+///Weapon Kind Icons=== ============ 
+let weaponIconLazer = document.getElementById('weaponIconLazer');
+let weaponIconRocket = document.getElementById('weaponIconRocket');
+///Weapon Kind Icons=== ============ 
+
+///Weapon Kind ====================================//////////////////////////
+
+
+///Player Life data======================//////////////////////
+
+
+let playerLife = document.getElementById('playerLife');
+
+///Player lifeBar=============
+let lifeRow = document.getElementById('lifeRow');
+
+//Player starts number lifes========
+let playerLifeVar = 15;
+
+
+/// Changing life bar================
+lifeRow.style.width = `${100}%`;
+
+
+///Gunction for Changing life bar================
+function percentage(num, curNum)
+{
+	return (curNum * 100)/ num;
+}
+
+///Player Life data=====================////////////|||||||||||||
+
+
+////HERO RESTART FUNCTION=========================||||||||||||||||||||
+
+function heroRestart(){
+		heroAlive = true;
+		startButton.innerHTML = "pause";
+
+		//Rewrite hero data=====
+
+		//life
+		hero.life = playerLifeVar;
+		lifeRow.style.width = `${100}%`;
+		lifeRow.style.backgroundColor  = `#47B932`;
+
+		//score
+		scoreVar = 0;
+		score.innerHTML = `Score: ${scoreVar}`;
+
+		//Speed and position
+		heroSpeedX = 2;
+		heroSpeedY = 2;
+		hero.x = 240;
+		hero.y = 200;
+
+		//Allow Fire
+		fireToLive = true;
+
+		//Weapon
+		hero.weaponPower = weaponPowerVar;
+		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
+		weaponKind = 'L';
+
+		// Frequncy fire==========
+		rocketBulSpeed = 400;
+		lazerBulSpeed = 400;
+
+		if(weaponKind === 'R'){
+			fireOften = rocketBulSpeed;
+		}
+		if(weaponKind === 'L'){
+			fireOften = lazerBulSpeed;
+		}
+
+		//Rewrite hero data=====
+
+		game();
+		
+		
+		//Rewrite enemy data=====
+
+		//rocketShip life
+		rockrtEnemyLife = 1;
+
+		//allow apperence
+		allowAster = false;
+		allowRedShip = false;
+		sizeEnemyArr = 8;
+}
+
+
+////HERO RESTART FUNCTION=========================||||||||||||||||||||
+
+////Hero Variables=============================================
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+//Enemy Variables=========================================
+
+
+//Enemy sprites===================
+let enemyShipImg = document.getElementById('enemyShip');
+
+let enemyShipRedImg = document.getElementById('enemyShipRed');
+
+let enemyAsterRedImg = document.getElementById('enemyAsterRed');
+
+	let enemyLazerImg = document.getElementById('enemyLazer');
+
+//Enemy sprites===================
+
+
+/// Alows diferent enemyis appearing===========
+
+// Max size enemy array=======
+let sizeEnemyArr = 6;
+
+
+///Red asteroid Allows=======
+let allowAster = false;
+
+///Red ships Allows=======
+let allowRedShip = false;
+
+
+///Intervals for apearing======
+let mainInterval = 1000;
+
+let asterInterval = 2000;
+
+let redShipInterval = 3000;
+
+/// Alows diferent enemyis appearing===========
+
+
+
+//Enemy Variables=========================================

@@ -1,3 +1,6 @@
+
+
+//@prepros-append globalVar.js
 //@prepros-append gameLoop.js
 
 //@prepros-append backgrounds.js

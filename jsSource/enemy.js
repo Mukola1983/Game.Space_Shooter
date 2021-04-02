@@ -8,21 +8,6 @@ function randomNum(min, max) {
 // Random Numbers===========================================
 
 
-
-
-let enemyShipImg = document.getElementById('enemyShip');
-
-let enemyShipRedImg = document.getElementById('enemyShipRed');
-
-let enemyAsterRedImg = document.getElementById('enemyAsterRed');
-
-	let enemyLazerImg = document.getElementById('enemyLazer');
-
-
-
-
-
-
 // Array with enemy=================================
 const enemyArr = [];
 // Array with enemy=================================
@@ -49,39 +34,38 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
 	enemyArr.push(enemy);
+	
 }
 
-function addEnemyLazer(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(x, y, speedX, speedY,width, height,name, life)
+function addEnemyLazer(img, x, y, speedX, speedY, width, height, name, life){
+	let enemy = new Enemy(img, x, y, speedX, speedY,width, height,name, life)
 	enemyArr.push(enemy);
 }
 
 	//timer to create enemy===========================
 
-let sizeEnemyArr = 8;
+
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
 		addEnemy();
 	}
-}, 1000);
+}, mainInterval);
 
-let allowAster = false;
 
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowAster){
 		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
 	}
-}, 2000);
+}, asterInterval);
 
 
-let allowRedShip = false;
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedShip){
 		addShipRed();
 	}
-}, 3000);
+}, redShipInterval);
 	//timer to create enemy===========================
 
 
@@ -165,8 +149,9 @@ function drawEnemy(){
 
 					enemyArr[i].fire++;
 
-					if(enemyArr[i].fire%60 === 0){
-						addEnemyLazer(enemyLazerImg,enemyArr[i].x+10, enemyArr[i].y+enemyArr[i].height , 0, 4, 10, 15, 'enemyLazer', 1)
+					if(enemyArr[i].fire%80 === 0){
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+10, (enemyArr[i].y+enemyArr[i].height) , 0, 3, 10, 15,'enemyLazer', 1)
+							
 			
 					}
 

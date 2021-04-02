@@ -17,66 +17,13 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weapo
 }
 
 
-let heroShipImg = document.getElementById('heroShip');
-let heroShipWoundedImg = document.getElementById('heroShipWounded');
-
 ///Object Hero /////////////////////=============================
 
 
 //Hero creations =========================================
 
 ///////////////////////////////////////////////////////////
-//Hero Datas=====================================/////////////////////////////
-let score = document.getElementById('score');
-let scoreVar = 0;
 
-let hiScore = document.getElementById('hiScore');
-let hiScoreVar = 0;
-
-score.innerHTML = `Score: ${scoreVar}`;
-
-hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
-
-
-
-//WeaponPower===========================
-let weaponPower = document.getElementById('weaponPower');
-
-let weaponPowerVar = 1;
-
-weaponPower.innerHTML = `Power: ${weaponPowerVar}`;
-
-
-let playerWeapon = document.getElementById('playerWeapon');
-
-let weaponKind = 'L';
-
-let weaponIcon = document.getElementById('weaponIcon');
-
-let weaponIconLazer = document.getElementById('weaponIconLazer');
-let weaponIconRocket = document.getElementById('weaponIconRocket');
-
-
-//playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
-
-
-//WeaponPower===========================
-////////Life data======================
-let playerLife = document.getElementById('playerLife');
-let lifeRow = document.getElementById('lifeRow');
-let playerLifeVar = 6;
-
-
-lifeRow.style.width = `${100}%`;
-
-function percentage(num, curNum)
-{
-	//return (num/100)*per;
-	return (curNum * 100)/ num;
-}
-
-//playerLife.innerHTML = `Life: ${playerLifeVar}`;
-////////Life data======================
 
 let collisionAllow = true;
 
@@ -85,8 +32,9 @@ function collisionAgain(){
 }
 
 ///////Is alive================
-
 let heroAlive = true;
+
+
 
 //Hero Datas=====================================
 //////////////////////////////////////////////////////////
@@ -158,6 +106,7 @@ function drawHero(){
 			if(hero.weaponPower === 4){
 				addLazer(hero.x, hero.y, -0.5, -2);
 				addLazer(hero.x, hero.y, 0, -2);
+				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
 				addLazer(hero.x+hero.width, hero.y, 0, -2);
 				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
 			
@@ -165,37 +114,46 @@ function drawHero(){
 			if(hero.weaponPower === 5){
 				addLazer(hero.x, hero.y, -1, -2);
 				addLazer(hero.x, hero.y, -0.5, -2);
+				addLazer(hero.x+hero.width/2-7, hero.y, 0.1, -2);
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
+				addLazer(hero.x+hero.width/2+7, hero.y, 0.1, -2);
 				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
 				addLazer(hero.x+hero.width, hero.y, 1, -2);
 				
 			}
-			fire = false;
-			setTimeout(fireTrue, 500);
+
 		}
 		if(hero.weaponKind === 'R'){
 			if(hero.weaponPower === 1){
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
+				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
 			}
 			if(hero.weaponPower === 2){
-				addRocket(hero.x, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0, -2);
+				addRocket(hero.x, hero.y, 0, -2, 'left');
+				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
 			}
 			if(hero.weaponPower === 3){
-				addRocket(hero.x, hero.y, -0.5, -2);
+				addRocket(hero.x, hero.y, -0.5, -2, 'left');
 				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
 			}
-			if(hero.weaponPower >= 4){
-				addRocket(hero.x, hero.y, -0.5, -2);
-				addRocket(hero.x, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
+			if(hero.weaponPower === 4){
+				addRocket(hero.x, hero.y, -0.5, -2, 'left');
+				addRocket(hero.x, hero.y, 0, -2, 'left');
+				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
 			
 			}
-			fire = false;
-			setTimeout(fireTrue, 500);
+			if(hero.weaponPower === 5){
+				addRocket(hero.x, hero.y, -0.5, -2, 'left');
+				addRocket(hero.x, hero.y, 0, -2, 'left');
+				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
+				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
+			
+			}
 		}
+		fire = false;
+		setTimeout(fireTrue, fireOften);
 	}
 
 
@@ -203,12 +161,6 @@ function drawHero(){
 
 
 //Hero creations =========================================
-
-
-
-
-
-
 
 
 

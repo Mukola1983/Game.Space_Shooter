@@ -5,6 +5,217 @@
 
 
 
+//////////////////////////////////////////////////////////////////////////////////////////
+////Hero Variables=============================================
+
+
+//Hero Imeges ==================
+let heroShipImg = document.getElementById('heroShip');
+let heroShipWoundedImg = document.getElementById('heroShipWounded');
+//Hero Imeges ==================
+
+
+////Hero Score and HiScore =========================
+let score = document.getElementById('score');
+let scoreVar = 0;
+
+let hiScore = document.getElementById('hiScore');
+let hiScoreVar = 0;
+
+score.innerHTML = `Score: ${scoreVar}`;
+
+hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
+////Hero Score and HiScore =========================
+
+
+//WeaponPower===========================
+let weaponPower = document.getElementById('weaponPower');
+
+let weaponPowerVar = 1;
+
+weaponPower.innerHTML = `Power: ${weaponPowerVar}`;
+//WeaponPower===========================
+
+
+///Weapon Kind ====================================/////////////
+
+///Weapon Kind wrapper ============ 
+let playerWeapon = document.getElementById('playerWeapon');
+
+
+///Start weapon Kind========
+let weaponKind = 'L';
+
+// Frequncy fire==========
+let fireOften;
+
+let rocketBulSpeed = 900;
+let lazerBulSpeed = 500;
+
+if(weaponKind === 'R'){
+	fireOften = rocketBulSpeed;
+}
+if(weaponKind === 'L'){
+	fireOften = lazerBulSpeed;
+}
+
+///Rocket power==========
+let rocketPower = 2;
+
+
+///Weapon Kind Icon ============ 
+//let weaponIcon = document.getElementById('weaponIcon');
+
+
+///Weapon Kind Icons=== ============ 
+let weaponIconLazer = document.getElementById('weaponIconLazer');
+let weaponIconRocket = document.getElementById('weaponIconRocket');
+///Weapon Kind Icons=== ============ 
+
+///Weapon Kind ====================================//////////////////////////
+
+
+///Player Life data======================//////////////////////
+
+
+let playerLife = document.getElementById('playerLife');
+
+///Player lifeBar=============
+let lifeRow = document.getElementById('lifeRow');
+
+//Player starts number lifes========
+let playerLifeVar = 15;
+
+
+/// Changing life bar================
+lifeRow.style.width = `${100}%`;
+
+
+///Gunction for Changing life bar================
+function percentage(num, curNum)
+{
+	return (curNum * 100)/ num;
+}
+
+///Player Life data=====================////////////|||||||||||||
+
+
+////HERO RESTART FUNCTION=========================||||||||||||||||||||
+
+function heroRestart(){
+		heroAlive = true;
+		startButton.innerHTML = "pause";
+
+		//Rewrite hero data=====
+
+		//life
+		hero.life = playerLifeVar;
+		lifeRow.style.width = `${100}%`;
+		lifeRow.style.backgroundColor  = `#47B932`;
+
+		//score
+		scoreVar = 0;
+		score.innerHTML = `Score: ${scoreVar}`;
+
+		//Speed and position
+		heroSpeedX = 2;
+		heroSpeedY = 2;
+		hero.x = 240;
+		hero.y = 200;
+
+		//Allow Fire
+		fireToLive = true;
+
+		//Weapon
+		hero.weaponPower = weaponPowerVar;
+		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
+		weaponKind = 'L';
+
+		// Frequncy fire==========
+		rocketBulSpeed = 400;
+		lazerBulSpeed = 400;
+
+		if(weaponKind === 'R'){
+			fireOften = rocketBulSpeed;
+		}
+		if(weaponKind === 'L'){
+			fireOften = lazerBulSpeed;
+		}
+
+		//Rewrite hero data=====
+
+		game();
+		
+		
+		//Rewrite enemy data=====
+
+		//rocketShip life
+		rockrtEnemyLife = 1;
+
+		//allow apperence
+		allowAster = false;
+		allowRedShip = false;
+		sizeEnemyArr = 8;
+}
+
+
+////HERO RESTART FUNCTION=========================||||||||||||||||||||
+
+////Hero Variables=============================================
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+//Enemy Variables=========================================
+
+
+//Enemy sprites===================
+let enemyShipImg = document.getElementById('enemyShip');
+
+let enemyShipRedImg = document.getElementById('enemyShipRed');
+
+let enemyAsterRedImg = document.getElementById('enemyAsterRed');
+
+	let enemyLazerImg = document.getElementById('enemyLazer');
+
+//Enemy sprites===================
+
+
+/// Alows diferent enemyis appearing===========
+
+// Max size enemy array=======
+let sizeEnemyArr = 6;
+
+
+///Red asteroid Allows=======
+let allowAster = false;
+
+///Red ships Allows=======
+let allowRedShip = false;
+
+
+///Intervals for apearing======
+let mainInterval = 1000;
+
+let asterInterval = 2000;
+
+let redShipInterval = 3000;
+
+/// Alows diferent enemyis appearing===========
+
+
+
+//Enemy Variables=========================================
+
+
+
 
 
 
@@ -15,24 +226,27 @@ let context = canvas.getContext('2d');
 let wrapper = document.getElementById('wrapper');
 
 
-
+/// Buton for game start=========
 let startButton = document.querySelector('.start');
 
+
+/// Button for opening Info Box=======
 let infoButton = document.querySelector('.info');
+
+/// Button for close Info Box=======
 let closeInfo = document.querySelector('.closeInfo');
 
 
+/// Cover for screen========
 let cover = document.querySelector('.cover');
+
+//Info box===============
 let infoBox = document.querySelector('.infoBox');
 
-let optionBox = document.querySelector('.optionBox');
 
-function restart(){
-	if(heroAlive === false){
-		startButton.innerHTML = "restart";
-	}
-}
 
+////////////////////////////////////////////////
+///START GAME
 
 startButton.onclick = function(){
 	if(heroAlive){
@@ -49,30 +263,29 @@ startButton.onclick = function(){
 			startButton.innerHTML = "start";
 		}
 	}else{
-		heroAlive = true;
-		startButton.innerHTML = "pause";
-		hero.life = playerLifeVar;
-		lifeRow.style.width = `${100}%`;
-		lifeRow.style.backgroundColor  = `#47B932`;
-		game();
-		scoreVar = 0;
-		score.innerHTML = `Score: ${scoreVar}`;
-		heroSpeedX = 2;
-		heroSpeedY = 2;
-		hero.x = 240;
-		hero.y = 200;
-		fireToLive = true;
-		hero.weaponPower = weaponPowerVar;
-		weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
-		rockrtEnemyLife = 1;
+		heroRestart();
 
 	}
 }
+///START GAME
+////////////////////////////////////////////////
 
-////Option screen manipukation
+
+////Option screen manipulation===========///////////
+
+let optionBox = document.querySelector('.optionBox');
+
+
+//Option cover
 let optionCover = document.querySelector('.optionCover');
-let closeOption = document.querySelector('.closeOption');
+
+// Option cover open button
 let optionButton = document.querySelector('.option');
+
+// Option cover close button
+let closeOption = document.querySelector('.closeOption');
+
+
 
 
 optionButton.onclick = function(){
@@ -83,6 +296,14 @@ closeOption.onclick = function(){
 	optionCover.classList.remove('_activeInfoBox');
 }
 
+////Option screen manipulation===========///////////
+
+
+
+
+////Sound manipulation===========///////////
+
+//Music
 let musicOnOff = document.getElementById('musicOnOff');
 
 let music = false;
@@ -97,6 +318,7 @@ musicOnOff.onclick = function(){
 	
 }
 
+//Sound
 let soundOnOff = document.getElementById('soundOnOff');
 
 let sound = false;
@@ -110,8 +332,12 @@ soundOnOff.onclick = function(){
 	}
 	
 }
-////Option screen manipulation
 
+////Sound manipulation===========///////////
+
+
+
+////Info screen manipulation===========///////////
 infoButton.onclick = function(){
 	infoBox.classList.add('_activeInfoBox');
 }
@@ -125,6 +351,8 @@ let startGame = false;
 window.onload = function(){
 	game()
 }
+
+
 
 function game(){
 	update();
@@ -256,66 +484,13 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weapo
 }
 
 
-let heroShipImg = document.getElementById('heroShip');
-let heroShipWoundedImg = document.getElementById('heroShipWounded');
-
 ///Object Hero /////////////////////=============================
 
 
 //Hero creations =========================================
 
 ///////////////////////////////////////////////////////////
-//Hero Datas=====================================/////////////////////////////
-let score = document.getElementById('score');
-let scoreVar = 0;
 
-let hiScore = document.getElementById('hiScore');
-let hiScoreVar = 0;
-
-score.innerHTML = `Score: ${scoreVar}`;
-
-hiScore.innerHTML = `HiScore: ${hiScoreVar}`;
-
-
-
-//WeaponPower===========================
-let weaponPower = document.getElementById('weaponPower');
-
-let weaponPowerVar = 1;
-
-weaponPower.innerHTML = `Power: ${weaponPowerVar}`;
-
-
-let playerWeapon = document.getElementById('playerWeapon');
-
-let weaponKind = 'L';
-
-let weaponIcon = document.getElementById('weaponIcon');
-
-let weaponIconLazer = document.getElementById('weaponIconLazer');
-let weaponIconRocket = document.getElementById('weaponIconRocket');
-
-
-//playerWeapon.innerHTML = `Weapon: ${weaponKind}`;
-
-
-//WeaponPower===========================
-////////Life data======================
-let playerLife = document.getElementById('playerLife');
-let lifeRow = document.getElementById('lifeRow');
-let playerLifeVar = 6;
-
-
-lifeRow.style.width = `${100}%`;
-
-function percentage(num, curNum)
-{
-	//return (num/100)*per;
-	return (curNum * 100)/ num;
-}
-
-//playerLife.innerHTML = `Life: ${playerLifeVar}`;
-////////Life data======================
 
 let collisionAllow = true;
 
@@ -324,8 +499,9 @@ function collisionAgain(){
 }
 
 ///////Is alive================
-
 let heroAlive = true;
+
+
 
 //Hero Datas=====================================
 //////////////////////////////////////////////////////////
@@ -397,6 +573,7 @@ function drawHero(){
 			if(hero.weaponPower === 4){
 				addLazer(hero.x, hero.y, -0.5, -2);
 				addLazer(hero.x, hero.y, 0, -2);
+				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
 				addLazer(hero.x+hero.width, hero.y, 0, -2);
 				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
 			
@@ -404,37 +581,46 @@ function drawHero(){
 			if(hero.weaponPower === 5){
 				addLazer(hero.x, hero.y, -1, -2);
 				addLazer(hero.x, hero.y, -0.5, -2);
+				addLazer(hero.x+hero.width/2-7, hero.y, 0.1, -2);
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
+				addLazer(hero.x+hero.width/2+7, hero.y, 0.1, -2);
 				addLazer(hero.x+hero.width, hero.y, 0.5, -2);
 				addLazer(hero.x+hero.width, hero.y, 1, -2);
 				
 			}
-			fire = false;
-			setTimeout(fireTrue, 500);
+
 		}
 		if(hero.weaponKind === 'R'){
 			if(hero.weaponPower === 1){
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
+				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
 			}
 			if(hero.weaponPower === 2){
-				addRocket(hero.x, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0, -2);
+				addRocket(hero.x, hero.y, 0, -2, 'left');
+				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
 			}
 			if(hero.weaponPower === 3){
-				addRocket(hero.x, hero.y, -0.5, -2);
+				addRocket(hero.x, hero.y, -0.5, -2, 'left');
 				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
 			}
-			if(hero.weaponPower >= 4){
-				addRocket(hero.x, hero.y, -0.5, -2);
-				addRocket(hero.x, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2);
+			if(hero.weaponPower === 4){
+				addRocket(hero.x, hero.y, -0.5, -2, 'left');
+				addRocket(hero.x, hero.y, 0, -2, 'left');
+				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
 			
 			}
-			fire = false;
-			setTimeout(fireTrue, 500);
+			if(hero.weaponPower === 5){
+				addRocket(hero.x, hero.y, -0.5, -2, 'left');
+				addRocket(hero.x, hero.y, 0, -2, 'left');
+				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
+				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
+				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
+			
+			}
 		}
+		fire = false;
+		setTimeout(fireTrue, fireOften);
 	}
 
 
@@ -442,12 +628,6 @@ function drawHero(){
 
 
 //Hero creations =========================================
-
-
-
-
-
-
 
 
 
@@ -586,21 +766,6 @@ function randomNum(min, max) {
 // Random Numbers===========================================
 
 
-
-
-let enemyShipImg = document.getElementById('enemyShip');
-
-let enemyShipRedImg = document.getElementById('enemyShipRed');
-
-let enemyAsterRedImg = document.getElementById('enemyAsterRed');
-
-	let enemyLazerImg = document.getElementById('enemyLazer');
-
-
-
-
-
-
 // Array with enemy=================================
 const enemyArr = [];
 // Array with enemy=================================
@@ -627,39 +792,38 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
 	enemyArr.push(enemy);
+	
 }
 
-function addEnemyLazer(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(x, y, speedX, speedY,width, height,name, life)
+function addEnemyLazer(img, x, y, speedX, speedY, width, height, name, life){
+	let enemy = new Enemy(img, x, y, speedX, speedY,width, height,name, life)
 	enemyArr.push(enemy);
 }
 
 	//timer to create enemy===========================
 
-let sizeEnemyArr = 8;
+
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
 		addEnemy();
 	}
-}, 1000);
+}, mainInterval);
 
-let allowAster = false;
 
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowAster){
 		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
 	}
-}, 2000);
+}, asterInterval);
 
 
-let allowRedShip = false;
 setInterval(function run() {
 	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedShip){
 		addShipRed();
 	}
-}, 3000);
+}, redShipInterval);
 	//timer to create enemy===========================
 
 
@@ -743,8 +907,9 @@ function drawEnemy(){
 
 					enemyArr[i].fire++;
 
-					if(enemyArr[i].fire%60 === 0){
-						addEnemyLazer(enemyLazerImg,enemyArr[i].x+10, enemyArr[i].y+enemyArr[i].height , 0, 4, 10, 15, 'enemyLazer', 1)
+					if(enemyArr[i].fire%80 === 0){
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+10, (enemyArr[i].y+enemyArr[i].height) , 0, 3, 10, 15,'enemyLazer', 1)
+							
 			
 					}
 
@@ -803,7 +968,7 @@ let rocketimg = document.getElementById('rocket');
 const weaponsArr = [];
 
 
-function Weapon(img, x, y, speedX, speedY, width, height, name, power){
+function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree, moveDir){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -820,17 +985,22 @@ function Weapon(img, x, y, speedX, speedY, width, height, name, power){
 	this.name = name;
 	this.power = power;
 
+	this.timer = 0;
+	this.moveFree = moveFree;
+
+	this.moveDir = moveDir;
+
 }
 
 
 function addLazer(x, y, spedX, speedY){
-	let bullet = new Weapon(lazer, x, y, spedX, speedY, 10, 15, 'lazer', 1)
+	let bullet = new Weapon(lazer, x, y, spedX, speedY, 10, 15, 'lazer', 1, true)
 	weaponsArr.push(bullet);
 
 }
 
-function addRocket(x, y, spedX, speedY){
-	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', 2)
+function addRocket(x, y, spedX, speedY, moveDir){
+	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', rocketPower, false, moveDir)
 	weaponsArr.push(bullet);
 
 }
@@ -840,9 +1010,26 @@ function drawWeapon(){
 	if(weaponsArr.length > 0){
 		for(let i=0;i<weaponsArr.length; i++){
 
-			
-			weaponsArr[i].x += weaponsArr[i].speedX;
-			weaponsArr[i].y += weaponsArr[i].speedY;
+			if(weaponsArr[i].name === 'rocket' && weaponsArr[i].moveFree === false){
+		//		console.log(weaponsArr[i].moveFree);
+				weaponsArr[i].timer++;
+				if(weaponsArr[i].moveDir === 'left'){
+					weaponsArr[i].x-= 1;
+				}
+				if(weaponsArr[i].moveDir === 'right'){
+					weaponsArr[i].x+= 1;
+				}
+				if(weaponsArr[i].moveDir === 'center'){
+				//	weaponsArr[i].x+= 1;
+				}
+				if(weaponsArr[i].timer%20 === 0){
+					weaponsArr[i].moveFree = true;
+				}
+			}
+			if(weaponsArr[i].moveFree){
+				weaponsArr[i].x += weaponsArr[i].speedX;
+				weaponsArr[i].y += weaponsArr[i].speedY;
+			}
 			//Drawing rocket enemy============================
 			if(weaponsArr[i].name === 'lazer' || weaponsArr[i].name === 'rocket'){
 				context.drawImage(weaponsArr[i].img, weaponsArr[i].x, weaponsArr[i].y, weaponsArr[i].width, weaponsArr[i].height);
@@ -912,6 +1099,17 @@ function collisionEnemyWithHero(){
 				//Rewrite pk=layers life===================
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
+						if(lazerBulSpeed < 450){
+							lazerBulSpeed += 50;
+						}
+						if(hero.weaponKind === 'L'){
+							fireOften = lazerBulSpeed;
+						}
+						if(rocketPower > 2){
+							rocketPower--;
+						}
+						console.log(hero.weaponPower)
+
 						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 					}
 				}
@@ -939,7 +1137,7 @@ function collisionEnemyWithHero(){
 
 function heroDead(){
 	heroAlive = false;
-	restart();
+	startButton.innerHTML = "restart";
 }
 
 function collisionBulletsEnemy(){
@@ -947,6 +1145,9 @@ function collisionBulletsEnemy(){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
 				enemyArr[j].life -= weaponsArr[i].power;
+				if(enemyArr[j].name === 'enemyLazer'){
+				}
+				
 				if(enemyArr[j].life <= 0){
 
 					if(enemyArr[j].name ==='asterRed'){
@@ -955,12 +1156,19 @@ function collisionBulletsEnemy(){
 						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20, 'asterSmall',2);
 
 					}
-					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
-					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
-					if(sound){
-						soundFunc(shot, 0.7);
+					///Adding bonuses Exposion sound without enemy weapon
+					if(enemyArr[j].name ==='asterRed' || enemyArr[j].name ==='redShip' || enemyArr[j].name ==='ship' 
+						|| enemyArr[j].name ==='asterSmall'){
+
+							addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+
+							addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+							if(sound){
+								soundFunc(shot, 0.7);
+							}
 					}
+					///Adding bonuses Exposion sound without enemy weapon
 					enemyArr.splice(j, 1);
 					scoreVar++;
 			//// Increase Emeny power and count==============================
@@ -996,6 +1204,7 @@ function collisionBulletsEnemy(){
 }
 
 
+
 ///COlision  with bonuses===================================
 function collisionHeroWithBonuses(){
 	if(bonusesArr.length>0 && hero){
@@ -1007,6 +1216,15 @@ function collisionHeroWithBonuses(){
 				if(bonusesArr[j].name === 'powerUp'){
 					if(hero.weaponPower< 5){
 						hero.weaponPower++;
+						if(lazerBulSpeed > 350){
+							lazerBulSpeed -= 50;
+						}
+						if(hero.weaponKind === 'L'){
+							fireOften = lazerBulSpeed;
+						}
+						if(rocketPower < 5){
+							rocketPower++
+						}
 					}
 					weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 				}
@@ -1024,12 +1242,20 @@ function collisionHeroWithBonuses(){
 				if(bonusesArr[j].name === 'rocketBon'){
 					hero.weaponKind = bonusesArr[j].kind;
 
+					fireOften = rocketBulSpeed;
+
 					weaponIconRocket.style.display = 'block';
 					weaponIconLazer.style.display = 'none';
+
+
+
 				}
 
 				if(bonusesArr[j].name === 'lazerBon'){
 					hero.weaponKind = bonusesArr[j].kind;
+
+					fireOften = lazerBulSpeed;
+					console.log('lazer',fireOften);
 
 					weaponIconRocket.style.display = 'none';
 					weaponIconLazer.style.display = 'block';

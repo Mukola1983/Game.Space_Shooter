@@ -52,6 +52,17 @@ function collisionEnemyWithHero(){
 				//Rewrite pk=layers life===================
 					if(hero.weaponPower > 1){
 						hero.weaponPower --;
+						if(lazerBulSpeed < 450){
+							lazerBulSpeed += 50;
+						}
+						if(hero.weaponKind === 'L'){
+							fireOften = lazerBulSpeed;
+						}
+						if(rocketPower > 2){
+							rocketPower--;
+						}
+						console.log(hero.weaponPower)
+
 						weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 					}
 				}
@@ -79,7 +90,7 @@ function collisionEnemyWithHero(){
 
 function heroDead(){
 	heroAlive = false;
-	restart();
+	startButton.innerHTML = "restart";
 }
 
 function collisionBulletsEnemy(){
@@ -87,6 +98,9 @@ function collisionBulletsEnemy(){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
 				enemyArr[j].life -= weaponsArr[i].power;
+				if(enemyArr[j].name === 'enemyLazer'){
+				}
+				
 				if(enemyArr[j].life <= 0){
 
 					if(enemyArr[j].name ==='asterRed'){
@@ -95,12 +109,19 @@ function collisionBulletsEnemy(){
 						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20, 'asterSmall',2);
 
 					}
-					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
-					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
-					if(sound){
-						soundFunc(shot, 0.7);
+					///Adding bonuses Exposion sound without enemy weapon
+					if(enemyArr[j].name ==='asterRed' || enemyArr[j].name ==='redShip' || enemyArr[j].name ==='ship' 
+						|| enemyArr[j].name ==='asterSmall'){
+
+							addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+
+							addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+							if(sound){
+								soundFunc(shot, 0.7);
+							}
 					}
+					///Adding bonuses Exposion sound without enemy weapon
 					enemyArr.splice(j, 1);
 					scoreVar++;
 			//// Increase Emeny power and count==============================
@@ -136,6 +157,7 @@ function collisionBulletsEnemy(){
 }
 
 
+
 ///COlision  with bonuses===================================
 function collisionHeroWithBonuses(){
 	if(bonusesArr.length>0 && hero){
@@ -147,6 +169,15 @@ function collisionHeroWithBonuses(){
 				if(bonusesArr[j].name === 'powerUp'){
 					if(hero.weaponPower< 5){
 						hero.weaponPower++;
+						if(lazerBulSpeed > 350){
+							lazerBulSpeed -= 50;
+						}
+						if(hero.weaponKind === 'L'){
+							fireOften = lazerBulSpeed;
+						}
+						if(rocketPower < 5){
+							rocketPower++
+						}
 					}
 					weaponPower.innerHTML = `Power: ${hero.weaponPower}`;
 				}
@@ -164,12 +195,20 @@ function collisionHeroWithBonuses(){
 				if(bonusesArr[j].name === 'rocketBon'){
 					hero.weaponKind = bonusesArr[j].kind;
 
+					fireOften = rocketBulSpeed;
+
 					weaponIconRocket.style.display = 'block';
 					weaponIconLazer.style.display = 'none';
+
+
+
 				}
 
 				if(bonusesArr[j].name === 'lazerBon'){
 					hero.weaponKind = bonusesArr[j].kind;
+
+					fireOften = lazerBulSpeed;
+					console.log('lazer',fireOften);
 
 					weaponIconRocket.style.display = 'none';
 					weaponIconLazer.style.display = 'block';
