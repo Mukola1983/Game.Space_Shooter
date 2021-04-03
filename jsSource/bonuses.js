@@ -8,6 +8,10 @@ let lazerBonusImg = document.getElementById('lazerBonus');
 
 let lifeUpBonusImg = document.getElementById('lifeUp');
 
+let starWeaponBonusImg = document.getElementById('starWeaponBonus');
+
+
+
 let bonusesArr = [];
 
 
@@ -49,6 +53,7 @@ function addBonusFromEnemy(x, y){
 	if (allowB === 2){
 		let kindB = randomNum(0, 4); 
 
+
 		if(kindB === 1){
 			addPowerUpBonusEn(x, y);
 		}else if(kindB === 2){
@@ -57,7 +62,10 @@ function addBonusFromEnemy(x, y){
 			addLazerBonusEn(x, y);
 		}else if(kindB === 4){
 			addLifeUpBonusEn(x, y);
+		}else if(kindB === 0){
+			addStarWeaponBonusEn(x, y);
 		}
+
 	}
 	return;
 }
@@ -73,7 +81,7 @@ function drawBonuses(){
 				bonusesArr[i].speedX *= -1;
 			}
 
-				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon' || bonusesArr[i].name === 'lazerBon'){
+				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon' || bonusesArr[i].name === 'lazerBon' || bonusesArr[i].name === 'starWeaponBon'){
 					context.drawImage(bonusesArr[i].img, 55*Math.floor(bonusesArr[i].N_x), 55*bonusesArr[i].N_y, 55, 55, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
 
 						bonusesArr[i].N_x += 0.2;
@@ -149,4 +157,10 @@ function addLazerBonusEn(x, y){
 	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }
+
+function addStarWeaponBonusEn(x, y){
+	let bon = new Bonus(starWeaponBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'starWeaponBon', 2, 'S');
+	bonusesArr.push(bon);
+}
+
 

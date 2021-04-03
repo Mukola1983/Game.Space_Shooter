@@ -64,6 +64,8 @@ let rocketPower = 2;
 ///Weapon Kind Icons=== ============ 
 let weaponIconLazer = document.getElementById('weaponIconLazer');
 let weaponIconRocket = document.getElementById('weaponIconRocket');
+let weaponIconStar = document.getElementById('weaponIconStar');
+
 ///Weapon Kind Icons=== ============ 
 
 ///Weapon Kind ====================================//////////////////////////

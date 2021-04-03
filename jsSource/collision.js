@@ -205,6 +205,16 @@ function collisionHeroWithBonuses(){
 					weaponIconLazer.style.display = 'block';
 				}
 
+				if(bonusesArr[j].name === 'starWeaponBon'){
+					hero.weaponKind = bonusesArr[j].kind;
+
+					weaponIconStar.style.display = 'block';
+
+					weaponIconRocket.style.display = 'none';
+					weaponIconLazer.style.display = 'none';
+
+				}
+
 				bonusesArr.splice(j, 1);
 
 				return;

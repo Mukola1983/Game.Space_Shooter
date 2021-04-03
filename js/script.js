@@ -70,6 +70,8 @@ let rocketPower = 2;
 ///Weapon Kind Icons=== ============ 
 let weaponIconLazer = document.getElementById('weaponIconLazer');
 let weaponIconRocket = document.getElementById('weaponIconRocket');
+let weaponIconStar = document.getElementById('weaponIconStar');
+
 ///Weapon Kind Icons=== ============ 
 
 ///Weapon Kind ====================================//////////////////////////
@@ -785,15 +787,17 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-
-canvas.addEventListener('mousemove', function(event){
-			
-				hero.x = event.offsetX - 100;
-				hero.y = event.offsetY-25;
-			
-		})
-
-
+let allowMouse = true;
+/*
+if(allowMouse){
+	canvas.addEventListener('mousemove', function(event){
+				
+					hero.x = event.offsetX - 100;
+					hero.y = event.offsetY-25;
+					console.log(allowMouse)
+			})
+}
+*/
 
 let isMobile = {
 	Android: function() {return navigator.userAgent.match(/Android/i);},
@@ -813,6 +817,8 @@ if(isMobile.any()){
 
 	heroSpeedX = 2;
 	heroSpeedY = 2;
+
+	allowMouse = false;
 
 
 }
@@ -1333,6 +1339,16 @@ function collisionHeroWithBonuses(){
 					weaponIconLazer.style.display = 'block';
 				}
 
+				if(bonusesArr[j].name === 'starWeaponBon'){
+					hero.weaponKind = bonusesArr[j].kind;
+
+					weaponIconStar.style.display = 'block';
+
+					weaponIconRocket.style.display = 'none';
+					weaponIconLazer.style.display = 'none';
+
+				}
+
 				bonusesArr.splice(j, 1);
 
 				return;
@@ -1466,6 +1482,10 @@ let lazerBonusImg = document.getElementById('lazerBonus');
 
 let lifeUpBonusImg = document.getElementById('lifeUp');
 
+let starWeaponBonusImg = document.getElementById('starWeaponBonus');
+
+
+
 let bonusesArr = [];
 
 
@@ -1507,6 +1527,7 @@ function addBonusFromEnemy(x, y){
 	if (allowB === 2){
 		let kindB = randomNum(0, 4); 
 
+
 		if(kindB === 1){
 			addPowerUpBonusEn(x, y);
 		}else if(kindB === 2){
@@ -1515,7 +1536,10 @@ function addBonusFromEnemy(x, y){
 			addLazerBonusEn(x, y);
 		}else if(kindB === 4){
 			addLifeUpBonusEn(x, y);
+		}else if(kindB === 0){
+			addStarWeaponBonusEn(x, y);
 		}
+
 	}
 	return;
 }
@@ -1531,7 +1555,7 @@ function drawBonuses(){
 				bonusesArr[i].speedX *= -1;
 			}
 
-				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon' || bonusesArr[i].name === 'lazerBon'){
+				if(bonusesArr[i].name === 'powerUp' || bonusesArr[i].name === 'rocketBon' || bonusesArr[i].name === 'lazerBon' || bonusesArr[i].name === 'starWeaponBon'){
 					context.drawImage(bonusesArr[i].img, 55*Math.floor(bonusesArr[i].N_x), 55*bonusesArr[i].N_y, 55, 55, bonusesArr[i].x, bonusesArr[i].y, bonusesArr[i].width, bonusesArr[i].height)
 
 						bonusesArr[i].N_x += 0.2;
@@ -1607,6 +1631,12 @@ function addLazerBonusEn(x, y){
 	let bon = new Bonus(lazerBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'lazerBon', 2, 'L');
 	bonusesArr.push(bon);
 }
+
+function addStarWeaponBonusEn(x, y){
+	let bon = new Bonus(starWeaponBonusImg, x, y, randomNum(-1, 1), randomNum(1, 2), 30, 30, 'starWeaponBon', 2, 'S');
+	bonusesArr.push(bon);
+}
+
 
 
 

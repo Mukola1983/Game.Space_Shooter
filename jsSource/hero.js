@@ -305,15 +305,17 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-
-canvas.addEventListener('mousemove', function(event){
-			
-				hero.x = event.offsetX - 100;
-				hero.y = event.offsetY-25;
-			
-		})
-
-
+let allowMouse = true;
+/*
+if(allowMouse){
+	canvas.addEventListener('mousemove', function(event){
+				
+					hero.x = event.offsetX - 100;
+					hero.y = event.offsetY-25;
+					console.log(allowMouse)
+			})
+}
+*/
 
 let isMobile = {
 	Android: function() {return navigator.userAgent.match(/Android/i);},
@@ -333,6 +335,8 @@ if(isMobile.any()){
 
 	heroSpeedX = 2;
 	heroSpeedY = 2;
+
+	allowMouse = false;
 
 
 }
