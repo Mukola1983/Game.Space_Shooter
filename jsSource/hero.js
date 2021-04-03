@@ -83,11 +83,35 @@ function drawHero(){
 		
 	}
 
-	if(fire && fireToLive ){
+	let stoii = true;
+
+	if(fire && fireToLive && stoii){
 		if(sound){
 			soundFunc(shot, 0.2);
 		}
 		if(hero.weaponKind === 'L'){
+			lazerWeapon()
+		}
+
+		if(hero.weaponKind === 'R'){
+			rocketWeapon()
+		}
+
+		if(hero.weaponKind === 'S'){
+
+			starWeapon()
+		}
+		
+		fire = false;
+		setTimeout(fireTrue, fireOften);
+
+	}
+
+
+}
+
+
+function lazerWeapon(){
 			if(hero.weaponPower === 1){
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
 
@@ -121,81 +145,74 @@ function drawHero(){
 				addLazer(hero.x+hero.width, hero.y, 1, -2);
 				
 			}
+}
+
+
+function rocketWeapon(){
+	if(hero.weaponPower === 1){
+			addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center', false);
+
 		}
-
-		if(hero.weaponKind === 'R'){
-			if(hero.weaponPower === 1){
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
-
-			}
-			if(hero.weaponPower === 2){
-				addRocket(hero.x, hero.y, 0, -2, 'left');
-				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
-			}
-			if(hero.weaponPower === 3){
-				addRocket(hero.x, hero.y, -0.5, -2, 'left');
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
-			}
-			if(hero.weaponPower === 4){
-				addRocket(hero.x, hero.y, -0.5, -2, 'left');
-				addRocket(hero.x, hero.y, 0, -2, 'left');
-				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
-			
-			}
-			if(hero.weaponPower === 5){
-				addRocket(hero.x, hero.y, -0.5, -2, 'left');
-				addRocket(hero.x, hero.y, 0, -2, 'left');
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
-				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
-			
-			}
+		if(hero.weaponPower === 2){
+			addRocket(hero.x, hero.y, 0, -2, 'left', false);
+			addRocket(hero.x+hero.width, hero.y, 0, -2, 'right', false);
 		}
-
-		if(hero.weaponKind === 'S'){
-			if(hero.weaponPower === 1){
-
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 2){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 3){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 4){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 5){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			
+		if(hero.weaponPower === 3){
+			addRocket(hero.x, hero.y, -0.5, -2, 'left', false);
+			addRocket(hero.x+hero.width/2, hero.y, 0, -2,'center', false);
+			addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right', false);
 		}
+		if(hero.weaponPower === 4){
+			addRocket(hero.x, hero.y, -0.5, -2, 'left', false);
+			addRocket(hero.x, hero.y, 0, -2, 'left', false);
+			addRocket(hero.x+hero.width, hero.y, 0, -2, 'right', false);
+			addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right', false);
 		
-		fire = false;
-		setTimeout(fireTrue, fireOften);
+		}
+		if(hero.weaponPower === 5){
+			addRocket(hero.x, hero.y, -0.5, -2, 'left', false);
+			addRocket(hero.x, hero.y, 0, -2, 'left', false);
+			addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center', false);
+			addRocket(hero.x+hero.width, hero.y, 0, -2, 'right', false);
+			addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right', false);
+		
+		}
+}
 
-	}
 
+function starWeapon(){
+	if(hero.weaponPower === 1){
 
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 2){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 3){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 4){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 5){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
 }
 
 
@@ -305,16 +322,14 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-let allowMouse = true;
 /*
-if(allowMouse){
-	canvas.addEventListener('mousemove', function(event){
-				
-					hero.x = event.offsetX - 100;
-					hero.y = event.offsetY-25;
-					console.log(allowMouse)
-			})
-}
+canvas.addEventListener('mousemove', function(event){
+			
+				hero.x = event.offsetX - 100;
+				hero.y = event.offsetY-25;
+
+		})
+
 */
 
 let isMobile = {

@@ -38,7 +38,16 @@ let playerWeapon = document.getElementById('playerWeapon');
 
 
 ///Start weapon Kind========
-let weaponKind = 'S';
+let weaponKind = 'R';
+
+
+
+///Weapon Kind Icons=== ============ 
+let weaponIconLazer = document.getElementById('weaponIconLazer');
+let weaponIconRocket = document.getElementById('weaponIconRocket');
+let weaponIconStar = document.getElementById('weaponIconStar');
+
+///Weapon Kind Icons=== ============ 
 
 // Frequncy fire==========
 let fireOften = 500;
@@ -48,9 +57,15 @@ let lazerBulSpeed = 500;
 
 if(weaponKind === 'R'){
 	fireOften = rocketBulSpeed;
+	weaponIconRocket.style.display = 'block';
 }
 if(weaponKind === 'L'){
 	fireOften = lazerBulSpeed;
+	weaponIconLazer.style.display = 'block';
+}
+if(weaponKind === 'S'){
+	fireOften = lazerBulSpeed;
+	weaponIconStar.style.display = 'block';
 }
 
 ///Rocket power==========
@@ -61,12 +76,6 @@ let rocketPower = 2;
 //let weaponIcon = document.getElementById('weaponIcon');
 
 
-///Weapon Kind Icons=== ============ 
-let weaponIconLazer = document.getElementById('weaponIconLazer');
-let weaponIconRocket = document.getElementById('weaponIconRocket');
-let weaponIconStar = document.getElementById('weaponIconStar');
-
-///Weapon Kind Icons=== ============ 
 
 ///Weapon Kind ====================================//////////////////////////
 
@@ -80,7 +89,7 @@ let playerLife = document.getElementById('playerLife');
 let lifeRow = document.getElementById('lifeRow');
 
 //Player starts number lifes========
-let playerLifeVar = 15;
+let playerLifeVar = 3;
 
 
 /// Changing life bar================
@@ -151,7 +160,11 @@ function heroRestart(){
 		//allow apperence
 		allowAster = false;
 		allowRedShip = false;
+		allowRedFregat = false
 		sizeEnemyArr = 6;
+
+		enemyArr.splice(0);
+		console.log('enArr', enemyArr.length);
 }
 
 
@@ -181,6 +194,10 @@ let enemyAsterRedImg = document.getElementById('enemyAsterRed');
 
 	let enemyLazerImg = document.getElementById('enemyLazer');
 
+let enemyFregatImg = document.getElementById('enemyFregat');
+
+
+
 //Enemy sprites===================
 
 
@@ -196,6 +213,9 @@ let allowAster = false;
 ///Red ships Allows=======
 let allowRedShip = false;
 
+///Red fregat Allows=======
+let allowRedFregat = false;
+
 
 ///Intervals for apearing======
 let mainInterval = 1000;
@@ -203,6 +223,8 @@ let mainInterval = 1000;
 let asterInterval = 2000;
 
 let redShipInterval = 3000;
+
+let redFregatInterwal = 6000;
 
 /// Alows diferent enemyis appearing===========
 
@@ -218,6 +240,12 @@ function enemyApearence(scoreVar){
 		rockrtEnemyLife = 3;
 		sizeEnemyArr = 12;
 		allowRedShip = true;
+	}
+	if(scoreVar >= 130 ){
+		rockrtEnemyLife = 3;
+		sizeEnemyArr = 12;
+		allowRedFregat = true;
+		mainInterval = 4000;
 	}
 }
 

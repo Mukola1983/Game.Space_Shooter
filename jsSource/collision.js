@@ -21,7 +21,15 @@ function collisionEnemyWithHero(){
 				enemyArr[j].life--;
 				addSmallExplosion_02(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y+enemyArr[j].height );
 				if(enemyArr[j].life <= 0){
-					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+
+					if(enemyArr[j].name === 'redFregat'){
+						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
+					}
+					if(enemyArr[j].name ==='asterRed' || enemyArr[j].name ==='redShip' || enemyArr[j].name ==='ship' 
+						|| enemyArr[j].name ==='asterSmall'){
+						addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+					}
+					
 
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
@@ -55,7 +63,7 @@ function collisionEnemyWithHero(){
 						if(lazerBulSpeed < 450){
 							lazerBulSpeed += 50;
 						}
-						if(hero.weaponKind === 'L'){
+						if(hero.weaponKind === 'L' || hero.weaponKind === 'S'){
 							fireOften = lazerBulSpeed;
 						}
 						if(rocketPower > 2){
@@ -98,8 +106,7 @@ function collisionBulletsEnemy(){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
 				enemyArr[j].life -= weaponsArr[i].power;
-				if(enemyArr[j].name === 'enemyLazer'){
-				}
+				
 				
 				if(enemyArr[j].life <= 0){
 
@@ -121,6 +128,13 @@ function collisionBulletsEnemy(){
 								soundFunc(shot, 0.7);
 							}
 					}
+					if(enemyArr[j].name === 'redFregat'){
+						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
+						addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+						if(sound){
+								soundFunc(shot, 0.7);
+							}
+					}
 					///Adding bonuses Exposion sound without enemy weapon
 					enemyArr.splice(j, 1);
 					scoreVar++;
@@ -138,6 +152,14 @@ function collisionBulletsEnemy(){
 				addSmallExplosion_01(weaponsArr[i].x, weaponsArr[i].y);
 				if(sound){
 					soundFunc(shot, 0.4);
+				}
+
+				if(weaponsArr[i].name === 'rocket'){
+				//	addRocket(weaponsArr[i].x, weaponsArr[i].y, -2, -2, 'left', true, 'small');
+				//	addRocket(weaponsArr[i].x, weaponsArr[i].y, 2, -2, 'right', true, 'small');
+
+					addLazer(weaponsArr[i].x, weaponsArr[i].y, -2, -2);
+					addLazer(weaponsArr[i].x, weaponsArr[i].y, 2, -2);
 				}
 				weaponsArr.splice(i, 1);
 				
@@ -163,7 +185,7 @@ function collisionHeroWithBonuses(){
 						if(lazerBulSpeed > 350){
 							lazerBulSpeed -= 50;
 						}
-						if(hero.weaponKind === 'L'){
+						if(hero.weaponKind === 'L' ||  hero.weaponKind === 'S'){
 							fireOften = lazerBulSpeed;
 						}
 						if(rocketPower < 5){
@@ -190,6 +212,7 @@ function collisionHeroWithBonuses(){
 
 					weaponIconRocket.style.display = 'block';
 					weaponIconLazer.style.display = 'none';
+					weaponIconStar.style.display = 'none';
 
 
 
@@ -201,12 +224,15 @@ function collisionHeroWithBonuses(){
 					fireOften = lazerBulSpeed;
 					console.log('lazer',fireOften);
 
+					weaponIconStar.style.display = 'none';
 					weaponIconRocket.style.display = 'none';
 					weaponIconLazer.style.display = 'block';
 				}
 
 				if(bonusesArr[j].name === 'starWeaponBon'){
 					hero.weaponKind = bonusesArr[j].kind;
+
+					fireOften = lazerBulSpeed;
 
 					weaponIconStar.style.display = 'block';
 

@@ -10,7 +10,7 @@ let starWeaponimg = document.getElementById('starWeapon');
 const weaponsArr = [];
 
 
-function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree, moveDir){
+function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree, moveDir, size){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -32,6 +32,10 @@ function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree,
 
 	this.moveDir = moveDir;
 
+	this.dead = false;
+
+
+
 }
 
 
@@ -41,8 +45,8 @@ function addLazer(x, y, spedX, speedY){
 
 }
 
-function addRocket(x, y, spedX, speedY, moveDir){
-	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', rocketPower, false, moveDir)
+function addRocket(x, y, spedX, speedY, moveDir,moveFree,size){
+	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', rocketPower, moveFree, moveDir)
 	weaponsArr.push(bullet);
 
 }
@@ -94,11 +98,11 @@ function drawWeapon(){
 					weaponsArr[i].speedY *= -1;
 				}
 				if(weaponsArr[i].timer%1200 === 0){
-					weaponsArr.splice(i, 1);
+					weaponsArr[i].dead = true;
 				}
 			}
 
-			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
+			if(weaponsArr[i].dead === true || weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
 				weaponsArr[i].y + weaponsArr[i].height < 0 ){
 				weaponsArr.splice(i, 1);
 			}

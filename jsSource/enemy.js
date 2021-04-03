@@ -39,12 +39,22 @@ function addShipRed(x, y, speedX, speedY,width, height,name, life){
 	
 }
 
+function addEnemyFregat(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyFregatImg, randomNum(20, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
+	enemyArr.push(enemy);
+	
+}
+
+
+
+
 function addEnemyLazer(img, x, y, speedX, speedY, width, height, name, life){
 	let enemy = new Enemy(img, x, y, speedX, speedY,width, height,name, life)
 	enemyArr.push(enemy);
 }
 
 	//timer to create enemy===========================
+
 
 
 setInterval(function run() {
@@ -66,6 +76,12 @@ setInterval(function run() {
 		addShipRed();
 	}
 }, redShipInterval);
+
+setInterval(function run() {
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedFregat){
+		addEnemyFregat();
+	}
+}, redFregatInterwal);
 	//timer to create enemy===========================
 
 
@@ -100,7 +116,14 @@ function animateSth(img, sizeX, posX, sizeY, posY, x, y, width, height, sizeRow,
 function drawEnemy(){
 	for(let i=0;i<enemyArr.length; i++){
 
-
+		if(enemyArr[i].name === 'redFregat'){
+			if(enemyArr[i].y >= enemyArr[i].yPos){
+				enemyArr[i].speedY = 0;
+				if(enemyArr[i].speedX === 0){
+					enemyArr[i].speedX = 2;
+				}
+			}
+		}
 		enemyArr[i].x += enemyArr[i].speedX;
 		enemyArr[i].y += enemyArr[i].speedY;
 		if(enemyArr[i].x + enemyArr[i].width >=500 || enemyArr[i].x <=0){
@@ -108,43 +131,19 @@ function drawEnemy(){
 		}
 
 		//Drawing ship enemy============================
-			if(enemyArr[i].name === 'ship'){
-				context.drawImage(enemyArr[i].img, 70*Math.floor(enemyArr[i].N_x), 70*enemyArr[i].N_y, 70, 70, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
+			enemyArr[i].N_x += 0.2;
+			ship_01()
 
-					enemyArr[i].N_x += 0.2;
-					if(enemyArr[i].N_x > 6.9 ){
-							
-							enemyArr[i].N_x = 0;
-							enemyArr[i].N_y += 1;
-							if(enemyArr[i].N_y > 3){
-								enemyArr[i].N_y = 0;
-							}
-					}
-			}
 		//Drawing ship enemy============================
 
 		//Drawing AsteroidRed enemy============================
-			if(enemyArr[i].name === 'asterRed' || enemyArr[i].name === 'asterSmall'){
-				context.drawImage(enemyArr[i].img, 170*Math.floor(enemyArr[i].N_x), 160*enemyArr[i].N_y, 170, 160, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
-
-					enemyArr[i].N_x += 0.2;
-					if(enemyArr[i].N_x > 3.9 ){
-							
-							enemyArr[i].N_x = 0;
-							enemyArr[i].N_y += 1;
-							if(enemyArr[i].N_y > 3){
-								enemyArr[i].N_y = 0;
-							}
-					}
-			}
+			
+			asteroidDraw()
 
 		//Drawing AsteroidRed enemy============================
 
 
-		//Drawing rocket enemy============================
-			if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer'){
-				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
-
+		//Drawing redShip Freg Lazer enemy============================
 				if(enemyArr[i].name === 'redShip'){
 
 					enemyArr[i].fire++;
@@ -156,11 +155,42 @@ function drawEnemy(){
 					}
 
 				}
-			}
-		//Drawing rocket enemy============================
+
+				if(enemyArr[i].name === 'redFregat'){
+
+					enemyArr[i].fire++;
+
+					if(enemyArr[i].fire%140 === 0){
+
+						let firstL;
+						if(enemyArr[i].x+10 > hero.x){
+							firstL = randomNum(-2, -1)
+						}else{
+							firstL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+10, (enemyArr[i].y+enemyArr[i].height) , firstL, 2, 10, 15,'enemyLazer', 1)
+
+						let secondL;
+						if(enemyArr[i].x+10 > hero.x){
+							secondL = randomNum(-2, -1)
+						}else{
+							secondL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+70, (enemyArr[i].y+enemyArr[i].height) , secondL, 2, 10, 15,'enemyLazer', 1)
+							
+			
+					}
+
+				}
+
+
+				redShipFregLazer()
+		//Drawing redShip Freg Lazer enemy============================
 
 		//delete enemy from array===================
-		if(enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
+		if( enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
 			enemyArr.splice(i, 1);
 		}
 		//delete enemy from array===================
@@ -173,7 +203,60 @@ function drawEnemy(){
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//////////////////////////////////////////////////////////////////////
+///Functions  Drews Enemyis======================
+function ship_01(){
+	for(let i=0;i<enemyArr.length; i++){
+		if(enemyArr[i].name === 'ship'){
+				context.drawImage(enemyArr[i].img, 70*Math.floor(enemyArr[i].N_x), 70*enemyArr[i].N_y, 70, 70, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
 
+			//		enemyArr[i].N_x += 0.05;
+					if(enemyArr[i].N_x > 6.9 ){
+							
+							enemyArr[i].N_x = 0;
+							enemyArr[i].N_y += 1;
+							if(enemyArr[i].N_y > 3){
+								enemyArr[i].N_y = 0;
+							}
+					}
+			}
+	}
+}
+
+
+function asteroidDraw(){
+	for(let i=0;i<enemyArr.length; i++){
+		if(enemyArr[i].name === 'asterRed' || enemyArr[i].name === 'asterSmall'){
+					context.drawImage(enemyArr[i].img, 170*Math.floor(enemyArr[i].N_x), 160*enemyArr[i].N_y, 170, 160, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
+
+				//		enemyArr[i].N_x += 0.04;
+						if(enemyArr[i].N_x > 3.9 ){
+								
+								enemyArr[i].N_x = 0;
+								enemyArr[i].N_y += 1;
+								if(enemyArr[i].N_y > 3){
+									enemyArr[i].N_y = 0;
+								}
+						}
+				}
+	}
+}
+
+
+function redShipFregLazer(){
+	for(let i=0;i<enemyArr.length; i++){
+		if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer' || enemyArr[i].name === 'redFregat'){
+				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
+
+			}
+	}
+}
+
+
+
+
+///Functions  Drews Enemyis======================
+//////////////////////////////////////////////////////////////////////
 
 
 
@@ -196,6 +279,8 @@ function Enemy(img, x, y, speedX, speedY, width, height, name, life){
 	this.life = life;
 	this.name = name;
 	this.fire = 0;
+	this.yPos = randomNum(50, 100);
+	this.enDead = false;
 
 }
 

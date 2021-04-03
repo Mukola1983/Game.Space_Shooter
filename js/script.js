@@ -44,7 +44,16 @@ let playerWeapon = document.getElementById('playerWeapon');
 
 
 ///Start weapon Kind========
-let weaponKind = 'S';
+let weaponKind = 'R';
+
+
+
+///Weapon Kind Icons=== ============ 
+let weaponIconLazer = document.getElementById('weaponIconLazer');
+let weaponIconRocket = document.getElementById('weaponIconRocket');
+let weaponIconStar = document.getElementById('weaponIconStar');
+
+///Weapon Kind Icons=== ============ 
 
 // Frequncy fire==========
 let fireOften = 500;
@@ -54,9 +63,15 @@ let lazerBulSpeed = 500;
 
 if(weaponKind === 'R'){
 	fireOften = rocketBulSpeed;
+	weaponIconRocket.style.display = 'block';
 }
 if(weaponKind === 'L'){
 	fireOften = lazerBulSpeed;
+	weaponIconLazer.style.display = 'block';
+}
+if(weaponKind === 'S'){
+	fireOften = lazerBulSpeed;
+	weaponIconStar.style.display = 'block';
 }
 
 ///Rocket power==========
@@ -67,12 +82,6 @@ let rocketPower = 2;
 //let weaponIcon = document.getElementById('weaponIcon');
 
 
-///Weapon Kind Icons=== ============ 
-let weaponIconLazer = document.getElementById('weaponIconLazer');
-let weaponIconRocket = document.getElementById('weaponIconRocket');
-let weaponIconStar = document.getElementById('weaponIconStar');
-
-///Weapon Kind Icons=== ============ 
 
 ///Weapon Kind ====================================//////////////////////////
 
@@ -86,7 +95,7 @@ let playerLife = document.getElementById('playerLife');
 let lifeRow = document.getElementById('lifeRow');
 
 //Player starts number lifes========
-let playerLifeVar = 15;
+let playerLifeVar = 3;
 
 
 /// Changing life bar================
@@ -157,7 +166,11 @@ function heroRestart(){
 		//allow apperence
 		allowAster = false;
 		allowRedShip = false;
+		allowRedFregat = false
 		sizeEnemyArr = 6;
+
+		enemyArr.splice(0);
+		console.log('enArr', enemyArr.length);
 }
 
 
@@ -187,6 +200,10 @@ let enemyAsterRedImg = document.getElementById('enemyAsterRed');
 
 	let enemyLazerImg = document.getElementById('enemyLazer');
 
+let enemyFregatImg = document.getElementById('enemyFregat');
+
+
+
 //Enemy sprites===================
 
 
@@ -202,6 +219,9 @@ let allowAster = false;
 ///Red ships Allows=======
 let allowRedShip = false;
 
+///Red fregat Allows=======
+let allowRedFregat = false;
+
 
 ///Intervals for apearing======
 let mainInterval = 1000;
@@ -209,6 +229,8 @@ let mainInterval = 1000;
 let asterInterval = 2000;
 
 let redShipInterval = 3000;
+
+let redFregatInterwal = 6000;
 
 /// Alows diferent enemyis appearing===========
 
@@ -224,6 +246,12 @@ function enemyApearence(scoreVar){
 		rockrtEnemyLife = 3;
 		sizeEnemyArr = 12;
 		allowRedShip = true;
+	}
+	if(scoreVar >= 130 ){
+		rockrtEnemyLife = 3;
+		sizeEnemyArr = 12;
+		allowRedFregat = true;
+		mainInterval = 4000;
 	}
 }
 
@@ -565,11 +593,35 @@ function drawHero(){
 		
 	}
 
-	if(fire && fireToLive ){
+	let stoii = true;
+
+	if(fire && fireToLive && stoii){
 		if(sound){
 			soundFunc(shot, 0.2);
 		}
 		if(hero.weaponKind === 'L'){
+			lazerWeapon()
+		}
+
+		if(hero.weaponKind === 'R'){
+			rocketWeapon()
+		}
+
+		if(hero.weaponKind === 'S'){
+
+			starWeapon()
+		}
+		
+		fire = false;
+		setTimeout(fireTrue, fireOften);
+
+	}
+
+
+}
+
+
+function lazerWeapon(){
 			if(hero.weaponPower === 1){
 				addLazer(hero.x+hero.width/2, hero.y, 0, -2);
 
@@ -603,81 +655,74 @@ function drawHero(){
 				addLazer(hero.x+hero.width, hero.y, 1, -2);
 				
 			}
+}
+
+
+function rocketWeapon(){
+	if(hero.weaponPower === 1){
+			addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center', false);
+
 		}
-
-		if(hero.weaponKind === 'R'){
-			if(hero.weaponPower === 1){
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
-
-			}
-			if(hero.weaponPower === 2){
-				addRocket(hero.x, hero.y, 0, -2, 'left');
-				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
-			}
-			if(hero.weaponPower === 3){
-				addRocket(hero.x, hero.y, -0.5, -2, 'left');
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2);
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
-			}
-			if(hero.weaponPower === 4){
-				addRocket(hero.x, hero.y, -0.5, -2, 'left');
-				addRocket(hero.x, hero.y, 0, -2, 'left');
-				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
-			
-			}
-			if(hero.weaponPower === 5){
-				addRocket(hero.x, hero.y, -0.5, -2, 'left');
-				addRocket(hero.x, hero.y, 0, -2, 'left');
-				addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center');
-				addRocket(hero.x+hero.width, hero.y, 0, -2, 'right');
-				addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right');
-			
-			}
+		if(hero.weaponPower === 2){
+			addRocket(hero.x, hero.y, 0, -2, 'left', false);
+			addRocket(hero.x+hero.width, hero.y, 0, -2, 'right', false);
 		}
-
-		if(hero.weaponKind === 'S'){
-			if(hero.weaponPower === 1){
-
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 2){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 3){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 4){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			if(hero.weaponPower === 5){
-
-				addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
-				addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
-
-			}
-			
+		if(hero.weaponPower === 3){
+			addRocket(hero.x, hero.y, -0.5, -2, 'left', false);
+			addRocket(hero.x+hero.width/2, hero.y, 0, -2,'center', false);
+			addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right', false);
 		}
+		if(hero.weaponPower === 4){
+			addRocket(hero.x, hero.y, -0.5, -2, 'left', false);
+			addRocket(hero.x, hero.y, 0, -2, 'left', false);
+			addRocket(hero.x+hero.width, hero.y, 0, -2, 'right', false);
+			addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right', false);
 		
-		fire = false;
-		setTimeout(fireTrue, fireOften);
+		}
+		if(hero.weaponPower === 5){
+			addRocket(hero.x, hero.y, -0.5, -2, 'left', false);
+			addRocket(hero.x, hero.y, 0, -2, 'left', false);
+			addRocket(hero.x+hero.width/2, hero.y, 0, -2, 'center', false);
+			addRocket(hero.x+hero.width, hero.y, 0, -2, 'right', false);
+			addRocket(hero.x+hero.width, hero.y, 0.5, -2, 'right', false);
+		
+		}
+}
 
-	}
 
+function starWeapon(){
+	if(hero.weaponPower === 1){
 
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 2){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 3){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 4){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
+		if(hero.weaponPower === 5){
+
+			addStarWeapon(hero.x+hero.width,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x+hero.width/2,hero.y, randomNum(-1, 1), -2)
+			addStarWeapon(hero.x,hero.y, randomNum(-1, 1), -2)
+
+		}
 }
 
 
@@ -787,16 +832,14 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-let allowMouse = true;
 /*
-if(allowMouse){
-	canvas.addEventListener('mousemove', function(event){
-				
-					hero.x = event.offsetX - 100;
-					hero.y = event.offsetY-25;
-					console.log(allowMouse)
-			})
-}
+canvas.addEventListener('mousemove', function(event){
+			
+				hero.x = event.offsetX - 100;
+				hero.y = event.offsetY-25;
+
+		})
+
 */
 
 let isMobile = {
@@ -863,12 +906,22 @@ function addShipRed(x, y, speedX, speedY,width, height,name, life){
 	
 }
 
+function addEnemyFregat(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyFregatImg, randomNum(20, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
+	enemyArr.push(enemy);
+	
+}
+
+
+
+
 function addEnemyLazer(img, x, y, speedX, speedY, width, height, name, life){
 	let enemy = new Enemy(img, x, y, speedX, speedY,width, height,name, life)
 	enemyArr.push(enemy);
 }
 
 	//timer to create enemy===========================
+
 
 
 setInterval(function run() {
@@ -890,6 +943,12 @@ setInterval(function run() {
 		addShipRed();
 	}
 }, redShipInterval);
+
+setInterval(function run() {
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedFregat){
+		addEnemyFregat();
+	}
+}, redFregatInterwal);
 	//timer to create enemy===========================
 
 
@@ -924,7 +983,14 @@ function animateSth(img, sizeX, posX, sizeY, posY, x, y, width, height, sizeRow,
 function drawEnemy(){
 	for(let i=0;i<enemyArr.length; i++){
 
-
+		if(enemyArr[i].name === 'redFregat'){
+			if(enemyArr[i].y >= enemyArr[i].yPos){
+				enemyArr[i].speedY = 0;
+				if(enemyArr[i].speedX === 0){
+					enemyArr[i].speedX = 2;
+				}
+			}
+		}
 		enemyArr[i].x += enemyArr[i].speedX;
 		enemyArr[i].y += enemyArr[i].speedY;
 		if(enemyArr[i].x + enemyArr[i].width >=500 || enemyArr[i].x <=0){
@@ -932,43 +998,19 @@ function drawEnemy(){
 		}
 
 		//Drawing ship enemy============================
-			if(enemyArr[i].name === 'ship'){
-				context.drawImage(enemyArr[i].img, 70*Math.floor(enemyArr[i].N_x), 70*enemyArr[i].N_y, 70, 70, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
+			enemyArr[i].N_x += 0.2;
+			ship_01()
 
-					enemyArr[i].N_x += 0.2;
-					if(enemyArr[i].N_x > 6.9 ){
-							
-							enemyArr[i].N_x = 0;
-							enemyArr[i].N_y += 1;
-							if(enemyArr[i].N_y > 3){
-								enemyArr[i].N_y = 0;
-							}
-					}
-			}
 		//Drawing ship enemy============================
 
 		//Drawing AsteroidRed enemy============================
-			if(enemyArr[i].name === 'asterRed' || enemyArr[i].name === 'asterSmall'){
-				context.drawImage(enemyArr[i].img, 170*Math.floor(enemyArr[i].N_x), 160*enemyArr[i].N_y, 170, 160, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
-
-					enemyArr[i].N_x += 0.2;
-					if(enemyArr[i].N_x > 3.9 ){
-							
-							enemyArr[i].N_x = 0;
-							enemyArr[i].N_y += 1;
-							if(enemyArr[i].N_y > 3){
-								enemyArr[i].N_y = 0;
-							}
-					}
-			}
+			
+			asteroidDraw()
 
 		//Drawing AsteroidRed enemy============================
 
 
-		//Drawing rocket enemy============================
-			if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer'){
-				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
-
+		//Drawing redShip Freg Lazer enemy============================
 				if(enemyArr[i].name === 'redShip'){
 
 					enemyArr[i].fire++;
@@ -980,11 +1022,42 @@ function drawEnemy(){
 					}
 
 				}
-			}
-		//Drawing rocket enemy============================
+
+				if(enemyArr[i].name === 'redFregat'){
+
+					enemyArr[i].fire++;
+
+					if(enemyArr[i].fire%140 === 0){
+
+						let firstL;
+						if(enemyArr[i].x+10 > hero.x){
+							firstL = randomNum(-2, -1)
+						}else{
+							firstL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+10, (enemyArr[i].y+enemyArr[i].height) , firstL, 2, 10, 15,'enemyLazer', 1)
+
+						let secondL;
+						if(enemyArr[i].x+10 > hero.x){
+							secondL = randomNum(-2, -1)
+						}else{
+							secondL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+70, (enemyArr[i].y+enemyArr[i].height) , secondL, 2, 10, 15,'enemyLazer', 1)
+							
+			
+					}
+
+				}
+
+
+				redShipFregLazer()
+		//Drawing redShip Freg Lazer enemy============================
 
 		//delete enemy from array===================
-		if(enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
+		if( enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
 			enemyArr.splice(i, 1);
 		}
 		//delete enemy from array===================
@@ -997,7 +1070,60 @@ function drawEnemy(){
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//////////////////////////////////////////////////////////////////////
+///Functions  Drews Enemyis======================
+function ship_01(){
+	for(let i=0;i<enemyArr.length; i++){
+		if(enemyArr[i].name === 'ship'){
+				context.drawImage(enemyArr[i].img, 70*Math.floor(enemyArr[i].N_x), 70*enemyArr[i].N_y, 70, 70, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
 
+			//		enemyArr[i].N_x += 0.05;
+					if(enemyArr[i].N_x > 6.9 ){
+							
+							enemyArr[i].N_x = 0;
+							enemyArr[i].N_y += 1;
+							if(enemyArr[i].N_y > 3){
+								enemyArr[i].N_y = 0;
+							}
+					}
+			}
+	}
+}
+
+
+function asteroidDraw(){
+	for(let i=0;i<enemyArr.length; i++){
+		if(enemyArr[i].name === 'asterRed' || enemyArr[i].name === 'asterSmall'){
+					context.drawImage(enemyArr[i].img, 170*Math.floor(enemyArr[i].N_x), 160*enemyArr[i].N_y, 170, 160, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height)
+
+				//		enemyArr[i].N_x += 0.04;
+						if(enemyArr[i].N_x > 3.9 ){
+								
+								enemyArr[i].N_x = 0;
+								enemyArr[i].N_y += 1;
+								if(enemyArr[i].N_y > 3){
+									enemyArr[i].N_y = 0;
+								}
+						}
+				}
+	}
+}
+
+
+function redShipFregLazer(){
+	for(let i=0;i<enemyArr.length; i++){
+		if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer' || enemyArr[i].name === 'redFregat'){
+				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
+
+			}
+	}
+}
+
+
+
+
+///Functions  Drews Enemyis======================
+//////////////////////////////////////////////////////////////////////
 
 
 
@@ -1020,6 +1146,8 @@ function Enemy(img, x, y, speedX, speedY, width, height, name, life){
 	this.life = life;
 	this.name = name;
 	this.fire = 0;
+	this.yPos = randomNum(50, 100);
+	this.enDead = false;
 
 }
 
@@ -1036,7 +1164,7 @@ let starWeaponimg = document.getElementById('starWeapon');
 const weaponsArr = [];
 
 
-function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree, moveDir){
+function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree, moveDir, size){
 	this.img = img;
 	this.x = x;
 	this.y = y;
@@ -1058,6 +1186,10 @@ function Weapon(img, x, y, speedX, speedY, width, height, name, power, moveFree,
 
 	this.moveDir = moveDir;
 
+	this.dead = false;
+
+
+
 }
 
 
@@ -1067,8 +1199,8 @@ function addLazer(x, y, spedX, speedY){
 
 }
 
-function addRocket(x, y, spedX, speedY, moveDir){
-	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', rocketPower, false, moveDir)
+function addRocket(x, y, spedX, speedY, moveDir,moveFree,size){
+	let bullet = new Weapon(rocketimg, x, y, spedX, speedY, 10, 15, 'rocket', rocketPower, moveFree, moveDir)
 	weaponsArr.push(bullet);
 
 }
@@ -1120,11 +1252,11 @@ function drawWeapon(){
 					weaponsArr[i].speedY *= -1;
 				}
 				if(weaponsArr[i].timer%1200 === 0){
-					weaponsArr.splice(i, 1);
+					weaponsArr[i].dead = true;
 				}
 			}
 
-			if(weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
+			if(weaponsArr[i].dead === true || weaponsArr[i].x  >=500 || weaponsArr[i].x + weaponsArr[i].width <=0 || 
 				weaponsArr[i].y + weaponsArr[i].height < 0 ){
 				weaponsArr.splice(i, 1);
 			}
@@ -1155,7 +1287,15 @@ function collisionEnemyWithHero(){
 				enemyArr[j].life--;
 				addSmallExplosion_02(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y+enemyArr[j].height );
 				if(enemyArr[j].life <= 0){
-					addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+
+					if(enemyArr[j].name === 'redFregat'){
+						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
+					}
+					if(enemyArr[j].name ==='asterRed' || enemyArr[j].name ==='redShip' || enemyArr[j].name ==='ship' 
+						|| enemyArr[j].name ==='asterSmall'){
+						addExplosion_01(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y);
+					}
+					
 
 					addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
 
@@ -1189,7 +1329,7 @@ function collisionEnemyWithHero(){
 						if(lazerBulSpeed < 450){
 							lazerBulSpeed += 50;
 						}
-						if(hero.weaponKind === 'L'){
+						if(hero.weaponKind === 'L' || hero.weaponKind === 'S'){
 							fireOften = lazerBulSpeed;
 						}
 						if(rocketPower > 2){
@@ -1232,8 +1372,7 @@ function collisionBulletsEnemy(){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
 				enemyArr[j].life -= weaponsArr[i].power;
-				if(enemyArr[j].name === 'enemyLazer'){
-				}
+				
 				
 				if(enemyArr[j].life <= 0){
 
@@ -1255,6 +1394,13 @@ function collisionBulletsEnemy(){
 								soundFunc(shot, 0.7);
 							}
 					}
+					if(enemyArr[j].name === 'redFregat'){
+						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
+						addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+						if(sound){
+								soundFunc(shot, 0.7);
+							}
+					}
 					///Adding bonuses Exposion sound without enemy weapon
 					enemyArr.splice(j, 1);
 					scoreVar++;
@@ -1272,6 +1418,14 @@ function collisionBulletsEnemy(){
 				addSmallExplosion_01(weaponsArr[i].x, weaponsArr[i].y);
 				if(sound){
 					soundFunc(shot, 0.4);
+				}
+
+				if(weaponsArr[i].name === 'rocket'){
+				//	addRocket(weaponsArr[i].x, weaponsArr[i].y, -2, -2, 'left', true, 'small');
+				//	addRocket(weaponsArr[i].x, weaponsArr[i].y, 2, -2, 'right', true, 'small');
+
+					addLazer(weaponsArr[i].x, weaponsArr[i].y, -2, -2);
+					addLazer(weaponsArr[i].x, weaponsArr[i].y, 2, -2);
 				}
 				weaponsArr.splice(i, 1);
 				
@@ -1297,7 +1451,7 @@ function collisionHeroWithBonuses(){
 						if(lazerBulSpeed > 350){
 							lazerBulSpeed -= 50;
 						}
-						if(hero.weaponKind === 'L'){
+						if(hero.weaponKind === 'L' ||  hero.weaponKind === 'S'){
 							fireOften = lazerBulSpeed;
 						}
 						if(rocketPower < 5){
@@ -1324,6 +1478,7 @@ function collisionHeroWithBonuses(){
 
 					weaponIconRocket.style.display = 'block';
 					weaponIconLazer.style.display = 'none';
+					weaponIconStar.style.display = 'none';
 
 
 
@@ -1335,12 +1490,15 @@ function collisionHeroWithBonuses(){
 					fireOften = lazerBulSpeed;
 					console.log('lazer',fireOften);
 
+					weaponIconStar.style.display = 'none';
 					weaponIconRocket.style.display = 'none';
 					weaponIconLazer.style.display = 'block';
 				}
 
 				if(bonusesArr[j].name === 'starWeaponBon'){
 					hero.weaponKind = bonusesArr[j].kind;
+
+					fireOften = lazerBulSpeed;
 
 					weaponIconStar.style.display = 'block';
 
