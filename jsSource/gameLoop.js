@@ -96,7 +96,9 @@ musicOnOff.onclick = function(){
 	if(music){
 		musicOnOff.innerHTML = 'off';
 		music = false;
+
 	}else{
+	
 		musicOnOff.innerHTML = 'on';
 		music = true;
 	}
@@ -134,7 +136,7 @@ closeInfo.onclick = function(){
 let startGame = false;
 
 window.onload = function(){
-	game()
+//	game()
 }
 
 

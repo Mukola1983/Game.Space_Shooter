@@ -44,7 +44,7 @@ let playerWeapon = document.getElementById('playerWeapon');
 
 
 ///Start weapon Kind========
-let weaponKind = 'R';
+let weaponKind = 'L';
 
 
 
@@ -95,7 +95,7 @@ let playerLife = document.getElementById('playerLife');
 let lifeRow = document.getElementById('lifeRow');
 
 //Player starts number lifes========
-let playerLifeVar = 3;
+let playerLifeVar = 10;
 
 
 /// Changing life bar================
@@ -249,7 +249,7 @@ function enemyApearence(scoreVar){
 	}
 	if(scoreVar >= 130 ){
 		rockrtEnemyLife = 3;
-		sizeEnemyArr = 12;
+		sizeEnemyArr = 15;
 		allowRedFregat = true;
 		mainInterval = 4000;
 	}
@@ -354,7 +354,9 @@ musicOnOff.onclick = function(){
 	if(music){
 		musicOnOff.innerHTML = 'off';
 		music = false;
+
 	}else{
+	
 		musicOnOff.innerHTML = 'on';
 		music = true;
 	}
@@ -392,7 +394,7 @@ closeInfo.onclick = function(){
 let startGame = false;
 
 window.onload = function(){
-	game()
+//	game()
 }
 
 
@@ -832,6 +834,7 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+
 /*
 canvas.addEventListener('mousemove', function(event){
 			
@@ -901,13 +904,13 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-30, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
 	enemyArr.push(enemy);
 	
 }
 
 function addEnemyFregat(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyFregatImg, randomNum(20, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
+	let enemy = new Enemy(enemyFregatImg, randomNum(30, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
 	enemyArr.push(enemy);
 	
 }
@@ -1058,7 +1061,12 @@ function drawEnemy(){
 
 		//delete enemy from array===================
 		if( enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
-			enemyArr.splice(i, 1);
+
+			enDead = true;
+			if(enDead){
+				enemyArr.splice(i, 1);
+
+			}
 		}
 		//delete enemy from array===================
 	}
@@ -1377,9 +1385,9 @@ function collisionBulletsEnemy(){
 				if(enemyArr[j].life <= 0){
 
 					if(enemyArr[j].name ==='asterRed'){
-						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20,'asterSmall', 2);
-						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20,'asterSmall', 2);
-						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(0, 1.5),20, 20, 'asterSmall',2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(1, 1.5),20, 20,'asterSmall', 2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(1, 1.5),20, 20,'asterSmall', 2);
+						addEnemyAsterRed(enemyArr[j].x,enemyArr[j].y,randomNum(-2, 2), randomNum(1, 1.5),20, 20, 'asterSmall',2);
 
 					}
 
@@ -1442,6 +1450,7 @@ function collisionHeroWithBonuses(){
 	if(bonusesArr.length>0 && hero){
 		for(j in bonusesArr){
 			if(collision_02(bonusesArr[j],hero)){
+				addLighthAnimHero(hero.x, hero.y)
 				if(sound){
 					soundFunc(bonusGet, 0.5);
 				}
@@ -1521,9 +1530,13 @@ function collisionHeroWithBonuses(){
 
 ////EXPLOSION///////////////////////////////////////////////////
 
-var explosion_01Img = document.getElementById('explosion_01');
+let explosion_01Img = document.getElementById('explosion_01');
 
-var explosion_02Img = document.getElementById('explosion_02');
+let explosion_02Img = document.getElementById('explosion_02');
+
+let lighthAnimImg = document.getElementById('lighthAnim');
+
+
 
 const explosionArr = [];
 
@@ -1571,6 +1584,12 @@ function addExplosionHero(x, y){
 
 }
 
+function addLighthAnimHero(x, y){
+	let exp = new Explosion(lighthAnimImg, x, y,0, 30, 50, 'lighthAnim')
+	explosionArr.push(exp);
+
+}
+
 
 function drawExplosion(){
 	if(explosionArr.length > 0){
@@ -1578,7 +1597,14 @@ function drawExplosion(){
 
 //////////Exp;osion move /======================================
 //			explosionArr[i].x += explosionArr[i].speedX;
-			explosionArr[i].y += explosionArr[i].speedY;
+			if(explosionArr[i].name === 'explosion_01' || explosionArr[i].name === 'explosion_02' || 
+				explosionArr[i].name === 'explosion_03'){
+					explosionArr[i].y += explosionArr[i].speedY;
+			}
+			if(explosionArr[i].name === 'lighthAnim'){
+				explosionArr[i].y = hero.y;
+				explosionArr[i].x = hero.x;
+			}
 //////////Exp;osion move /======================================
 
 
@@ -1619,6 +1645,21 @@ function drawExplosion(){
 							if(explosionArr[i].N_y > 7){
 								explosionArr[i].del = true;
 							}
+					}
+			}
+
+			if(explosionArr[i].name === 'lighthAnim'){
+				context.drawImage(explosionArr[i].img, 512*Math.floor(explosionArr[i].N_x), 0*explosionArr[i].N_y, 512, 512,
+				 explosionArr[i].x, explosionArr[i].y, explosionArr[i].width, explosionArr[i].height)
+
+					explosionArr[i].N_x += 0.2;
+					if(explosionArr[i].N_x > 1.9 ){
+						explosionArr[i].N_x = 0;
+						explosionArr[i].N_y ++;
+						if(explosionArr[i].N_y === 3){
+							explosionArr[i].del = true;
+						}
+						
 					}
 			}
 
@@ -1800,9 +1841,10 @@ function addStarWeaponBonusEn(x, y){
 
 
 function soundFunc(audio, vol){
-	audio.pause();
-	audio.volume = vol;
+//	audio.pause();
+	
 	audio.currentTime = 0;
+	audio.volume = vol;
 	audio.play();
 }
 

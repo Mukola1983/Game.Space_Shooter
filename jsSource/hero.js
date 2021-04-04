@@ -322,6 +322,7 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+
 /*
 canvas.addEventListener('mousemove', function(event){
 			

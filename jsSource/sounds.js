@@ -1,9 +1,10 @@
 
 
 function soundFunc(audio, vol){
-	audio.pause();
-	audio.volume = vol;
+//	audio.pause();
+	
 	audio.currentTime = 0;
+	audio.volume = vol;
 	audio.play();
 }
 

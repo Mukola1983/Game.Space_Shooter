@@ -34,13 +34,13 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-30, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
 	enemyArr.push(enemy);
 	
 }
 
 function addEnemyFregat(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyFregatImg, randomNum(20, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
+	let enemy = new Enemy(enemyFregatImg, randomNum(30, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
 	enemyArr.push(enemy);
 	
 }
@@ -191,7 +191,12 @@ function drawEnemy(){
 
 		//delete enemy from array===================
 		if( enemyArr[i].y >=300 || enemyArr[i].y < -50 || enemyArr[i].x >=520 || enemyArr[i].x < -10){
-			enemyArr.splice(i, 1);
+
+			enDead = true;
+			if(enDead){
+				enemyArr.splice(i, 1);
+
+			}
 		}
 		//delete enemy from array===================
 	}

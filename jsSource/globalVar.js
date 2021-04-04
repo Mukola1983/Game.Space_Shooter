@@ -38,7 +38,7 @@ let playerWeapon = document.getElementById('playerWeapon');
 
 
 ///Start weapon Kind========
-let weaponKind = 'R';
+let weaponKind = 'L';
 
 
 
@@ -89,7 +89,7 @@ let playerLife = document.getElementById('playerLife');
 let lifeRow = document.getElementById('lifeRow');
 
 //Player starts number lifes========
-let playerLifeVar = 3;
+let playerLifeVar = 10;
 
 
 /// Changing life bar================
@@ -243,7 +243,7 @@ function enemyApearence(scoreVar){
 	}
 	if(scoreVar >= 130 ){
 		rockrtEnemyLife = 3;
-		sizeEnemyArr = 12;
+		sizeEnemyArr = 15;
 		allowRedFregat = true;
 		mainInterval = 4000;
 	}
