@@ -22,7 +22,7 @@ function collisionEnemyWithHero(){
 				addSmallExplosion_02(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y+enemyArr[j].height );
 				if(enemyArr[j].life <= 0){
 
-					if(enemyArr[j].name === 'redFregat'){
+					if(enemyArr[j].name === 'redFregat' || enemyArr[j].name === 'redCarier'){
 						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
 					}
 					if(enemyArr[j].name ==='asterRed' || enemyArr[j].name ==='redShip' || enemyArr[j].name ==='ship' 
@@ -106,7 +106,21 @@ function collisionBulletsEnemy(){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
 				enemyArr[j].life -= weaponsArr[i].power;
-				
+
+
+				if(enemyArr[j].name === 'redFregatBoss'){
+					let bosslifeBar = Math.round(percentage(bossLifeVar, enemyArr[j].life));
+
+
+					if(bosslifeBar < 60){
+						bossLifeRow.style.backgroundColor  = `#D8B61F`;
+					};
+					if(bosslifeBar < 30){
+						bossLifeRow.style.backgroundColor  = `#F00`;
+					};
+					bossLifeRow.style.width = `${bosslifeBar}%`;
+				}
+
 				
 				if(enemyArr[j].life <= 0){
 
@@ -128,19 +142,29 @@ function collisionBulletsEnemy(){
 								soundFunc(shot, 0.7);
 							}
 					}
-					if(enemyArr[j].name === 'redFregat'){
-						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
-						addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
-						if(sound){
-								soundFunc(shot, 0.7);
-							}
+					if(enemyArr[j].name === 'redFregat' || enemyArr[j].name === 'redCarier' 
+						|| enemyArr[j].name === 'redFregatBoss'){
+						
+							addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
+							addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+							if(sound){
+									soundFunc(shot, 0.7);
+								}
 					}
 					///Adding bonuses Exposion sound without enemy weapon
+					if(enemyArr[j].name === 'redFregatBoss'){
+						bossKilled = true;
+						setTimeout(activateCoverBetRound, 4000);
+						
+					
+					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
 			//// Increase Emeny power and count==============================
 
-					enemyApearence(scoreVar)
+					enemyApearence(scoreVar);
+
+					addBoses(scoreVar);
 					
 			//// Increase Emeny power and count==============================
 					score.innerHTML = `Score: ${scoreVar}`;
@@ -223,7 +247,7 @@ function collisionHeroWithBonuses(){
 					hero.weaponKind = bonusesArr[j].kind;
 
 					fireOften = lazerBulSpeed;
-					console.log('lazer',fireOften);
+			
 
 					weaponIconStar.style.display = 'none';
 					weaponIconRocket.style.display = 'none';

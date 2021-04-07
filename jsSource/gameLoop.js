@@ -160,11 +160,16 @@ function render() {
 	drawFon();
 
 	drawBonuses();
+	drawEfects();
 	collisionHeroWithBonuses();
 
 	drawWeapon();
 
 	drawEnemy();
+	drawEnemyBigShips()
+	drawEnemyBoses();
+
+	
 	drawHero();
 	moveHero();
 

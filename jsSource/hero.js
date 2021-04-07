@@ -14,6 +14,8 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weapo
 	this.weaponPower = weaponPower;
 
 	this.weaponKind = weaponKind;
+
+	this.timer = 0;
 }
 
 
@@ -82,6 +84,16 @@ function drawHero(){
 		
 		
 	}
+////////////////////////////////////////////
+		hero.timer++;
+
+		if(hero.timer%30 === 0){
+			addBackFire(hero.x +10, hero.y + 45, 0, 0.6, 10, 10, 180)
+		}
+		
+	
+////////////////////////////////////////////////////////
+
 
 	let stoii = true;
 
@@ -330,8 +342,8 @@ canvas.addEventListener('mousemove', function(event){
 				hero.y = event.offsetY-25;
 
 		})
-
 */
+
 
 let isMobile = {
 	Android: function() {return navigator.userAgent.match(/Android/i);},

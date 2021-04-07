@@ -202,6 +202,9 @@ let enemyAsterRedImg = document.getElementById('enemyAsterRed');
 
 let enemyFregatImg = document.getElementById('enemyFregat');
 
+let enemyCarierImg = document.getElementById('enemyCarier');
+
+
 
 
 //Enemy sprites===================
@@ -247,7 +250,7 @@ function enemyApearence(scoreVar){
 		sizeEnemyArr = 12;
 		allowRedShip = true;
 	}
-	if(scoreVar >= 130 ){
+	if(scoreVar >= 145 ){
 		rockrtEnemyLife = 3;
 		sizeEnemyArr = 15;
 		allowRedFregat = true;
@@ -255,7 +258,86 @@ function enemyApearence(scoreVar){
 	}
 }
 
+
+
+function addBoses(scoreVar){
+	if(scoreVar > 140 && firstBoss){
+		bossData.style.display = 'flex';
+		firstBoss = false;
+		bossBattle = true;
+		addEnemyBoss_01();
+	}
+	if(scoreVar > 450 && secondBoss){
+		bossLifeVar = 250;
+		bossData.style.display = 'flex';
+		secondBoss = false;
+		bossBattle = true;
+		addEnemyBoss_01();
+	}
+}
+
 //Enemy Variables=========================================
+
+
+
+
+
+
+//////Cover Betwen Bonuses ====================================
+
+let stage = 1;
+
+
+let coverBetvenRound = document.querySelector('.coverBetvenRound')
+
+let scoreUpdate = document.getElementById('scoreUpdate');
+let roundNum = document.getElementById('roundNum');
+
+function activateCoverBetRound(){
+	if (bossKilled){
+		coverBetvenRound.classList.add('_activedCover');
+
+		bossData.style.display = 'none';
+
+		scoreUpdate.innerHTML = `Score - ${scoreVar}`
+
+		roundNum.innerHTML = `Round ${stage} cleared`
+
+		stage++;
+
+		setTimeout(changeRound, 4000);
+
+	}
+}
+
+
+
+function changeRound(){
+	roundNum.innerHTML = `Prepare for Round ${stage}`;
+
+	setTimeout(deActivateCoverBetRound, 3000);
+
+	bossLifeRow.style.backgroundColor  = `#47B932`;
+}
+
+function deActivateCoverBetRound(){
+
+	coverBetvenRound.classList.remove('_activedCover');
+
+	bossBattle = false;
+}
+
+
+function stopMove() {
+	fireToLive = false;
+	addExplosionHero(hero.x-100, hero.y-80);
+	heroSpeedX = 0;
+	heroSpeedY = 0;
+	for(let i=0;i<enemyArr.length; i++){
+
+
+	}
+}
 
 
 
@@ -418,11 +500,16 @@ function render() {
 	drawFon();
 
 	drawBonuses();
+	drawEfects();
 	collisionHeroWithBonuses();
 
 	drawWeapon();
 
 	drawEnemy();
+	drawEnemyBigShips()
+	drawEnemyBoses();
+
+	
 	drawHero();
 	moveHero();
 
@@ -483,7 +570,7 @@ let a = 0;
 
 
 
-var drawRect = function(img, x, y, w, h, a){
+function drawRect(img, x, y, w, h, a){
 			var dx = x + w/2;
 			var dy = y + h/2;
 
@@ -501,6 +588,30 @@ var drawRect = function(img, x, y, w, h, a){
 				context.restore();
 			}
 		}
+
+function drawRectAnimated(img, N_x,N_y, N_xWidth, N_yHight, x, y, w, h, a){
+			var dx = x + w/2;
+			var dy = y + h/2;
+
+			if(a){
+				a = a * (Math.PI/180);
+				context.save();
+				context.translate(dx, dy);
+				context.rotate(a);
+				context.translate(-dx, -dy);
+			}
+
+			context.drawImage( img,N_x,N_y, N_xWidth, N_yHight,x, y , w, h,);
+
+
+
+
+
+			if(a){
+				context.restore();
+			}
+		}
+
 
 
 
@@ -526,6 +637,8 @@ function Hero(img, x, y, speedX, speedY, width, height, life, weaponPower, weapo
 	this.weaponPower = weaponPower;
 
 	this.weaponKind = weaponKind;
+
+	this.timer = 0;
 }
 
 
@@ -594,6 +707,16 @@ function drawHero(){
 		
 		
 	}
+////////////////////////////////////////////
+		hero.timer++;
+
+		if(hero.timer%30 === 0){
+			addBackFire(hero.x +10, hero.y + 45, 0, 0.6, 10, 10, 180)
+		}
+		
+	
+////////////////////////////////////////////////////////
+
 
 	let stoii = true;
 
@@ -842,8 +965,8 @@ canvas.addEventListener('mousemove', function(event){
 				hero.y = event.offsetY-25;
 
 		})
-
 */
+
 
 let isMobile = {
 	Android: function() {return navigator.userAgent.match(/Android/i);},
@@ -889,8 +1012,8 @@ const enemyArr = [];
 
 ///////////////////////////////////////////////////////////////////////////
 // Adding enemy==========================================
-function addEnemy(){
-	let enemy = new Enemy(enemyShipImg, randomNum(20, 480),-40, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', rockrtEnemyLife)
+function addEnemy(x, y ){
+	let enemy = new Enemy(enemyShipImg, x, y, randomNum(-1, 1), randomNum(1, 2), 20, 30, 'ship', rockrtEnemyLife)
 	enemyArr.push(enemy);
 }
 
@@ -904,13 +1027,20 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, randomNum(20, 480),-30, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, x, y, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
 	enemyArr.push(enemy);
 	
 }
 
 function addEnemyFregat(x, y, speedX, speedY,width, height,name, life){
 	let enemy = new Enemy(enemyFregatImg, randomNum(30, 30),-30, randomNum(-1, 1), randomNum(1, 2), 100, 40, 'redFregat', 15);
+	enemyArr.push(enemy);
+	
+}
+
+
+function addEnemyCarier(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyCarierImg, randomNum(30, 30),-30, randomNum(-1, 1), randomNum(1, 2), 40, 80, 'redCarier', 15);
 	enemyArr.push(enemy);
 	
 }
@@ -928,27 +1058,28 @@ function addEnemyLazer(img, x, y, speedX, speedY, width, height, name, life){
 
 
 setInterval(function run() {
-	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame){
-		addEnemy();
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && bossBattle === false){
+		addEnemy(randomNum(20, 480),-30);
+//		addEnemyCarier();
 	}
 }, mainInterval);
 
 
 setInterval(function run() {
-	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowAster){
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowAster && bossBattle === false){
 		addEnemyAsterRed(randomNum(20, 480), -40, randomNum(-1, 1), randomNum(1, 1.5),40, 40,'asterRed', asterEnemyLife);
 	}
 }, asterInterval);
 
 
 setInterval(function run() {
-	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedShip){
-		addShipRed();
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedShip && bossBattle === false){
+		addShipRed(randomNum(20, 480),-30);
 	}
 }, redShipInterval);
 
 setInterval(function run() {
-	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedFregat){
+	if( enemyArr.length < sizeEnemyArr && fireToLive && startGame && allowRedFregat && bossBattle === false){
 		addEnemyFregat();
 	}
 }, redFregatInterwal);
@@ -975,7 +1106,43 @@ function animateSth(img, sizeX, posX, sizeY, posY, x, y, width, height, sizeRow,
 }
 
 
+////Draw enemy biShips ====================================================
 
+function drawEnemyBigShips(){
+		for(let i=0;i<enemyArr.length; i++){
+
+
+			if(enemyArr[i].name === 'redCarier'){
+
+					if(enemyArr[i].topFrame === true && enemyArr[i].y <= 0){
+								enemyArr[i].speedY *= -1;
+					}
+					if(enemyArr[i].y >= enemyArr[i].yPos ){
+						enemyArr[i].speedY *= -1;
+						if(enemyArr[i].topFrame === false){
+							enemyArr[i].topFrame = true;
+						}
+						if(enemyArr[i].speedX === 0){
+							enemyArr[i].speedX = 1;
+						}
+					}
+
+					// Fire Logics==================
+					enemyArr[i].fire++;
+
+					if(enemyArr[i].fire%180 === 0){
+						addShipRed(enemyArr[i].x + 20,enemyArr[i].y + enemyArr[i].height);
+					}
+					if(enemyArr[i].fire%280 === 0){
+						addShipRed(enemyArr[i].x + 40,enemyArr[i].y + enemyArr[i].height);
+						addEnemy(enemyArr[i].x + 80,enemyArr[i].y + enemyArr[i].height);
+					}
+
+				}
+
+		}
+
+}
 
 
 
@@ -990,14 +1157,17 @@ function drawEnemy(){
 			if(enemyArr[i].y >= enemyArr[i].yPos){
 				enemyArr[i].speedY = 0;
 				if(enemyArr[i].speedX === 0){
-					enemyArr[i].speedX = 2;
+					enemyArr[i].speedX = 1;
 				}
 			}
 		}
+		
 		enemyArr[i].x += enemyArr[i].speedX;
 		enemyArr[i].y += enemyArr[i].speedY;
-		if(enemyArr[i].x + enemyArr[i].width >=500 || enemyArr[i].x <=0){
-			enemyArr[i].speedX *= -1;
+		if (enemyArr[i].name != 'redFregatBoss'){
+			if(enemyArr[i].x + enemyArr[i].width >=500 || enemyArr[i].x <=0){
+				enemyArr[i].speedX *= -1;
+			}
 		}
 
 		//Drawing ship enemy============================
@@ -1025,6 +1195,8 @@ function drawEnemy(){
 					}
 
 				}
+
+				
 
 				if(enemyArr[i].name === 'redFregat'){
 
@@ -1120,7 +1292,8 @@ function asteroidDraw(){
 
 function redShipFregLazer(){
 	for(let i=0;i<enemyArr.length; i++){
-		if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer' || enemyArr[i].name === 'redFregat'){
+		if(enemyArr[i].name === 'redShip' || enemyArr[i].name === 'enemyLazer' ||
+		 enemyArr[i].name === 'redFregat' || enemyArr[i].name === 'redCarier'){
 				context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
 
 			}
@@ -1157,9 +1330,157 @@ function Enemy(img, x, y, speedX, speedY, width, height, name, life){
 	this.yPos = randomNum(50, 100);
 	this.enDead = false;
 
+	this.topFrame = false;
+
+	this.boss = false;
+	this.deg = 0;
+
 }
 
 ////////////Object enemy====================================
+
+
+let bossBattle = false;
+
+let bossKilled = false;
+
+
+
+/// Boss lifeBarr================
+
+let bossData = document.querySelector('.bossData')
+
+let bossLife = document.getElementById('bossLife');
+
+
+let bossLifeRow = document.getElementById('bossLifeRow');
+
+
+let bossLifeVar = 150;
+
+
+/// Changing life bar================
+bossLifeRow.style.width = `${100}%`;
+
+
+///Gunction for Changing life bar================
+function percentage(num, curNum)
+{
+	return (curNum * 100)/ num;
+}
+
+
+/// Boss lifeBarr================
+
+
+
+///Boss 01 ==========================
+
+function addEnemyBoss_01(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyFregatImg, randomNum(30, 30),-30, randomNum(-1, 1), randomNum(1, 1), 140, 45, 'redFregatBoss', bossLifeVar);
+	enemyArr.push(enemy);
+	
+}
+
+let firstBoss = true;
+
+let secondBoss = true;
+
+
+
+
+
+function drawEnemyBoses(){
+		for(let i=0;i<enemyArr.length; i++){
+
+			
+
+
+			if(enemyArr[i].name === 'redFregatBoss'){
+
+					if(enemyArr[i].topFrame === true && enemyArr[i].y <= 0){
+								enemyArr[i].speedY *= -1;
+					}
+					if(enemyArr[i].y >= enemyArr[i].yPos ){
+						enemyArr[i].speedY = 0;
+						if(enemyArr[i].topFrame === false){
+							enemyArr[i].topFrame = true;
+						}
+						if(enemyArr[i].speedX === 0){
+							enemyArr[i].speedX = 1;
+						}
+					}
+
+					///Rotation boses==============================
+					if(enemyArr[i].x + enemyArr[i].width >=500){
+
+						if(enemyArr[i].deg >= 0 && enemyArr[i].deg < 180){
+							enemyArr[i].deg +=4;
+							enemyArr[i].speedX = 0;
+						}
+						if(enemyArr[i].deg == 180){
+							enemyArr[i].speedX = -1.5;
+						}
+					}
+					if(enemyArr[i].x <= 0){
+
+						if(enemyArr[i].deg > 0 && enemyArr[i].deg <= 180){
+							enemyArr[i].deg -=4;
+							enemyArr[i].speedX = 0;
+						}
+						if(enemyArr[i].deg == 0){
+							enemyArr[i].speedX = 1.5;
+						}
+					}
+					///Rotation boses==============================
+
+
+					drawRect(enemyFregatImg, enemyArr[i].x,enemyArr[i].y, enemyArr[i].width, enemyArr[i].height, enemyArr[i].deg);
+
+					// Fire Logics==================
+					enemyArr[i].fire++;
+
+					if(enemyArr[i].fire%40 === 0){
+				//		addBackFire(enemyArr[i].x +5, enemyArr[i].y + 20, -0.6, 0, 30, 30 ,270)
+					}
+
+					if(enemyArr[i].fire%100 === 0){
+
+						let firstL;
+						if(enemyArr[i].x+10 > hero.x){
+							firstL = randomNum(-2, -1)
+						}else{
+							firstL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+10, (enemyArr[i].y+enemyArr[i].height) , firstL, 2, 10, 15,'enemyLazer', 1)
+
+						let secondL;
+						if(enemyArr[i].x+10 > hero.x){
+							secondL = randomNum(-2, -1)
+						}else{
+							secondL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+70, (enemyArr[i].y+enemyArr[i].height) , secondL, 2, 10, 15,'enemyLazer', 1)
+							
+						let thirdL;
+						if(enemyArr[i].x+10 > hero.x){
+							thirdL = randomNum(-2, -1)
+						}else{
+							thirdL = randomNum(1, 2)
+						}
+
+						addEnemyLazer(enemyLazerImg, enemyArr[i].x+120, (enemyArr[i].y+enemyArr[i].height) , thirdL, 2, 10, 15,'enemyLazer', 1)
+							
+			
+					}
+			//	context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
+				}
+
+		}
+
+}
 
 
 let lazer = document.getElementById('lazer');
@@ -1296,7 +1617,7 @@ function collisionEnemyWithHero(){
 				addSmallExplosion_02(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y+enemyArr[j].height );
 				if(enemyArr[j].life <= 0){
 
-					if(enemyArr[j].name === 'redFregat'){
+					if(enemyArr[j].name === 'redFregat' || enemyArr[j].name === 'redCarier'){
 						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
 					}
 					if(enemyArr[j].name ==='asterRed' || enemyArr[j].name ==='redShip' || enemyArr[j].name ==='ship' 
@@ -1380,7 +1701,21 @@ function collisionBulletsEnemy(){
 		for(j in enemyArr){
 			if(collision_02(weaponsArr[i], enemyArr[j])){
 				enemyArr[j].life -= weaponsArr[i].power;
-				
+
+
+				if(enemyArr[j].name === 'redFregatBoss'){
+					let bosslifeBar = Math.round(percentage(bossLifeVar, enemyArr[j].life));
+
+
+					if(bosslifeBar < 60){
+						bossLifeRow.style.backgroundColor  = `#D8B61F`;
+					};
+					if(bosslifeBar < 30){
+						bossLifeRow.style.backgroundColor  = `#F00`;
+					};
+					bossLifeRow.style.width = `${bosslifeBar}%`;
+				}
+
 				
 				if(enemyArr[j].life <= 0){
 
@@ -1402,19 +1737,29 @@ function collisionBulletsEnemy(){
 								soundFunc(shot, 0.7);
 							}
 					}
-					if(enemyArr[j].name === 'redFregat'){
-						addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
-						addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
-						if(sound){
-								soundFunc(shot, 0.7);
-							}
+					if(enemyArr[j].name === 'redFregat' || enemyArr[j].name === 'redCarier' 
+						|| enemyArr[j].name === 'redFregatBoss'){
+						
+							addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
+							addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
+							if(sound){
+									soundFunc(shot, 0.7);
+								}
 					}
 					///Adding bonuses Exposion sound without enemy weapon
+					if(enemyArr[j].name === 'redFregatBoss'){
+						bossKilled = true;
+						setTimeout(activateCoverBetRound, 4000);
+						
+					
+					}
 					enemyArr.splice(j, 1);
 					scoreVar++;
 			//// Increase Emeny power and count==============================
 
-					enemyApearence(scoreVar)
+					enemyApearence(scoreVar);
+
+					addBoses(scoreVar);
 					
 			//// Increase Emeny power and count==============================
 					score.innerHTML = `Score: ${scoreVar}`;
@@ -1497,7 +1842,7 @@ function collisionHeroWithBonuses(){
 					hero.weaponKind = bonusesArr[j].kind;
 
 					fireOften = lazerBulSpeed;
-					console.log('lazer',fireOften);
+			
 
 					weaponIconStar.style.display = 'none';
 					weaponIconRocket.style.display = 'none';
@@ -1854,4 +2199,80 @@ let bonusGet = document.getElementById('bonusGet');
 
 let shot = document.getElementById('shot');
 
+
+
+
+let backFireImg = document.getElementById('backFire');
+
+
+
+let efectArr = [];
+
+
+function Efect(img, x, y, speedX, speedY, width, height, deg, name, life, kind){
+	this.img = img;
+	this.x = x;
+	this.y = y;
+
+	this.width = width;
+	this.height = height;
+
+	this.speedX = speedX;
+	this.speedY = speedY;
+
+	this.N_x = 0;
+	this.N_y = 0;
+
+	this.name = name;
+	this.life = life;
+	this.kind = kind;
+
+	this.deg = deg;
+
+	this.del = false;
+
+}
+
+
+function addBackFire(x, y, speedX, speedY,width, height, deg){
+	let fire = new Efect(backFireImg, x,y, speedX, speedY, width, height, deg);
+	efectArr.push(fire);
+
+}
+
+
+
+function drawEfects(){
+	if(efectArr.length > 0){
+		for(let i=0;i<efectArr.length; i++){
+
+			efectArr[i].x += efectArr[i].speedX;
+			efectArr[i].y += efectArr[i].speedY;
+
+			efectArr[i].deg += 0.1;
+	//		context.drawImage(efectArr[i].img, 30*Math.floor(efectArr[i].N_x), 30*efectArr[i].N_y, 30, 30, efectArr[i].x, efectArr[i].y, efectArr[i].width, efectArr[i].height)
+
+			drawRectAnimated(efectArr[i].img, 30*Math.floor(efectArr[i].N_x),30*efectArr[i].N_y, 30, 30, efectArr[i].x, efectArr[i].y, efectArr[i].width, efectArr[i].height, efectArr[i].deg )
+
+				efectArr[i].N_x += 0.2;
+
+				if(efectArr[i].N_x > 5.9 ){
+						
+						efectArr[i].del = true;
+						/*
+						efectArr[i].N_x = 0;
+						efectArr[i].N_y += 1;
+						if(efectArr[i].N_y > 3){
+							efectArr[i].del = true;
+						}*/
+				}
+
+			//delete efects from array===================
+			if(efectArr[i].del === true ){
+				efectArr.splice(i, 1);
+			}
+			//delete efects from array===================
+		}
+	}
+}
 

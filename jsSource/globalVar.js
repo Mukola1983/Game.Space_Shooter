@@ -196,6 +196,9 @@ let enemyAsterRedImg = document.getElementById('enemyAsterRed');
 
 let enemyFregatImg = document.getElementById('enemyFregat');
 
+let enemyCarierImg = document.getElementById('enemyCarier');
+
+
 
 
 //Enemy sprites===================
@@ -241,7 +244,7 @@ function enemyApearence(scoreVar){
 		sizeEnemyArr = 12;
 		allowRedShip = true;
 	}
-	if(scoreVar >= 130 ){
+	if(scoreVar >= 145 ){
 		rockrtEnemyLife = 3;
 		sizeEnemyArr = 15;
 		allowRedFregat = true;
@@ -249,4 +252,83 @@ function enemyApearence(scoreVar){
 	}
 }
 
+
+
+function addBoses(scoreVar){
+	if(scoreVar > 140 && firstBoss){
+		bossData.style.display = 'flex';
+		firstBoss = false;
+		bossBattle = true;
+		addEnemyBoss_01();
+	}
+	if(scoreVar > 450 && secondBoss){
+		bossLifeVar = 250;
+		bossData.style.display = 'flex';
+		secondBoss = false;
+		bossBattle = true;
+		addEnemyBoss_01();
+	}
+}
+
 //Enemy Variables=========================================
+
+
+
+
+
+
+//////Cover Betwen Bonuses ====================================
+
+let stage = 1;
+
+
+let coverBetvenRound = document.querySelector('.coverBetvenRound')
+
+let scoreUpdate = document.getElementById('scoreUpdate');
+let roundNum = document.getElementById('roundNum');
+
+function activateCoverBetRound(){
+	if (bossKilled){
+		coverBetvenRound.classList.add('_activedCover');
+
+		bossData.style.display = 'none';
+
+		scoreUpdate.innerHTML = `Score - ${scoreVar}`
+
+		roundNum.innerHTML = `Round ${stage} cleared`
+
+		stage++;
+
+		setTimeout(changeRound, 4000);
+
+	}
+}
+
+
+
+function changeRound(){
+	roundNum.innerHTML = `Prepare for Round ${stage}`;
+
+	setTimeout(deActivateCoverBetRound, 3000);
+
+	bossLifeRow.style.backgroundColor  = `#47B932`;
+}
+
+function deActivateCoverBetRound(){
+
+	coverBetvenRound.classList.remove('_activedCover');
+
+	bossBattle = false;
+}
+
+
+function stopMove() {
+	fireToLive = false;
+	addExplosionHero(hero.x-100, hero.y-80);
+	heroSpeedX = 0;
+	heroSpeedY = 0;
+	for(let i=0;i<enemyArr.length; i++){
+
+
+	}
+}

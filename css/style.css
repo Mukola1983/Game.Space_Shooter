@@ -403,3 +403,58 @@ h1, h2, h3, h4, h5, h6 {
 .galery img {
   display: none;
 }
+
+.coverBetvenRound {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #206baf;
+  transform: translate(-100%, 0);
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.coverBetvenRound span {
+  margin: 30px 0;
+  color: #f51114;
+  font-size: 20px;
+  letter-spacing: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+._activedCover {
+  transform: translate(0%, 0);
+}
+
+.bossData {
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  left: 50%;
+  top: 15px;
+  transform: translate(-50%, 0);
+}
+
+#bossLife {
+  position: relative;
+  display: inline-block;
+  height: 15px;
+  width: 250px;
+  border: 1px solid #f00;
+  background: rgba(206, 135, 222, 0.4);
+  overflow: hidden;
+  border-radius: 10px;
+}
+#bossLife #bossLifeRow {
+  position: absolute;
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+  background: #47B932;
+  margin: 0 0;
+  top: 0px;
+  left: 0px;
+}
