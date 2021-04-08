@@ -108,7 +108,7 @@ function collisionBulletsEnemy(){
 				enemyArr[j].life -= weaponsArr[i].power;
 
 
-				if(enemyArr[j].name === 'redFregatBoss'){
+				if(enemyArr[j].name === 'redFregatBoss' ||  enemyArr[j].name === 'redCarierBoss'){
 					let bosslifeBar = Math.round(percentage(bossLifeVar, enemyArr[j].life));
 
 
@@ -143,7 +143,7 @@ function collisionBulletsEnemy(){
 							}
 					}
 					if(enemyArr[j].name === 'redFregat' || enemyArr[j].name === 'redCarier' 
-						|| enemyArr[j].name === 'redFregatBoss'){
+						|| enemyArr[j].name === 'redFregatBoss' ||  enemyArr[j].name === 'redCarierBoss'){
 						
 							addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
 							addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
@@ -152,14 +152,17 @@ function collisionBulletsEnemy(){
 								}
 					}
 					///Adding bonuses Exposion sound without enemy weapon
-					if(enemyArr[j].name === 'redFregatBoss'){
+					if(enemyArr[j].name === 'redFregatBoss' ||  enemyArr[j].name === 'redCarierBoss'){
 						bossKilled = true;
 						setTimeout(activateCoverBetRound, 4000);
 						
 					
 					}
+					if(enemyArr[j].name != 'enemyLazer'){
+						scoreVar++;
+					}
 					enemyArr.splice(j, 1);
-					scoreVar++;
+
 			//// Increase Emeny power and count==============================
 
 					enemyApearence(scoreVar);

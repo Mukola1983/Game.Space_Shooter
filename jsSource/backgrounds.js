@@ -1,6 +1,7 @@
 
 
-var fonImg = document.getElementById('bg_01');
+let fonImg = document.getElementById('bg_01');
+let fonImg_02 = document.getElementById('bg_02');
 
 
 function drawFons(){
@@ -57,7 +58,12 @@ function drawRectAnimated(img, N_x,N_y, N_xWidth, N_yHight, x, y, w, h, a){
 
 
 function drawFon(fImg){
-		
+		if(stage === 1){
 			a+=0.02;
 			drawRect(fonImg, -100, -200, 700, 700, a);
+		}else if(stage >= 2){
+			a+=0.02;
+			drawRect(fonImg_02, -100, -200, 700, 700, a);
 		}
+
+}

@@ -164,7 +164,8 @@ function heroRestart(){
 		sizeEnemyArr = 6;
 
 		enemyArr.splice(0);
-		console.log('enArr', enemyArr.length);
+
+		bossLifeVar = 150;
 }
 
 
@@ -197,6 +198,10 @@ let enemyAsterRedImg = document.getElementById('enemyAsterRed');
 let enemyFregatImg = document.getElementById('enemyFregat');
 
 let enemyCarierImg = document.getElementById('enemyCarier');
+
+let enemyCarierBossImg = document.getElementById('enemyCarierBoss');
+
+
 
 
 
@@ -261,12 +266,13 @@ function addBoses(scoreVar){
 		bossBattle = true;
 		addEnemyBoss_01();
 	}
-	if(scoreVar > 450 && secondBoss){
+	if(scoreVar > 300 && secondBoss){
 		bossLifeVar = 250;
+		bossLifeRow.style.width = `${100}%`;
 		bossData.style.display = 'flex';
 		secondBoss = false;
 		bossBattle = true;
-		addEnemyBoss_01();
+		addEnemyBoss_02();
 	}
 }
 

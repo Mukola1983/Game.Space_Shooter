@@ -170,7 +170,8 @@ function heroRestart(){
 		sizeEnemyArr = 6;
 
 		enemyArr.splice(0);
-		console.log('enArr', enemyArr.length);
+
+		bossLifeVar = 150;
 }
 
 
@@ -203,6 +204,10 @@ let enemyAsterRedImg = document.getElementById('enemyAsterRed');
 let enemyFregatImg = document.getElementById('enemyFregat');
 
 let enemyCarierImg = document.getElementById('enemyCarier');
+
+let enemyCarierBossImg = document.getElementById('enemyCarierBoss');
+
+
 
 
 
@@ -267,12 +272,13 @@ function addBoses(scoreVar){
 		bossBattle = true;
 		addEnemyBoss_01();
 	}
-	if(scoreVar > 450 && secondBoss){
+	if(scoreVar > 300 && secondBoss){
 		bossLifeVar = 250;
+		bossLifeRow.style.width = `${100}%`;
 		bossData.style.display = 'flex';
 		secondBoss = false;
 		bossBattle = true;
-		addEnemyBoss_01();
+		addEnemyBoss_02();
 	}
 }
 
@@ -559,7 +565,8 @@ function launchFullScreen(element){
 
 
 
-var fonImg = document.getElementById('bg_01');
+let fonImg = document.getElementById('bg_01');
+let fonImg_02 = document.getElementById('bg_02');
 
 
 function drawFons(){
@@ -616,10 +623,15 @@ function drawRectAnimated(img, N_x,N_y, N_xWidth, N_yHight, x, y, w, h, a){
 
 
 function drawFon(fImg){
-		
+		if(stage === 1){
 			a+=0.02;
 			drawRect(fonImg, -100, -200, 700, 700, a);
+		}else if(stage >= 2){
+			a+=0.02;
+			drawRect(fonImg_02, -100, -200, 700, 700, a);
 		}
+
+}
 
 
 ///Object Hero /////////////////////=============================
@@ -1382,6 +1394,12 @@ function addEnemyBoss_01(x, y, speedX, speedY,width, height,name, life){
 	
 }
 
+function addEnemyBoss_02(x, y, speedX, speedY,width, height,name, life){
+	let enemy = new Enemy(enemyCarierImg, randomNum(30, 30),-30, randomNum(-1, 1), randomNum(1, 1), 155, 45, 'redCarierBoss', bossLifeVar);
+	enemyArr.push(enemy);
+	
+}
+
 let firstBoss = true;
 
 let secondBoss = true;
@@ -1396,90 +1414,128 @@ function drawEnemyBoses(){
 			
 
 
-			if(enemyArr[i].name === 'redFregatBoss'){
+			if(enemyArr[i].name === 'redFregatBoss' || enemyArr[i].name === 'redCarierBoss'){
 
-					if(enemyArr[i].topFrame === true && enemyArr[i].y <= 0){
-								enemyArr[i].speedY *= -1;
+								if(enemyArr[i].topFrame === true && enemyArr[i].y <= 0){
+											enemyArr[i].speedY *= -1;
+								}
+								if(enemyArr[i].y >= enemyArr[i].yPos ){
+									enemyArr[i].speedY *= -1;
+									if(enemyArr[i].topFrame === false){
+										enemyArr[i].topFrame = true;
+									}
+									if(enemyArr[i].speedX === 0){
+										enemyArr[i].speedX = 1;
+									}
+								}
+
+								///Rotation boses==============================
+								if(enemyArr[i].x + enemyArr[i].width >=500){
+
+									if(enemyArr[i].deg >= 0 && enemyArr[i].deg < 180){
+										enemyArr[i].deg +=4;
+										enemyArr[i].speedX = 0;
+									}
+									if(enemyArr[i].deg == 180){
+										enemyArr[i].speedX = -1.5;
+									}
+								}
+								if(enemyArr[i].x <= 0){
+
+									if(enemyArr[i].deg > 0 && enemyArr[i].deg <= 180){
+										enemyArr[i].deg -=4;
+										enemyArr[i].speedX = 0;
+									}
+									if(enemyArr[i].deg == 0){
+										enemyArr[i].speedX = 1.5;
+									}
+								}
+								///Rotation boses==============================
+
+					if(enemyArr[i].name === 'redFregatBoss'){
+
+						drawRect(enemyFregatImg, enemyArr[i].x,enemyArr[i].y, enemyArr[i].width, enemyArr[i].height, enemyArr[i].deg);
+
+						// Fire Logics==================
+						enemyArr[i].fire++;
+
+
+						fregatBossShot( enemyArr[i].fire,enemyArr[i].x+10,enemyArr[i].x+70, enemyArr[i].x+120, enemyArr[i].y+enemyArr[i].height )
 					}
-					if(enemyArr[i].y >= enemyArr[i].yPos ){
-						enemyArr[i].speedY = 0;
-						if(enemyArr[i].topFrame === false){
-							enemyArr[i].topFrame = true;
-						}
-						if(enemyArr[i].speedX === 0){
-							enemyArr[i].speedX = 1;
-						}
-					}
-
-					///Rotation boses==============================
-					if(enemyArr[i].x + enemyArr[i].width >=500){
-
-						if(enemyArr[i].deg >= 0 && enemyArr[i].deg < 180){
-							enemyArr[i].deg +=4;
-							enemyArr[i].speedX = 0;
-						}
-						if(enemyArr[i].deg == 180){
-							enemyArr[i].speedX = -1.5;
-						}
-					}
-					if(enemyArr[i].x <= 0){
-
-						if(enemyArr[i].deg > 0 && enemyArr[i].deg <= 180){
-							enemyArr[i].deg -=4;
-							enemyArr[i].speedX = 0;
-						}
-						if(enemyArr[i].deg == 0){
-							enemyArr[i].speedX = 1.5;
-						}
-					}
-					///Rotation boses==============================
+				
+				}
 
 
-					drawRect(enemyFregatImg, enemyArr[i].x,enemyArr[i].y, enemyArr[i].width, enemyArr[i].height, enemyArr[i].deg);
+				if(enemyArr[i].name === 'redCarierBoss'){
+					
+					drawRect(enemyCarierBossImg, enemyArr[i].x,enemyArr[i].y, enemyArr[i].width, enemyArr[i].height, enemyArr[i].deg);
 
-					// Fire Logics==================
-					enemyArr[i].fire++;
+						// Fire Logics==================
+						enemyArr[i].fire++;
 
-					if(enemyArr[i].fire%40 === 0){
-				//		addBackFire(enemyArr[i].x +5, enemyArr[i].y + 20, -0.6, 0, 30, 30 ,270)
-					}
-
-					if(enemyArr[i].fire%100 === 0){
-
-						let firstL;
-						if(enemyArr[i].x+10 > hero.x){
-							firstL = randomNum(-2, -1)
-						}else{
-							firstL = randomNum(1, 2)
-						}
-
-						addEnemyLazer(enemyLazerImg, enemyArr[i].x+10, (enemyArr[i].y+enemyArr[i].height) , firstL, 2, 10, 15,'enemyLazer', 1)
-
-						let secondL;
-						if(enemyArr[i].x+10 > hero.x){
-							secondL = randomNum(-2, -1)
-						}else{
-							secondL = randomNum(1, 2)
-						}
-
-						addEnemyLazer(enemyLazerImg, enemyArr[i].x+70, (enemyArr[i].y+enemyArr[i].height) , secondL, 2, 10, 15,'enemyLazer', 1)
-							
-						let thirdL;
-						if(enemyArr[i].x+10 > hero.x){
-							thirdL = randomNum(-2, -1)
-						}else{
-							thirdL = randomNum(1, 2)
-						}
-
-						addEnemyLazer(enemyLazerImg, enemyArr[i].x+120, (enemyArr[i].y+enemyArr[i].height) , thirdL, 2, 10, 15,'enemyLazer', 1)
-							
-			
-					}
-			//	context.drawImage(enemyArr[i].img, enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height);
+						carierBossShot( enemyArr[i].fire,enemyArr[i].x+10,enemyArr[i].x+80, enemyArr[i].x+130, enemyArr[i].y+enemyArr[i].height  )
 				}
 
 		}
 
+}
+
+
+
+
+function fregatBossShot( count,firstCannonX,secondCanonX, thirdCanonX, CanonY ){
+	if(count%100 === 0){
+
+		let firstL;
+		if(firstCannonX > hero.x){
+			firstL = randomNum(-2, -1)
+		}else{
+			firstL = randomNum(1, 2)
+		}
+
+		addEnemyLazer(enemyLazerImg, firstCannonX, CanonY , firstL, 2, 10, 15,'enemyLazer', 1)
+
+		let secondL;
+		if(secondCanonX > hero.x){
+			secondL = randomNum(-2, -1)
+		}else{
+			secondL = randomNum(1, 2)
+		}
+
+		addEnemyLazer(enemyLazerImg, secondCanonX, CanonY , secondL, 2, 10, 15,'enemyLazer', 1)
+			
+		let thirdL;
+		if(thirdCanonX > hero.x){
+			thirdL = randomNum(-2, -1)
+		}else{
+			thirdL = randomNum(1, 2)
+		}
+
+		addEnemyLazer(enemyLazerImg, thirdCanonX, CanonY , thirdL, 2, 10, 15,'enemyLazer', 1)
+			
+
+	}
+}
+
+
+function carierBossShot( count,firstCannonX,secondCanonX, thirdCanonX, CanonY ){
+	if(count%100 === 0){
+
+
+		addShipRed(firstCannonX,CanonY);
+
+		addShipRed(secondCanonX,CanonY);
+
+	}
+
+	if(count%120 === 0){
+		
+
+		addShipRed(thirdCanonX,CanonY);
+
+		addShipRed(firstCannonX,CanonY);
+
+	}
 }
 
 
@@ -1703,7 +1759,7 @@ function collisionBulletsEnemy(){
 				enemyArr[j].life -= weaponsArr[i].power;
 
 
-				if(enemyArr[j].name === 'redFregatBoss'){
+				if(enemyArr[j].name === 'redFregatBoss' ||  enemyArr[j].name === 'redCarierBoss'){
 					let bosslifeBar = Math.round(percentage(bossLifeVar, enemyArr[j].life));
 
 
@@ -1738,7 +1794,7 @@ function collisionBulletsEnemy(){
 							}
 					}
 					if(enemyArr[j].name === 'redFregat' || enemyArr[j].name === 'redCarier' 
-						|| enemyArr[j].name === 'redFregatBoss'){
+						|| enemyArr[j].name === 'redFregatBoss' ||  enemyArr[j].name === 'redCarierBoss'){
 						
 							addExplosionHero(enemyArr[j].x-(enemyArr[j].width/2), enemyArr[j].y-80)
 							addBonusFromEnemy(enemyArr[j].x, enemyArr[j].y);
@@ -1747,14 +1803,17 @@ function collisionBulletsEnemy(){
 								}
 					}
 					///Adding bonuses Exposion sound without enemy weapon
-					if(enemyArr[j].name === 'redFregatBoss'){
+					if(enemyArr[j].name === 'redFregatBoss' ||  enemyArr[j].name === 'redCarierBoss'){
 						bossKilled = true;
 						setTimeout(activateCoverBetRound, 4000);
 						
 					
 					}
+					if(enemyArr[j].name != 'enemyLazer'){
+						scoreVar++;
+					}
 					enemyArr.splice(j, 1);
-					scoreVar++;
+
 			//// Increase Emeny power and count==============================
 
 					enemyApearence(scoreVar);
