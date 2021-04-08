@@ -184,6 +184,10 @@ h1, h2, h3, h4, h5, h6 {
   animation: moveShip 5s linear infinite normal running 0s none;
 }
 
+._stopAnimate {
+  animation: moveShip 5s linear infinite normal paused 0s none;
+}
+
 @keyframes moveShip {
   0% {
     left: -50%;

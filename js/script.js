@@ -375,6 +375,9 @@ let cover = document.querySelector('.cover');
 let infoBox = document.querySelector('.infoBox');
 
 
+let coverFoto = document.querySelector('.coverFoto');
+
+
 
 ////////////////////////////////////////////////
 ///START GAME
@@ -384,6 +387,8 @@ startButton.onclick = function(){
 		startButton.classList.toggle('_started');
 		optionBox.classList.toggle('_hidenButton');
 		cover.classList.toggle('_hiden');
+
+		coverFoto.classList.toggle('_stopAnimate');
 		if(startGame === false){
 			launchFullScreen(wrapper);
 			startGame = true;
