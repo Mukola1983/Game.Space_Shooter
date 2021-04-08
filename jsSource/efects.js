@@ -73,3 +73,12 @@ function drawEfects(){
 	}
 }
 
+
+
+
+
+
+
+
+
+

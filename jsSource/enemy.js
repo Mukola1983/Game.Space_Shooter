@@ -26,7 +26,8 @@ function addEnemy(x, y ){
 
 let rockrtEnemyLife = 1;
 
-let asterEnemyLife = 4;
+let asterEnemyLife = 3;
+
 
 function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 	let enemy = new Enemy(enemyAsterRedImg, x, y, speedX, speedY, width, height, name, life);
@@ -209,7 +210,7 @@ function drawEnemy(){
 
 					enemyArr[i].fire++;
 
-					if(enemyArr[i].fire%140 === 0){
+					if(enemyArr[i].fire%160 === 0){
 
 						let firstL;
 						if(enemyArr[i].x+10 > hero.x){

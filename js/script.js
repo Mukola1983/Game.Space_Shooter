@@ -157,6 +157,7 @@ function heroRestart(){
 
 		game();
 		
+		stage = 1;
 		
 		//Rewrite enemy data=====
 
@@ -238,7 +239,7 @@ let asterInterval = 3000;
 
 let redShipInterval = 4000;
 
-let redFregatInterwal = 6000;
+let redFregatInterwal = 8000;
 
 /// Alows diferent enemyis appearing===========
 
@@ -257,7 +258,7 @@ function enemyApearence(scoreVar){
 	}
 	if(scoreVar >= 145 ){
 		rockrtEnemyLife = 2;
-		sizeEnemyArr = 15;
+		sizeEnemyArr = 12;
 		allowRedFregat = true;
 		mainInterval = 4000;
 	}
@@ -1036,7 +1037,8 @@ function addEnemy(x, y ){
 
 let rockrtEnemyLife = 1;
 
-let asterEnemyLife = 4;
+let asterEnemyLife = 3;
+
 
 function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 	let enemy = new Enemy(enemyAsterRedImg, x, y, speedX, speedY, width, height, name, life);
@@ -1219,7 +1221,7 @@ function drawEnemy(){
 
 					enemyArr[i].fire++;
 
-					if(enemyArr[i].fire%140 === 0){
+					if(enemyArr[i].fire%160 === 0){
 
 						let firstL;
 						if(enemyArr[i].x+10 > hero.x){
@@ -2339,4 +2341,13 @@ function drawEfects(){
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
 
