@@ -34,7 +34,7 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, x, y, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, x, y, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', 1)
 	enemyArr.push(enemy);
 	
 }

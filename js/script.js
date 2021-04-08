@@ -234,9 +234,9 @@ let allowRedFregat = false;
 ///Intervals for apearing======
 let mainInterval = 1000;
 
-let asterInterval = 2000;
+let asterInterval = 3000;
 
-let redShipInterval = 3000;
+let redShipInterval = 4000;
 
 let redFregatInterwal = 6000;
 
@@ -251,12 +251,12 @@ function enemyApearence(scoreVar){
 		sizeEnemyArr = 10;
 	}
 	if(scoreVar >= 100 ){
-		rockrtEnemyLife = 3;
+		rockrtEnemyLife = 2;
 		sizeEnemyArr = 12;
 		allowRedShip = true;
 	}
 	if(scoreVar >= 145 ){
-		rockrtEnemyLife = 3;
+		rockrtEnemyLife = 2;
 		sizeEnemyArr = 15;
 		allowRedFregat = true;
 		mainInterval = 4000;
@@ -1044,7 +1044,7 @@ function addEnemyAsterRed(x, y, speedX, speedY,width, height,name, life){
 }
 
 function addShipRed(x, y, speedX, speedY,width, height,name, life){
-	let enemy = new Enemy(enemyShipRedImg, x, y, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', rockrtEnemyLife)
+	let enemy = new Enemy(enemyShipRedImg, x, y, randomNum(-1, 1), randomNum(1, 1), 30, 30, 'redShip', 1)
 	enemyArr.push(enemy);
 	
 }
